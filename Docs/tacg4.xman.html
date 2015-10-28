@@ -1,0 +1,1112 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="generator" content="Bluefish 1.0.4">
+   <title>tacg v4.3 Man page</title>
+
+</head>
+<body bgcolor="#D1E4E6">
+
+<table width="100%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td>tacg (1)</td>
+     <td>Version 4.3</td>
+      <td>tacg (1)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>NAME</h4>
+
+<dl>
+<dt>
+tacg - takes input from <u>stdin</u>, automagically
+translates most standard ASCII formats of Nucleic Acid (NA) sequence, then
+analyses that sequence for restriction enzyme (RE) sites and other NA motifs
+such as Transcription Factor (TF) binding sites, matrix matches, and regular
+expressions, finally writing analyses to <u>stdout</u>. It also can translate
+the NA input to protein in any frame, using a number of Codon translations
+tables, and print Open Reading Frames (ORFs), pseudo-graphics ORF and MET/STOP maps
+as well as perform many other analyses.</dt>
+</dl>
+
+<h4>SYNOPSIS</h4>
+
+<dl><dt>
+<b><tt>tacg -flag [option] --flag [option] ... &lt;input.file >output.file<BR>
+</tt></b></dt></dl>
+tacg takes input from stdin (| or &lt;); spits output to screen (default),
+>file, | next command
+<P>
+In the following summary,
+<UL>
+<LI><b>flags are in bold</b>
+<LI><u>options are underlined</u>
+<LI>ranges are specified with a dash separating extrema (min-Max)
+<LI>commas (,) if present <b>ARE REQUIRED</b> as part of the option string
+<LI>alternatives are separated with a vertical line (|)
+<LI><b>Name</b> options are the names of the patterns in the REBASE or MATRIX file
+<LI><b>Pattern</b> indicates a nucleic acid pattern composed of IUPAC codes (<b>acgtyrmkwsbdhv</b>)
+<LI>parentheses () indicate optional parts of the option
+<LI>underlined flags are linked to a longer explanation later in the text
+<LI>and other indicators are hopefully reasonably clear, but mail me if the text
+	 	is confusing or contradictory.
+</UL>
+Versions &gt; 3 includes 'long options' which are preceded by 2 dashes
+(--longopt).
+
+<p>[<b><a href="#csort">-c</a>
+<a href="#help">h </a>
+<a href="#html">H</a>
+<a href="#ladder">l</a>
+<a href="#linear">L</a>
+<a href="#quiet">q</a>
+<a href="#UNquiet">Q</a>
+<a href="#summary">s</a>
+<a href="#sites">S</a>
+<a href="#version">v</a></b>]
+[<b><a href="#begin">-b</a></b> <u>begin</u>]
+[<b><a href="#end">-e</a></b> <u>end</u>]
+[<b><a href="#clone">--clone</a></b> <u>#_#,#x#..</u>]
+[<b><a href="#codons">-C</a></b> <u>0-16</u>]
+[<b><a href="#cost">--cost</a></b> <u>units/$</u>]
+[<b><a href="#dam">--dam</a></b>]
+[<b><a href="#dcm">--dcm</a></b>]
+[<b><a href="#degen">-D</a></b> <u>0-4</u>]
+[<b><a href="#example">--example</a></b>]
+[<b><a href="#form">-f</a></b> <u>0|1</u>]
+[<b><a href="#fragments">-F</a></b> <u>0-3</u>]
+[<b><a href="#gel">-g</a></b>
+	<u>LoCutOff(,HiCutOff)</u>]
+[<b><a href="#grf">-G</a></b> <u>bin_size,X|Y|L</u>]
+[<b><a href="#idonly">-i (--idonly)</a></b> <u>0-2</u>]
+[<b><a href="#minhits">-m</a></b> <u>min_hits</u>]
+[<b><a href="#maxhits">-M</a></b> <u>Max_hits</u>]
+[<b><a href="#mag">-n</a></b> <u>3-8</u>]
+[<b><a href="#notics">--notics</a></b>]
+[<b><a href="#numstart">--numstart</a></b>]
+[<b><a href="#overhang">-o</a></b><u>0|1|3|5</u>]
+[<b><a href="#orfs">-O</a></b>
+	<u>1-6(x),minORF</u>]
+[<b><a href="#orfmap">--orfmap</a></b>]
+[<b><a href="#patterns">-p</a></b> <u>Name,Pattern,Err</u>]
+[<b><a href="#proximity">-P</a></b>	<u>NameA,(+|-)(l|g)Dist_Lo(-Dist_Hi),NameB</u>]
+<b><a href="#ps">--ps</a></b>]
+<b><a href="#pdf">--pdf</a></b>]
+[<b><a href="#logdegens">--logdegens</a></b>]
+[<b><a href="#regex">-r (--regex)</a></b>
+	<u>'Label:RegexPat'</u> || 'FILE:FileOfRegexPatterns']
+[<b><a href="#rebase">-R</a></b>
+	<u>alt_Rebase | alt_Matrix</u>]
+[<b><a href="#raw">--raw</a></b>]
+[<b><a href="#rev">--rev</a></b>]
+[<b><a href="#comp">--comp</a></b>]
+[<b><a href="#revcomp">--revcomp</a></b>]
+ [<b><a href="#rules">--rules</a></b>
+	<u>'NameA:min:Max[&amp;|]NameB:min:Max[&amp;|]..</u>]
+[<b><a href="#rulefile">--rulefile</a></b> <u>/path/to/rulefile</u>]
+[<b><a href="#silent">--silent</a></b>]
+[<b><a href="#strands">--strands</a></b>]
+[<b><a href="#tmppath">--tmppath</a></b>
+	<u>/path/to/tmp/dir</u>]
+[<b><a href="#trans3">-T</a></b>
+	<u>0|1|3|6,1|3</u>]
+[<b><a href="#width">-w</a></b> <u>1|width</u>]
+[<b><a href="#verbose">-V</a></b> <u>1-3</u>]
+[<b><a href="#slidwin">-W</a></b> <u>#</u>]
+[<b><a href="#res">-x (--explicit) </a></b>
+	<u>'NameA(,=),NameB..(,C)'</u>]
+[<b><a href="#extract">-X (--eXtract)</a></b>
+	<u>b,e,[0|1]]</u>
+[<b><a href="#matrix">-#</a></b>
+	<u>%_Match_Cutoff</u>]
+</b>
+<p>
+
+NB: Most flags are the same as in earlier
+versions with the exception of these changes:
+<UL>
+<LI><b>-C</b> is current with the Codon tables from CUTG/NCBI (17 tables).
+<LI><b>-q &#038; -Q</b> both have been removed - all 'UDPing' reporting code is gone,
+	so it will no longer annoy your firewall.
+<LI><b>-R</b> is also used to specify an alternative Matrix file.
+<LI><b>-T</b> and <b>-t</b> (co-translation with the Linear Map) have been
+		merged.
+<LI><b>-V</b> now has 3 levels of verbosity.
+<LI><b>-w</b> now has a special case of '1' (one) to generate one line output.
+<LI><b>-x</b> (used to be <b>-r</b>) now has 2 additional optional options,
+			'=' (for tagging an end; useful in figuring out labled digests) and ',C'
+      	(for combination cuts).
+</UL>
+<p>
+
+and these additions:
+<UL>
+<li><strong>--orfmap</strong> when used with -O, will print a pseudographic ORF MAP in the same frames
+		specified with -O as well as a MET/STOP map sort of like the one used in Strider.</li>
+<li><strong>--infile [file]</strong> allows specification of the input file as a flag rather than as stdin</li>
+<li><strong>--rev</strong> reverses the sequence before analyzing it</li>
+<li><strong>--comp</strong> complements the sequence before analyzing it</li>
+<li><strong>--revcomp</strong> reverse complements the sequence  before analyzing it</li>
+<LI><b>--cost </b>filters REs based on units/$ of cost (from recent NEB
+		catalog))
+<LI><b>--dam </b>simulates Dam methylation of the DNA.&nbsp; The file <u>rebase.dam</u>
+		contains only those REs which are Dam-sensitive.
+<LI><b>--dcm </b>simulates Dcm methylation of the DNA.&nbsp; The file <u>rebase.dcm</u>
+		contains only those REs which are Dcm-sensitive.
+<LI><b>--i (--idonly) </b>controls the amount of output for those sequences
+		which did not have any matches, ranging from full output regardless of
+		hits to only the SEQ id of those that did have hits.
+<LI><b>--notics</b> removes the tics under the strands for maximum compaction of output
+<LI><b>--numstart</b> sets the # for the initial base in the <b>Linear Map</b>
+<LI><b>-r (--regex)</b> searches for regular expressions with built-in
+		IUPAC translations (y->[ct]).
+<LI><b>--raw </b> allows tacg to consider all input to be IUPAC sequence for processing
+		file fragments or editor buffers
+<LI><b>--rules </b>allows users to compose complex logical phrases of matches,
+		with grammar including logical ANDs and ORs and per-pattern minimum and
+		maximum limits, over the whole sequence or within a Sliding Window (see
+		below)
+<LI><b>--silent</b> searches for possible SILENT RE sites (those that won't
+		cause translation to change.
+<LI><b>--strands</b> sets the number of strands to display in the Linear Map
+<LI><b>-W (--slidwin)</b> defines the sliding window in which the <b>--rules</b>
+		and min/Max values are in effect.
+<LI><b>-X (--extract)</b> eXtracts the sequence around the pattern matched.
+<LI><b>-#</b>  is used to set the cutoff for the Matrix match.
+
+</UL>
+<p>
+<hr SIZE="5">
+<h4>
+DESCRIPTION</h4>
+tacg searches the sequence(s) read from <u>stdin</u> (or using the --infile option)
+for matches based on descriptions stored in a database of patterns (default
+is <u>rebase.data</u>, in normal (or an extended) GCG
+format.  It can read either explicit sequences, possibly
+containing IUPAC degeneracies or matrix descriptions (default is <u>matrix.data</u>,
+in TRANSFAC format), and based on matches and options entered on the command
+line, sends ALL output to <u>stdout</u>. Since SEQIO can read collections of sequence,
+tacg inherits that ability, and can now apply its analyses over multiple sequence files.
+<P>
+Unless requested (by <b><a href="#verbose">-V</a></b><u>1-3</u>),
+it no longer sends errors to <u>stderr</u> (except failure errors) and
+it <b>no longer emits default output (except for one special case (see -p) </b> - you have to request all output.
+Most of the internals use dynamic memory so there are few limits on sequence
+input size and pattern number. I've generated >6000 patterns and searched
+230Mb of input sequence. It's ~ 5-35x faster than the comparable routines
+in the GCG pkg and being written in ANSI C, is portable to all unix variants.
+It has been ported to Linux (Intel, Alpha, PPC), MacOSX, SunOS/Solaris, Compaq
+Tru64 Unix (aka DEC Unix aka TUFKAO (the Unix formerly known as OSF)),
+Ultrix, IRIX, NeXTStep, ConvexOS, and HP/UX.  But it likes Linux best.
+
+<p>
+
+Unless told not to via the <B>--raw</B> flag,tacg
+now automagically translates most
+ASCII formats (Genbank, FASTA, etc) via
+<a href="mailto:jknight@curagen.com">Jim
+Knight</a>'s <b>SEQIO</b> library and now handles multiple sequences at
+one time, internally converting 'u's to 't's. It considers both strands
+at the same time so you don't have to manually reverse complement the sequence
+and will by default accept all IUPAC degeneracies (<b>y r m k w s b d h
+v</b>), performing all possible operations on that sequence. It treats
+degeneracies in the input sequence in different ways depending on the <b><a href="#degen">-D</a></b>
+flag (see below). It either strips all letters other than <b>a c g t</b>
+and analyzes the sequence as 'pure' using a fast incremental hashing algorithm
+or it treats it as degenerate and analyses it via a slower algorithm. By
+default, it treats it as 'pure' unless it detects an IUPAC degeneracy,
+in which case it will adaptively switch back and forth between the fast
+and slow hashing routines. See also <a href="#RelatedProgs">RELATED PROGRAMS</a>
+at bottom.
+<p>NB: tacg can produce lots of output; while
+it's possible to pipe direct to lp/lpr, you'll probably regret it.
+<p>
+<hr SIZE="5">
+<h4>
+REQUIREMENTS</h4>
+tacg 4.3 requires an external Codon
+file (<u>codon.data</u> but does not absolutely require
+a pattern/REBASE file, allowing you to enter patterns via the command line
+with the <b><a href="#patterns">-p</a></b> flag. However, most users will
+want to use a REBASE file in GCG format to supply the RE definitions. By
+default the name of this (supplied) file is <u>rebase.data</u>, altho other
+files in the same format can be specified by the <b><a href="#rebase">-R</a></b>
+flag. Searching for Matrix matching requires the use of a TRANSFAC-formatted
+file (also supplied) in the default name of <u>matrix.data</u>. Regular
+expressions can be supplied in a simplified REBASE format; the default
+name is <u>regex.data</u>. Examples of all data files are supplied. The
+codons/pattern/matrix/regex data files will be found in any of 3 locations
+which are searched in the order of: the current directory (<b>$PWD</b>),
+your home directory (<b>$HOME</b>), or the tacg lib (<b>$TACGLIB</b>).
+Many shells are set to define the 1st two; the last must be specified either
+via command line or in your <u>.cshrc</u> file (or equivalent). <br><pre>
+csh %> setenv TACGLIB /usr/local/lib/tacg   [csh/tcsh]
+<br>
+bash #>export TACGLIB=/usr/local/lib/tacg    [bash] </pre>
+<br>
+If they are in another location, you'll have to specify it with either an
+explicit full or relative path name.
+
+<hr SIZE="5">
+
+<h4>FLAGS and Options</h4>
+<ul>
+<li>
+An entry in the "Value" field indicates that a value is required for flag;
+entering such a flag without a value will cause bizarre behavior.</li>
+
+<li>
+<B>*</B> = default (not required; NOT entering the flag will cause the default
+behavior.)
+
+<br>ie. -f {0,1*} means that the flag must be entered <b>-f1</b> OR <b>-f0</b>.
+NOT entering the flag will lead to the <b>-f1</b> behavior.
+<li><B>i#</B> = an integer.</li>
+<li><B>f#</B> = a floating point number</li>
+<li><B>|</B> = separates alternatives (one is required)</li>
+<li><B>()</B> = optional</li>
+<li>flags without options can be grouped <b>-Ls</b></li>
+<li>A single flag requiring an option can be appended to the end of a string
+	of simple flags, but not more more than 1. ie. <b>-Ls</b> is OK, and <b>-Lsn6</b>
+	is OK, but <b>-Lsn6F3</b> is NOT - that must be entered <b>-Lsn6 -F3</b></li>
+<li>Versions > 1.5 are no longer sensitive to spaces between the flags and
+	values: '-g100' is equivalent to '-g 100'.
+	(There's a space between the 'g' and the '100').</li>
+<li><b>MBQ</b> = 'Must Be Quoted'. The option string contains characters that
+	will often be attacked by the shell interpreter and must be shielded by
+	enclosing them in SINGLE quotes, 'like this'.</li>
+</ul>
+
+<table BORDER >
+<tr ALIGN=LEFT>
+<th>Flag</th>
+
+<th>Value</th>
+
+<th>Explanation</th>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="begin"></a>-b</th>
+<td><center>i#</center></td>
+<td>select the <b>beginning</b> of a subsequence from a larger sequence
+	   file; 1* for 1st base of sequence. In the <a href="tacg4.0.main.html#linmap">Linear
+	   Map</a> output, the upper label indicates numbering from beginning of subsequence;
+	   the lower label indicates numbering from the beginning of the entire sequence.
+	   The SMALLEST SEQUENCE that tacg can handle is 4 bases (10 for the ladder
+	   map (-l)). This allows analysis of primers and linkers.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+	<th><a NAME="end"></a>-e</th>
+	<td><center>i#</center></td>
+	<td>select the <b>end</b> of a subsequence from a larger sequence file;
+		0* for last base of sequence. This subsequence can also be made circular
+		via the <a href="#form">-f</a> flag. The largest sequence that tacg can
+		handle depends on how much memory you have, although for practical purposes,
+		assume 1 billion bases.&nbsp;</td>
+</tr>
+
+<tr ALIGN=LEFT>
+	<th><a NAME="csort"></a>-c</th>
+	<td>&nbsp;</td>
+	<td><b>order the output</b> by # of cuts/fragments by each RE (Strider
+		style) and thence alphabetically; otherwise output is by order of appearance
+		in the REBASE file.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="clone">--clone</a></th>
+	<td><CENTER> #_#,#x#...<br> (all integers)</CENTER></td>
+   <td> Clone  finds  sequence ranges which either MUST NOT be cut (#_#) or
+      that MUST be cut  (#x#),  up  to  a maximum of 15 at once.  Ranges not
+      specified can be either cut or not cut.  The output first lists  all REs
+      (if  any)  which match ALL the rules, then all REs which match SOME rules
+      as long  as  all  NO-CUT rules are respected.  The same filters that work
+      in other  RE  selections  (-n,  -o,  -m,  -M,  --cost, --dam/dcm)  can
+      be  applied  here to fine-tune the selection.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th><a NAME="codons">-C</a></th>
+	<td><CENTER>0*-16</CENTER></td>
+	<td><b>Codon</b> Usage table to use for translation:
+
+<pre>0 Standard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 Echino_Mito &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 Blepharisma
+1 Vert_Mito &nbsp;&nbsp;&nbsp;&nbsp; 7 Euplotid_Nuclear &nbsp; 13 Chloro_mito
+2 Yeast_Mito &nbsp;&nbsp;&nbsp; 8 Bacterial &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 14 Trematode_mito
+3 Mold_Mito &nbsp;&nbsp;&nbsp;&nbsp; 9 Alt_Yeast &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;15 Scenedes_mito
+4 Invert_Mito &nbsp;&nbsp; 10 Ascidian_Mito &nbsp;&nbsp;&nbsp; 16 Thrausto_mito
+5 Ciliate_Mito &nbsp; 11 Alt_Flatworm_mito</pre>
+</td>
+</tr>
+
+<tr ALIGN=LEFT>
+    <th> <a NAME="cost">--cost</a></th>
+	<td><center>i#</center></td>
+	<td>select REs by their cost (units/$ - >100 is cheap; &lt;10 is v. expensive)</td>
+</tr>
+
+<tr>
+    <th> <a NAME="dam">--dam</a></th>
+	<td>&nbsp;</td>
+	<td>simulate cutting in the presence of Dam methylase (G<b>m</b>ATC). <u>rebase.dam</u>
+		contains all REs that are Dam-sensitive.</td>
+</tr>
+
+<tr>
+    <th> <a NAME="dcm">--dcm</a></th>
+	<td>&nbsp;</td>
+	<td>simulate cutting in the presence of Dcm methylase (C<b>m</b>CWGG).&nbsp;
+		<u>rebase.dcm</u> contains all REs that are Dcm-sensitive.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="degen"></a>-D</th>
+<td><CENTER>0-4</CENTER></td>
+<td><b>Degeneracy</b> flag - controls input and analysis of degenerate
+sequence input where:
+<pre>&nbsp;0&nbsp; FORCES excl'n of degens in seq; only 'acgtu' accepted
+&nbsp;1* cut as NONdegen unless degen's found; then cut as '-D3'
+&nbsp;2&nbsp; degen's OK; ignore in KEY, but match outside of KEY
+&nbsp;3&nbsp; degen's OK; expand in KEY, find only EXACT matches
+&nbsp;4&nbsp; degen's OK; expand in KEY, find ALL POSSIBLE matches</pre>
+The pattern matching is adaptive; given a small window of nondegenerate
+sequence, the algorithm will match very fast; if degenerate sequence is
+detected, it will switch to a slower, iterative approach. This results
+in speed that is proportional to degeneracy for most cases. If you have
+long sequences of 'n's (inserted as placekeepers, for instance), -D2 may
+be a better choice. In all cases, as soon as degeneracy of the KEY hexamer
+exceeds a compiled-in limit (usually 256-fold degeneracy), the KEY is skipped.&nbsp;</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="example">--example</a></th>
+	<td><CENTER>&nbsp;</CENTER> </td>
+	<td> example code to show how to add your own flags  and
+        functions.   Search  for  'EXAMPLE' in 'SetFlags.c'
+        and 'tacg.c' for the code.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="form"></a>-f</th>
+<td><CENTER>0|1*</CENTER></td>
+<td><b>form</b> (or topology) of DNA - 0 (zero) for circular; 1 for linear.
+This flag also operates on subsequences.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="fragments"></a>-F</th>
+<td><CENTER>0*-3</CENTER></td>
+<td>print/sort <b>Fragments</b>; 0*-omit; 1-unsorted; 2-sorted; 3-both.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="gel"></a>-g</th>
+<td><CENTER>Lo i#(,Hi i#)</CENTER></td>
+<td>specify if you want a pseudo-graphic <a href="tacg4.0.main.html#gelmap"><b>gel</b>
+map</a>, with a low end cutoff of Lo# bases (converted to an integer multiple
+of 10), and (if present), a high end cutoff of Hi#. In Ver &lt;2, the Lo#
+was restricted to 10 or 100; now it can be any any integer exponent of
+10 (10, 100, 1000, etc), as can the Hi#. If Hi# is omitted or is larger
+than the sequence length, it takes the value of the sequence length. See
+<a href="#examples">examples</a>
+below.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="grf"></a>-G</th>
+<td><CENTER>binsize,X|Y|L</CENTER></td>
+<td><b>Graphic</b> data output, so (mis)named for its original use, where:
+<br><b>binsize</b> = # bases for which hits should be pooled
+<br><b>X|Y|L</b> indicates whether the BaseBins should be on the <b>X</b>
+or <b>Y</b> axis or in '<b>L</b>ong' form where Basebins (as X) and Name
+data (as Y) are reiterated in 2 columns for all the Named patterns:
+<pre><b>X:</b> BaseBins 1000 2000 3000&nbsp; ..
+&nbsp;&nbsp; NameA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; ..&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; NameB&nbsp;&nbsp;&nbsp;&nbsp; 22&nbsp;&nbsp; 57&nbsp;&nbsp; 98&nbsp;&nbsp; ..&nbsp;&nbsp;&nbsp;&nbsp; (#s = matches per bin)
+&nbsp;&nbsp; NameC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; ..
+&nbsp;&nbsp; .
+<b>Y:</b> BaseBins&nbsp; NameA&nbsp;&nbsp; NameB&nbsp;&nbsp; NameC&nbsp;&nbsp; ..
+&nbsp;&nbsp;&nbsp;&nbsp; 1000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp; ..
+&nbsp;&nbsp;&nbsp;&nbsp; 2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; ..&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; 3000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 98&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; ..
+&nbsp;&nbsp;&nbsp;&nbsp; .
+<b>L:</b> Basebins&nbsp; NameA
+&nbsp;&nbsp;&nbsp;&nbsp; 1000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; 2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .
+&nbsp;&nbsp; Basebins&nbsp; NameB
+&nbsp;&nbsp;&nbsp;&nbsp; 1000&nbsp;&nbsp;&nbsp;&nbsp; 22
+&nbsp;&nbsp;&nbsp;&nbsp; 2000&nbsp;&nbsp;&nbsp;&nbsp; 57
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .</pre>
+This addresses some missing features - allows the export of hit data for
+the selected <b>Names</b> so that you can manipulate it as you wish.
+ Like other output, it is streamed to stdout, so it's
+not wise to mix <b>-G</b> with other analyses; the lines generated (esp.
+w/ the X option), can be quite long and are NOT governed by the <b>-w</b>
+flag). <a href="tacg4.0.main.html#wgnuplot">Here's an example.</a></td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="help"></a>-h <BR>--help</th>
+<td>&nbsp;</td>
+<td>brief <b>help</b> page (condensed man page).</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="html"></a>-H <BR>--HTML</th>
+<td><CENTER>{0*|1}</CENTER></td>
+<td>generates <b>HTML</b> tags for inclusion into Web pages.  <BR>
+0 - (default) makes standalone HTML page, with header, footer, and Table of Contents.<BR>
+1 - does not generate HTML page headers, only TOC, to embed in other HTML pages.<BR>
+</td>
+</tr>
+
+
+<TR ALIGN=left>
+<TH><a NAME="idonly"></a>-i<br>(--idonly)</th>
+<TD><CENTER>{0|1*|2}</CENTER></td>
+<TD>controls output for sequences that have no hits<BR>
+0 - ID line and normal output printed regardless of hits<BR>
+1 - (default) ID line and normal output are printed ONLY IF there are hits.<BR>
+2 - ONLY ID line is printed if there are hits.
+</td>
+
+<TR ALIGN=left>
+<TH><a NAME="infile"></a>--infile<br></th>
+<TD><CENTER>{filename}</CENTER></td>
+<TD>allows those wanting to specify a file by commandline flag to do so
+(helps in some kinds of GUI wrapping functions)
+</td>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="ladder"></a>-l<br>(el)</th>
+<td>&nbsp;</td>
+<td>specify if you want a <a href="tacg4.0.main.html#ladmap"><b>ladder</b>
+map</a> of selected enzymes, much like the GCG MAPPLOT output. Also appends
+a summary of those enzymes that match few times. This last # is length-sensitive
+in the distributed source code, but it is easy to set another default as
+a '#define' in 'tacg.h'.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="linear"></a>-L</th>
+<td>&nbsp;</td>
+<td>specify if you WANT a <a href="tacg4.0.main.html#linmap"><b>Linear</b>
+map</a> a la Strider or GCG's MAP (but better - tacg indicates the actual
+CUT site as opposed to the 1st base in the pattern as do other mapping programs).
+In Ver 3.x, the Linear
+Map only includes those REs or patterns which pass the filtering criteria
+set via the -n, -o, -m, -M, --cost, etc. </td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="strands"></a>--strands</th>
+<td><CENTER>{1|2*}</CENTER></td>
+<td>specifies how many strands get printed in the linear map.  Allows you to
+slightly compact the linear map, especially when used with the --notics flag
+below</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="notics"></a>--notics</th>
+<td>&nbsp;</td>
+<td>do NOT print the tics marks below the DNA in the linear map.  Allows you to
+slightly compact the linear map, especially when used with the --strands flag
+above</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="numstart">--numstart</a></th>
+	<td><CENTER>i#<br>(-|+)</CENTER> </td>
+   <td> the value given with this  flag  is  the  beginning number  in the
+      Linear Map (-L) output.  This can be used to force a particular numbering
+      scheme on  the output  or  to  force upstream (negative) numbering for
+      promoters sequences. If a negative number is used, the zero position is
+      omitted at the transition from - to +.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="minhits"></a>-m</th>
+<td><CENTER>i#</CENTER></td>
+<td>select enzyme by <b>minimum</b> # cuts in the whole sequence. Default
+is no minimum (ie ALL). Affects the number of enzymes displayed by the
+sites (<b>-s</b>), fragments (<b>-F</b>), Linear map <b>-L</b>, and ladder
+map (<b>-l</b>) flags.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="maxhits"></a>-M</th>
+<td><CENTER>i#</CENTER></td>
+<td>select enzyme by <b>Maximum</b> # cuts in the whole sequence. Default
+is 32,000. Affects the number of enzymes displayed by the sites (<b>-s</b>),
+fragments (<b>-F</b>), Linear map <b>-L</b>, and ladder map (<b>-l</b>)
+flags.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="mag"></a>-n</th>
+<td><CENTER>3*-10</CENTER></td>
+<td>select enzymes by <b>magnitude</b> of recognition site; 3 = all, 5
+= 5,6,7,8... n's don't count, other degeneracies are summed ie: tgca=4,
+tgyrca=5, tgcnnngca=6, tannnnnnnnnnta=4</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="overhang"></a>-o</th>
+<td><CENTER>0|1*|3|5</CENTER></td>
+<td>select enzymes by <b>overhang</b> generated; 5 = 5', 3 = 3', 0 for
+blunt, 1 for all&nbsp;</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="orfs"></a>-O</th>
+<td><CENTER>1-6(x),MinSiz</CENTER></td>
+<td><b>ORF</b> analysis where any frame combination can be specified ('126'
+or '45' or '13456') along with the minimum ORF Size you want to detect. Produces
+either a single line (if <b><a href="#width">-w</a></b>1 is specified)
+or a block, (with the Amino Acids wrapped at the specified width) for each
+ORF including:
+<ul>
+<li>Frame of the Current ORF</li>
+<li>Sequence # of the Current ORF in that frame</li>
+<li>Offset from the start in both bases and AAs</li>
+<li>Size of the ORF in AAs and KDa</li>
+<li>estimated pI
+<li>ORF in 1 letter code for external analysis</li>
+</ul>
+If 'x' is appended to the frame specification, 3 additional lines are appended, which
+give proportion of each AA in # and %.  This breaks the FASTA format, but can be easily
+stripped later as each line is prefixed with a '#'.<br>
+NB: Because the output can be in a single line for each ORF, other line-
+oriented pattern-matching tools (grep, perl, awk) can examine the ORF generated
+for matching regular expressions (see the GNU grep man page for an explanation
+of regular expressions). In this way you can search all 6 frames of >=MinSize
+AAs for whatever pattern interests you.
+<br>Examples:
+<br><b>-O 145x,25</b>&nbsp;&nbsp; (search frames 1,4,5 with extended AA information
+on all ORFs > 25 AAs)
+<br><b>-O 2,66</b>&nbsp;&nbsp; (search frame 2 with a min ORF size of 66
+AAs)</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="orfmap"></a>--orfmap</th>
+<td><CENTER>&nbsp;</CENTER></td>
+<td>in conjunction with -O (above) this option draws a pseudographic character-based
+ORF map showing all the frames specified with -O and all the ORFs larger than the minimum size
+mapped to their relative positions on the map.  It also prints a smilar map of all the
+METs and STOP codons on a similar map.
+</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="patterns"></a>-p</th>
+<td><CENTER>Name,Pat,Err</CENTER></td>
+<td>allows entry of search <b>patterns</b> from the command line, where&nbsp;
+<br><b>Name</b> = name by which pattern is labeled (&lt;=10 chars)
+<br><b>Pat</b> = &lt;30 IUPAC characters (ie. gryttcnnngt)
+<br><b>Err</b> = max # of errors that are tolerated (&lt;=5)
+<br>Also logs the patterns you've entered into a file <u>tacg.patterns</u>
+in the correct format for later copying to a REBASE file. Can enter up
+to 10 of these at a time. Patterns should consist of &lt;=30 IUPAC bases.&nbsp;
+<br>Long sequences with large errors will cause SUBSTANTIAL cpu and memory usage in
+validating the patterns.&nbsp;</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="proximity"></a>-P</th>
+<td><CENTER>NameA,
+<br>[+-][lg]
+<br>Dist_Lo
+<br>[-Dist_Hi],
+<br>NameB
+<p><b>MBQ</b></CENTER></td>
+<td>Pattern <b>proximity</b> matching to search for spacial relationships
+between factors, 2 at a time (up to a total of 10).
+<br><b>NameA</b> and <b>NameB</b> must be in a REBASE file, either the
+default
+<u>rebase.data</u> or another specified by the <b>-R</b> flag and
+are case INsensitive. NameA/B patterns can be composed of any IUPAC bases
+and <b>ERROR</b>s can be specified in the REBASE entry ie:&nbsp;
+<br><tt>Pit1 5 WWTATNCATW 0 2 ! a Pit1 site with 2 errors</tt>
+<br><tt>Tataa 4 TATAAWWWW 0 1 ! a Tataa site with 1 error</tt>
+<p><tt><b>+</b> NameA is DOWNSTREAM of NameB (default is either)</tt>
+<br><tt><b>-</b> NameA is UPSTREAM of NameB (ditto)</tt>
+<br><tt><b>l</b> NameA is LESS THAN Dist_Lo from NameB (default)</tt>
+<br><tt><b>g</b> NameA is GREATER THAN Dist_Lo from NameB</tt>
+<br><tt><b>Dist_Hi</b> - if used, implies a RANGE, obviates l or g</tt>
+<p><u>Examples:</u>
+<br><b><tt>-PHindIII,350,bamhi</tt></b>
+<br>Matches HindIII sites within 350 bp of BamHI sites
+<p><b><tt>-PPit1,-30-2500,Tataa</tt></b>
+<br>Match Pit1 sites 30 to 2500 bp UPSTREAM of a Tataa site.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="ps"></a>--ps</th>
+	<td><CENTER>&nbsp;</CENTER> </td>
+   <td> generates a postscript plasmid  map  (and  multiple pages  with  the
+        same  parameters  if fed a multi- sequence  file).   The   output
+        file is named <u>tacg_Map.ps</u>  and  additional plots will be <strong>appended</strong>
+        to it if it exists in the same directory.   REs  to be   plotted
+        can   be  selected  with  the  usual parameters: (-m -M --cost --n  -x
+        -p)  but  you'll usually  want  to use -M1 or -M2.  Degeneracies are
+        plotted along the rim as grayscale  arcs  (remember tacg  can tolerate
+        degeneracies in sequence, so you can compose accurate  plasmid  maps
+        by  connecting known  sequences  with N's.)  ORFs from any and all
+        frames can be plotted internal to the sequence ring by using the -O
+        flag.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="pdf"></a>--pdf</th>
+	<td><CENTER>&nbsp;</CENTER> </td>
+   <td> Invokes  --ps  above and automatically converts the Postscript  putput
+        to  Adobe's  Portable  Document Format, which is considerably more
+        compact. You'll need a PDF viewer to view the results,
+        <a href="http://www.adobe.com/products/acrobat/readstep.html">
+        	Adobe's Acrobat Reader</a>,
+        <a href="http://www.foolabs.com/xpdf/">xpdf</a>,
+        <a href="http://www.cs.wisc.edu/~ghost/ghostview/gv.htm">gv</a>,
+        or functional equivalent. Requires a working  local
+        <a href="http://www.ghostscript.com/">Ghostscript</a>
+        installation, with gs installed at or linked to <b>/usr/bin/gs</b>.  NB: If the standard Type1 fonts aren't installed, it will fail.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="logdegens">--logdegens</a></th>
+	<td><CENTER>&nbsp;</CENTER> </td>
+   <td> (off by default) Using this flag forces the logging of every degeneracy
+        in the sequence, trivial  if  a short sequence (<1Mb), but of  concern
+        for chromosome-sized chunks.  This info will be used for  drawing
+        graphic  maps  of  the  sequence  and shading  degeneracies
+        differently (invoked by --ps & --pdf above).   It  is  quite memory
+        intensive as it marks the beginning and end of every degeneracy  run.
+        No external  data  is produced, but could be as it's just a simple
+        2-step array.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="quiet"></a>-q</th>
+<td><div align="center"><strong>REMOVED</strong></div></td>
+<td>Be <b>quiet</b>. DISallows sending diagnostic udp info back to author,
+now the default behavior (so unless you TELL the program to send data back,
+it won't).&nbsp;</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="UNquiet"></a>-Q</th>
+<td><div align="center"><strong>REMOVED</strong></div></td>
+<td>Be <b>UNquiet</b>. Allows the program to send diagnostic udp info back
+      to author. In version 2.x, this was the default behavior, but it has
+      served its purpose, so unless you WANT me to log your usage, I won't.
+      <br> Allows sending diagnostic UDP info back to author's machine.  Report
+      stream includes this info: <b>Date Time IP# UID hardware OS OS_version
+      TACG_version [tacg commandline] &lt; # bases analyzed &gt; </b> ie.
+      <i>1996-03-08 17:02:26 128.23.4.24:[uid=502 hw=i486 os=Linux
+      osver=1.2.6] [TACG Version 1.33F] tacg -t 3 -n 6  &lt; 434 bp &gt; </i>
+</td>
+</tr>
+
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="raw"></a>--raw</th>
+<td>&nbsp;</td>
+<td>tells tacg to consider ALL input as valid sequence (as with version 2).
+instead of using SEQIO to parse the input as a standard sequence format.  Useful
+for analyzing file fragments or editor buffers, which may be missing valid format.
+Note that specifying this flag will tell tacg to eat headers, comments, etc as
+well as sequence, if it encounters them.  ALL IUPAC degeneracies will be analyzed
+</td></tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="rev"></a>--rev</th>
+<td>&nbsp;</td>
+<td>tells tacg to reverse all input sequences before analyzing it. tacg -&gt; gcat
+</td></tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="comp"></a>--comp</th>
+<td>&nbsp;</td>
+<td>tells tacg to complement all input sequences before analyzing it. tacg -&gt; atgc
+</td></tr>
+</td></tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="revcomp"></a>--revcomp</th>
+<td>&nbsp;</td>
+<td>tells tacg to reverse-complement all input sequences before analyzing it. tacg -&gt; cgta
+</td></tr>
+</td></tr>
+
+
+<tr ALIGN=LEFT>
+	<th><a NAME="rules"></a>--rules</th>
+	<td><CENTER>'ruleA[&|^]<br>
+			ruleB[&|^]<br>
+			ruleC[&|^]..,i#'<p>
+			<b>MBQ</b></CENTER></td>
+   <td><b>--rule</b> allows you to specify arbitrarily complex logical
+      associations of  characteristics to detect the patterns that interest
+      you.  Admittedly, that phrase is incomprehensible, so let me
+      give an example:
+		<p>
+      Say you wanted to search for an enhancer that you suspected might be involved in the
+      transcriptional regulation of a pituitary-specific gene.  You knew that you were looking
+      for a sequence about 1000 bp long in which there were at least 2 Pit1 sites and
+      3-5 Estrogen response elements, but NO TATAA boxes.  <br>
+      If you had defined these patterns in a file called
+      <u>pit.specific</u> as: <pre>
+       Pit1  0  WWTATNCATW    0 1 ! Pit1 site w/ 1 error
+       ERE   0  GGTCAGCCTGACC 0 1 ! ERE site w/ 1 error
+       TATAA 0  tataawwww     0 0 ! TATAA site, no errors allowed </pre>
+
+       you could specify this search by:
+
+		<pre>tacg --rule '((Pit1:2:7&ERE:3:5)&(TATAA:0:0),1000)' \ <br> -R pit.specific < input_sequence >output</pre>
+
+		<P>
+      This query searches a sliding window of 1000 bps (',1000') for  ((2-7
+      Pit1 AND 3-5 ERE sites) AND (0 TATAA sites)).  These combinations can be
+      as large  as your OS allows your command-line to be with arbitraily
+      complex relations represented with logical AND (&), OR (|), and XOR (^)
+      as conjunctions.  Parens enforce groupings;  otherwise it's evaluated
+      left to right.
+   </td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="rulefile">--rulefile</a></th>
+	<td><CENTER>/path/to/file</CENTER> </td>
+   <td>This option allows you to read in a complete file of the kind of complex
+      rules described above and have them all evaluated.  The file format is
+      described in the example data file supplied  <u>rules.data</u> </td>
+</tr>
+
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="regex"></a>-r <br>(--regex)</th>
+<td><CENTER>'Label:RegexPat'
+<br>or
+<br>'<b>FILE</b>:RegexFile'
+<p><b>MBQ</b></CENTER></td>
+
+<td>searches for <b>regular expressions</b> entered from the commandline
+using the 1st option or searches for the regular expressions read from
+a file using the 2nd option. The regular expression syntax can be formal
+regex patterns or the IUPAC'ed version thereof; the translation from one
+to the other is handled automatically. ie:
+<br><tt>gy(tt|gc)nc{2,3}m -> g[ct]\(tt\|gc\).c\{2,3\}[ca]</tt>
+<br>When trying to specify a file, the term <b>FILE</b> must be in CAPs
+(so don't use 'FILE' as a pattern name). Specific regex patterns from the
+file can be specified by using the <a href="#res">-x</a> flag to name them
+explicitly.&nbsp;</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="rebase"></a>-R</th>
+<td><CENTER>REBASE, REGEX, or
+<br>MATRIX file</CENTER></td>
+
+<td>specifies an alternative Restriction Enzyme file (in GCG format), regular expression or
+Matrix file (in TRANSFAC format) to use. (The latest REBASE files are available
+via <a href="ftp://ftp.neb.com/pub/rebase/">FTP</a> or via <a href="http://www.neb.com/rebase/rebase.html">WWW</a>.&nbsp;
+<br>The latest TRANSFAC files are also available via <a href="ftp://transfac.gbf.de/pub/">FTP</a>
+or <a href="http://transfac.gbf-braunschweig.de/TRANSFAC/index.html">WWW</a>.
+There are several such files included in the std distribution:<br>
+<ul>
+<li><u>rebase.data</u> - the main restriction enzyme pattern database (including those
+   in rebase.dam, rebase.dcm)
+<li><u>rebase.dam</u> -  only those REs that are Dam sensitive
+<li><u>rebase.dcm</u> - only those REs that are Dcm sensitive
+<li><u>regex.data</u> - a few example regular expression patterns
+<li><u>matrix.data</u> - all the TRANSFAC matrices
+<li><u>transfac.data</u> - the entire TRANSFAC database in GCG format
+</ul>
+
+The file specified here is also searched for in the same order as the other
+data files: <b>$PWD</b> (the current directory), <b>$HOME</b> (your home
+directory), <b>$TACGLIB</b> (the TACGLIB directory).</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="summary"></a>-s</th>
+<td>&nbsp;</td>
+<td>prints the <b>summary</b> of site information, describing how many
+times each enzyme or pattern matches the sequence. Those that cut zero
+times are shown first. In Ver >=2, only those that match at least once
+are shown in the second part (the 0-matchers are not reiterated)</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="sites"></a>-S</th>
+<td>&nbsp;</td>
+<td>prints the the actual match <b>Sites</b> in tabular form.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="silent"></a>--silent</th>
+<td>&nbsp;</td>
+<td>requests that the NA sequence be translated starting at the 1st base,
+in frame 1 (use <a href="#begin">-b</a> to shift the starting base), according
+to the Codon Translation table specified with <a href="#codons">-C</a>,
+then reverse translated, using the same table, using all the possible degeneracies,
+then restrict that (quite) degenerate sequence and show all the REs that
+will match it. You should use the <a href="#linear">L</a> and <a href="#trans3">-T</a>
+flags to generate the linear map which shows both the REs and the cotranslated
+sequence to verify that all is as it should be. <b>NB:</b> Depending on
+Codon Table, some AAs are not reversibly translatable. Using the standard
+table, Arg (=mgn), Leu (=ytn), and Ser (=wsn) cannot be Forward translated
+from their Reverse translation.</td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+	<th> <a NAME="tmppath">--tmppath</a></th>
+	<td><CENTER>'/path/to/tmp/dir'</CENTER> </td>
+	<td>passes  the  path to tacg to cooperate with CGIs or
+   other programs that need  to  tell  tacg  where  to
+   place the ps/pdf files for access by other processes. </td>
+</tr>
+
+
+<tr ALIGN=LEFT>
+<th><a NAME="trans3"></a>-T</th>
+<td><CENTER>0*|1|3|6,1|3</CENTER></td>
+<td>In the Linear map, beneath the DNA sequence, include the translated protein in
+0*, 1, 3(= frames 123), or 6 (=123456) frames of <b>Translation</b>
+with <b>1</b> or <b>3</b> letter codes.
+<br>ie.
+<br><b>-T 3,3</b> (includes frames 1,2,3 with 3 letter labels)
+<br><b>-T 6,1</b> (includes frames 1,2,3,4,5,6, with 1 letter labels)</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="version"></a>-v</th>
+<td>&nbsp;</td>
+<td>asks for program <b>version</b> (there may be multiple versions of
+the same functional program to track its migration.  Also build date, kernel version,
+and GCC version used.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="verbose"></a>-V</th>
+<td><CENTER>1-3</CENTER></td>
+<td><b>Verbose</b> - requests all kinds of diagnostic info to be spat to
+the screen. May be useful in diagnosing why tacg did not behave as expected..but
+maybe not. Higher numbers mean more output and are generally downwardly inclusive.</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="width"></a>-w</th>
+<td><center>1 | i#</center></td>
+<td>output <b>width</b> in bp's (must be between 60* and 210, truncated
+to a # exactly divisible by 15 ('-<b>w 100</b>' will be interpreted as
+<b>'-w
+90</b>') and actual printed output will be about 20 characters wider. Also
+applies to output of the ladder and gel maps, so if you're trying to get
+more accuracy and your output device can display small fonts, you may want
+to use this flag to widen the output. If you want as much output on one
+line as possible for external parsing/analysis, specify <b>-w 1</b>.&nbsp;</td>
+</tr>
+
+<!-- ignore this for now - only works with --rules and it's now incorporated
+		into the options for that flag
+<tr ALIGN=LEFT>
+<th><a NAME="width"></a>-W</th>
+<td><center>i#</center></td>
+<td><b>width of Sliding Window </b> in bp's.  Used primarily with the '--rules' flag above.
+If it is not specified, it is assumed that the window under consideration is the whole sequence.
+Most analyses other than '--rules' ignore this setting.
+</td>
+</tr>
+-->
+
+<tr ALIGN=LEFT>
+<th><a NAME="res"></a>-x</th>
+<td><CENTER>'NameA(,=),<br>
+NameB,<br>
+NameC,<br>
+NameD,...(,C)'</CENTER>
+</td>
+<td>used to <b>explicitly name</b> those enzymes or patterns to be used
+in the analysis (up to a maximum of 15). Case INsensitive (HindIII=hindiii=HinDiIi),
+but the name HAS to be spelled exactly like the entry in the REBASE or
+MATRIX file with no spaces (HindIII != Hind III != Hind3).
+<br>The <b>',='</b> tag appended to a name indicates that it is the tagged RE
+in a AFLP analysis; only those fragments that have at least one end generated
+by the tagged RE will be shown.  This has been shown to be useful in AFLP analysis.
+<br>The trailing <b>',C'</b>, if added, requests a <b>combined</b> digestion
+using all the REs specified with this flag.
+<br><u>Examples:</u>
+<br><b><tt>-xHindIII,BamHI,NruI,C</tt></b>
+<br>requests data for these REs both individually, and combined.
+<p><b><tt>-x EcoRI=,MseI,Hinf</tt></b>
+<br>requests AFLP formatted data, with EcoRI tagged; NO combined results (per se, altho that
+is a part of the AFLP analysis).</td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="extract"></a>-X<br>(--extract) </th>
+<td><CENTER>b,e,[0|1]</CENTER></td>
+<td>aka "--extract" e<b>X</b>tracts the sequence around the pattern matched,
+from <b>b</b> bases preceding, to <b>e</b> bases following the MIDDLE of
+pattern if a normal pattern, the START of the pattern if a regular expression.
+If the pattern is found in the bottom strand AND the last field = 1, sequence
+is rev-compl'ed before it's extracted so all patterns are in same orientation;
+if last field = 0, it is NOT reverse compl'ed.  In any event, the sequences are
+FASTA-formatted on output. </td>
+</tr>
+
+<tr ALIGN=LEFT>
+<th><a NAME="matrix"></a>-#</th>
+<td><CENTER>% CutOff</CENTER></td>
+<td>The percentage of the optimal matrix score that you will accept as
+a match. ie. if the matrix (as below) was 10 bases long, and had a maximum
+score of 69 (scoring a 100% match at each position as '1', then if you
+indicated a <b>-# 75</b>, you would accept a score of 51.75 (69 x .75)
+as a match.&nbsp;
+<pre>&nbsp;&nbsp;&nbsp;&nbsp; a&nbsp; t&nbsp; g&nbsp; g&nbsp; c&nbsp; y&nbsp; t&nbsp; r&nbsp; g&nbsp; g&nbsp;&nbsp; Consensus
+&nbsp;&nbsp;&nbsp;&nbsp; <u>1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9 10</u>&nbsp;&nbsp; Position
+&nbsp; <b>a</b>&nbsp; <b>8</b>&nbsp; 0&nbsp; 1&nbsp; 1&nbsp; 1&nbsp; 0&nbsp; 1&nbsp; 4&nbsp; 0&nbsp; 0&nbsp;&nbsp;
+&nbsp; <b>c</b>&nbsp; 1&nbsp; 3&nbsp; 1&nbsp; 0&nbsp; <b>9</b>&nbsp; <b>6</b>&nbsp; 0&nbsp; 0&nbsp; 2&nbsp; 0&nbsp;&nbsp; Sum of Max (bold) = 69
+&nbsp; <b>g</b>&nbsp; 1&nbsp; 0&nbsp; <b>8</b>&nbsp; <b>7</b>&nbsp; 0&nbsp; 0&nbsp; 0&nbsp; <b>6</b>&nbsp; <b>7</b> <b>10
+</b>&nbsp; <b>t</b>&nbsp; 0&nbsp; <b>7</b>&nbsp; 0&nbsp; 2&nbsp; 0&nbsp; 4&nbsp; <b>9</b>&nbsp; 0&nbsp; 1&nbsp; 0</pre>
+</td>
+</tr>
+</table>
+
+<p>
+<hr SIZE="5">
+<h4>
+<a NAME="RelatedProgs"></a>RELATED PROGRAMS</h4>
+As noted above, tacg now incorporates some of <a href="mailto:jknight@guarneri.curagen.com">Jim
+Knight</a>'s SEQIO pkg to perform sequence format translation, so external
+conversion programs are no longer needed for most common sequence formats.
+This is an extremely useful, well thought-out, and relatively easy-to-use
+pkg - I'm sorry I waited so long to include it. The package is no longer
+at its original URL, but it has been archived around the internet.
+<p>However, if an external program IS needed for format interconversion,
+I also strongly recommend <a href="mailto:gilbertd@bio.indiana.edu">Don
+Gilbert</a>'s excellent <font color="#FF7810">readseq</font> program
+(available in source or executable via <a href="ftp://ftp.bio.indiana.edu/molbio/readseq/">FTP</a>.
+Why recommend readseq when I've used SEQIO? SEQIO is a great library of
+functions to use in other programs, but readseq is easier to use for stand-alone,
+interactive use, chiefly due to a more std interface. Both are scriptable;
+for scripting use, it's a toss-up.
+<p>You can also use the paging utility <font color="#FF7810">less</font>
+to move thru your sequence file and use its marking and piping facility
+to punt the sequence of interest to 'tacg'.
+Many editors also allow piping a selection of text to an external program
+and inclusion of the result into another window, especially
+(<a href="http://www.nedit.org">nedit</a> (
+<a href="nedit.macros">here is a .nedit extract</a>
+
+that includes  some tacg functions into the nedit Background (aka right-click)
+menu system) as well as <a href="http://www.vital.com/">crisp</a>, and the
+ubiquitous, omnipotent emacs and its gui doppelganger xemacs).
+<p>
+Much of tacg's output benefits from wider-than-normal printing. The
+'<b>-w#</b>' flag allows output up to about 230 characters wide, however
+to print this without wrapping, you need to print in landscape mode, using
+very small fonts. A number of unix printing utilities allow you to do this,
+notably <a href="http://www.iki.fi/~mtr/genscript/">genscript</a> aka GNU
+Enscript, residing in the <a href="ftp://prep.ai.mit.edu/pub/gnu/">GNU
+repository</a>
+<P>
+
+
+<h3>EXAMPLES</h3>
+<p>Used alone:
+<p><tt>tacg -f0 -n5 -T3,1 -sL -F3 -g 100 &lt;input.seq.file >output.seq.file</tt>
+<p>Translation: read sequence from <u>input.seq.file</u> and analyze it as circular
+(<b>-f0</b>), with 5+ cutters (<b>-n5</b>), returning both site info and
+Linear map (<b>-sL</b>) as well as sorted and unsorted fragment data (<b>-F3</b>)
+and do 1,2,3 frame translation w/ 1 letter codes (<b>-T3,1</b>) on the
+linear map, writing the output to <u>output.seq.file</u>. Also, include a pseudo
+gel diagram for those enzymes that pass the filtering, with a low end cutoff
+of 100 bases (<b>-g100</b>).&nbsp;
+<hr SIZE="3">
+<p>Used to search for Matrix Matches:<p>
+<tt>tacg -# 75 -R yeast.matrices -sS &lt; yeast.chr_4 | less  </tt><p>
+Translation: seach the file <u>yeast.chr_4</u> for all the matrix definitions in the file
+'yeast.matrices', with a cutoff of 75% of the maximum score possible, listing also the
+summary and the Sites information, piping the output to the pager <i>less</i>
+
+<hr>
+Used to search for degenerate transcription factor sites with errors: <p>
+<p><tt>tacg -p Pit1,tatwcata,1 -p ap2,tgygcatw,1 -w90 -sSL &lt; rprlPromo.seq
+> promo.map</tt>
+<p>Translation: search for the patterns labeled Pit1 and ap2 with 1 error
+each and search the sequence from the file <u>rprlPromo.seq</u> for them,
+printing the results (summary (<b>-s</b>), Sites (S), and the Linear Map (L) 90
+characters wide (-w90) to the file <u>promo.map</u>.&nbsp;
+<hr SIZE="3">
+<p>Used to search for a Regular Expression:
+<p><tt>tacg --regex 'yadda:gm(tt|ag)ggn{3,5}tgy' -SL &lt; some.seq | less</tt>
+<p>Translation: search the file <u>some.seq</u> for the regular expression
+gm(tt|ag)ggn{3,5}tgy, piping the information about Sites (-S) and the Linear
+Map (L) to the pager 'less'.&nbsp;
+<hr SIZE="3">
+<p>Used to search the entire yeast 500bp Upstream Regulatory sequences
+(a file containing 6226 500 bp sequences) for matches to the MATa1 binding
+site (from TRANSFAC) :
+<p><tt>tacg -R TRANSFAC.data -sScw1 -xMATa1 -#85 &lt; utr5_sc_500.fasta
+> yeast.summary</tt>
+<p>Translation: translate each of the FASTA formatted entries in the input
+file <u>utr5_sc_500.fasta</u> into usable sequence, and after finding the
+MATa1 (-x MATa1) matrix description from the database (-R TRANSFAC.data),
+search the sequences for matches at 85% of the maximum score that it has
+in the TRANSFAC database (-# 85), returning the summary (-s), the sites
+(S) sorted in Strider order (c) with results printed on 1 line (w1), directing
+the output into the file <u>yeast.summary</u>.&nbsp;
+<hr SIZE="5">
+<h4>
+BUGS and ODDITIES</h4>
+<b>Major</b>
+<p>- tacg will not currently cut sequence shorter than 4 bases; if you
+need to analyze sequences shorter than this, perhaps you're using the wrong
+program.
+<p>- tacg has been made re-entrant for the inclusion of SEQIO and as such
+a number of memory leaks have been plugged (with the use of Gray Watson's
+excellent <a href="http://www.dmalloc.com">dmalloc library</a>).
+tacg's not perfect yet but it's a lot more robust.
+<p>- the command line handling has been completely re-written, using the
+getopt() and getopt_long() functions, so the flags are considerably less
+sensitive to spacing and order.
+<p>- translation in 6 frames assumes <b>circular sequence</b> regardless
+of '<b>-f</b>' flag, so that the last amino acids in frames 5 and 6 in
+the 1st output block are obviously incorrect if you are assuming linear
+sequence.
+</body>
+</html>

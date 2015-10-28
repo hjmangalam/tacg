@@ -1,0 +1,29 @@
+Package: tacg
+Architecture: i386
+Version: 4.4-1
+Section: science
+Installed-Size: 
+Priority: optional
+Depends: libpcre3, libc6 (>= 2.7-1)
+Suggests: 
+Conflicts: 
+Installed-Size: 717.8
+Maintainer: Harry Mangalam <hjm@tacgi.com>
+Description: [Biology] a sophisticated 'grep' for nucleic acid strings
+ tacg can search for a number of pattern types of in nucleic acids,
+ generating restriction maps, sites, fragments, pseudo gel ladders, etc.
+ It supports IUPAC patterns, regexes, TRANSFAC  matrices, and rules
+ (logical combinations of the previous patterns: (pattern_A AND pattern_B
+ AND pattern_C) NOT ((Pattern_D AND pattern_E)  XOR (pattern_F OR
+ patternG)) in a sliding window of XX bases (useful  for finding things
+ like SARS/MARS) It autoconverts many sequence formats on input, can search
+ multiple  sequences at once (multiple FASTA entries in one file), searches
+ both  strands at the same time, has no limit to sequence length, and is
+ 30-50x  faster than the GCG equivs, 100x more memory efficient than the
+ EMBOSS  equivs, (but overall less functionality).
+ .
+ This package contains the tacg binary, docs, the web interface, and
+ required data files.
+ .
+ http://tacg.sf.net
+ 

@@ -1,0 +1,103 @@
+LOCUS       HUMPRLR      2723 bp    mRNA            PRI       08-JAN-1995
+DEFINITION  Human prolactin (PRL) receptor mRNA, complete cds.
+ACCESSION   M31661 M60727
+NID         g190361
+KEYWORDS    prolactin receptor.
+SOURCE      Human hepatoma cell line HepG2, cDNA to mRNA, (library of
+            J.C.Edman).
+  ORGANISM  Homo sapiens
+            Eukaryotae; mitochondrial eukaryotes; Metazoa; Chordata;
+            Vertebrata; Eutheria; Primates; Catarrhini; Hominidae; Homo.
+REFERENCE   1  (bases 1 to 2723)
+  AUTHORS   Boutin,J.M., Edery,M., Shirota,M., Jolicoeur,C., Lesueur,L.,
+            Ali,S., Gould,D., Djiane,J. and Kelly,P.A.
+  TITLE     Identification of a cDNA encoding a long form of prolactin receptor
+            in human hepatoma and breast cancer cells
+  JOURNAL   Mol. Endocrinol. 3 (9), 1455-1461 (1989)
+  MEDLINE   90114212
+FEATURES             Location/Qualifiers
+     source          1..2723
+                     /organism="Homo sapiens"
+                     /db_xref="taxon:9606"
+                     /cell_line="Hep G2"
+                     /tissue_type="hepatoma"
+                     /map="5p14-p13"
+     sig_peptide     285..356
+                     /gene="PRL receptor"
+                     /product="prolactin receptor"
+     CDS             285..2153
+                     /gene="PRLR"
+                     /codon_start=1
+                     /db_xref="GDB:G00-120-315"
+                     /product="prolactin receptor"
+                     /db_xref="PID:g190362"
+                     /translation="MKENVASATVFTLLLFLNTCLLNGQLPPGKPEIFKCRSPNKETF
+                     TCWWRPGTDGGLPTNYSLTYHREGETLMHECPDYITGGPNSCHFGKQYTSMWRTYIMM
+                     VNATNQMGSSFSDELYVDVTYIVQPDPPLELAVEVKQPEDRKPYLWIKWSPPTLIDLK
+                     TGWFTLLYEIRLKPEKAAEWEIHFAGQQTEFKILSLHPGQKYLVQVRCKPDHGYWSAW
+                     SPATFIQIPSDFTMNDTTVWISVAVLSAVICLIIVWAVALKGYSMVTCIFPPVPGPKI
+                     KGFDAHLLEKGKSEELLSALGCQDFPPTSDYEDLLVEYLEVDDSEDQHLMSVHSKEHP
+                     SQGMKPTYLDPDTDSGRGSCDSPSLLSEKCEEPQANPSTFYDPEVIEKPENPETTHTW
+                     DPQCISMEGKIPYFHAGGSKCSTWPLPQPSQHNPRSSYHNITDVCELAVGPAGAPATL
+                     LNEAGKDALKSSQTIKSREEGKATQQREVESFHSETDQDTPWLLPQEKTPFGSAKPLD
+                     YVEIHKVNKDGALSLLPKQRENSGKPKKPGTPENNKEYAKVSGVMDNNILVLVPDPHA
+                     KNVACFEESAKEAPPSLEQNQAEKALANFTATSSKCRLQLGGLDYLDPACFTHSFH"
+     gene            285..2150
+                     /gene="PRL receptor"
+     gene            285..2153
+                     /gene="PRLR"
+     mat_peptide     357..2150
+                     /gene="PRL receptor"
+                     /product="prolactin receptor"
+BASE COUNT      785 a    655 c    593 g    690 t
+ORIGIN      
+        1 ggaggctgaa atccccagac gccggttttc tgggctgggc tttctgctta ctcactcctt
+       61 ctccctcttt ctggatttta ccgaccgttc gcgaaacagc tttccacaca atggagcttc
+      121 atgtcctcgt gcaggaagta ctcatcgact gatgtggcag actttgctcc ctgacaaaac
+      181 taaagaactc tcctattcat ggaggcgaac actgaggatg ctttccacat gaaccctgaa
+      241 gtgaacttct gatacatttc ctgcagcaag agaaggcagc caacatgaag gaaaatgtgg
+      301 catctgcaac cgttttcact ctgctacttt ttctcaacac ctgccttctg aatggacagt
+      361 tacctcctgg aaaacctgag atctttaaat gtcgttctcc caataaggaa acattcacct
+      421 gctggtggag gcctgggaca gatggaggac ttcctaccaa ttattcactg acttaccaca
+      481 gggaaggaga gacactcatg catgaatgtc cagactacat aaccggtggc cccaactcct
+      541 gccactttgg caagcagtac acctccatgt ggaggacata catcatgatg gtcaatgcca
+      601 ctaaccagat gggaagcagt ttctcggatg aactttatgt ggacgtgact tacatagttc
+      661 agccagaccc tcctttggag ctggctgtgg aagtaaaaca gccagaagac agaaaaccct
+      721 acctgtggat taaatggtct ccacctaccc tgattgactt aaaaactggt tggttcacgc
+      781 tcctgtatga aattcgatta aaacccgaga aagcagctga gtgggagatc cattttgctg
+      841 ggcagcaaac agagtttaag attctcagcc tacatccagg acagaaatac cttgtccagg
+      901 ttcgctgcaa accagaccat ggatactgga gtgcatggag tccagcgacc ttcattcaga
+      961 tacctagtga cttcaccatg aatgatacaa ccgtgtggat ctctgtggct gtcctttctg
+     1021 ctgtcatctg tttgattatt gtctgggcag tggctttgaa gggctatagc atggtgacct
+     1081 gcatctttcc gccagttcct gggccaaaaa taaaaggatt tgatgctcat ctgttggaga
+     1141 agggcaagtc tgaagaacta ctgagtgcct tgggatgcca agactttcct cccacttctg
+     1201 actatgagga cttgctggtg gagtatttag aagtagatga tagtgaggac cagcatctaa
+     1261 tgtcagtcca ttcaaaagaa cacccaagtc aaggtatgaa acccacatac ctggatcctg
+     1321 acactgactc aggccggggg agctgtgaca gcccttccct tttgtctgaa aagtgtgagg
+     1381 aaccccaggc caatccctcc acattctatg atcctgaggt cattgagaag ccagagaatc
+     1441 ctgaaacaac ccacacctgg gacccccagt gcataagcat ggaaggcaaa atcccctatt
+     1501 ttcatgctgg tggatccaaa tgttcaacat ggcccttacc acagcccagc cagcacaacc
+     1561 ccagatcctc ttaccacaat attactgatg tgtgtgagct ggctgtgggc cctgcaggtg
+     1621 caccggccac tctgttgaat gaagcaggta aagatgcttt aaaatcctct caaaccatta
+     1681 agtctagaga agagggaaag gcaacccagc agagggaggt agaaagcttc cattctgaga
+     1741 ctgaccagga tacgccctgg ctgctgcccc aggagaaaac cccctttggc tccgctaaac
+     1801 ccttggatta tgtggagatt cacaaggtca acaaagatgg tgcattatca ttgctaccaa
+     1861 aacagagaga gaacagcggc aagcccaaga agcccgggac tcctgagaac aataaggagt
+     1921 atgccaaggt gtccggggtc atggataaca acatcctggt gttggtgcca gatccacatg
+     1981 ctaaaaacgt ggcttgcttt gaagaatcag ccaaagaggc cccaccatca cttgaacaga
+     2041 atcaagctga gaaagccctg gccaacttca ctgcaacatc aagcaagtgc aggctccagc
+     2101 tgggtggttt ggattacctg gatcccgcat gttttacaca ctcctttcac tgatagcttg
+     2161 actaatggaa tgattggtta aaatgtgatt tttcttcagg taacactaca gagtacgtga
+     2221 aatgctcaag aatgtagtca gactgacact actaaagctc ccagctcctt tcatgctcca
+     2281 tttttaacca cttgcctctt tctccagcag ctgattccag aacaaatcat tatgtttcct
+     2341 aactgtgatt tgtagattta ctttttgctg ttagttataa aactatgtgt tcaatgaaat
+     2401 aaaagcacac tgcttagtat tcttgaggga caatgccaat aggtatatcc tctggaaaag
+     2461 gctttcatga tttggcatgg gacagacgga aatgaaattg tcaaaattgt ttaccataga
+     2521 aagatgacaa aagaaaattt tccacatagg aaaatgccat gaaaattgct tttgaaaaac
+     2581 aactgcataa cctttacact cctcgtccat tttattagga ttacccaaat ataaccattt
+     2641 aaagaaagaa tgcattccag aacaaattgt ttacataagt tcctatacct tactgacaca
+     2701 ttgctgatat gcaagtaaga aat
+//
+
+
+

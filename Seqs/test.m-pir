@@ -1,0 +1,61 @@
+\\\
+ENTRY           acarr58sst, 
+TITLE           acarr58sst, 183 bases, CEC03C8E checksum.
+SEQUENCE        
+                5        10        15        20        25        30
+      1  a - - - - - - - a c t c c t a a c a a c G g A t a t C T t G
+     31  g t T - C t c g c g a g G a t G A a G a a c G c A G c g - -
+     61  A a a t G c G a t a c g t a g t g t g a a t c g c - a g g g
+     91  a t c a g t g a a t c a t c g a a t c t t t g a a c g c a a
+    121  g t t g c g c t c t c g t g - - g t t t a a c c c c c c g g
+    151  g a g c - a c g t t c g c t t g a g t g c c - - g c t t - -
+    181  - - -
+///
+ENTRY           amgrrbst, 
+TITLE           amgrrbst, 183 bases, 9F2D57DD checksum.
+SEQUENCE        
+                5        10        15        20        25        30
+      1  - - - - c g t - - c c c c g a a c g g c G g A t c a C T t G
+     31  g c T - C g t g g a t c G a t G A a G a c c G c A G c - - t
+     61  A t c t G c G c g t c g t c g t g t a a t c c g c - a g g t
+     91  t a t a c - - g a a c a t c g a c c a g t c g a a c g c a c
+    121  a t t g c g g c c t c g g t - - g a c c c g c g g g c c c c
+    151  g g g c c a c g c c t g t c t g a g g g t c - - g t - - - -
+    181  - - a
+///
+ENTRY           bmorrbst, 
+TITLE           bmorrbst, 183 bases, 8B5CF270 checksum.
+SEQUENCE        
+                5        10        15        20        25        30
+      1  a a a t g a t t a c c c t g g a c g g t G g A t c a C T t G
+     31  g c T - C g c g g g t c G a t G A a G a a c G c A G t - - t
+     61  A a c t G c G c g t c a t a g t g t g a a c t g c - a g g a
+     91  c a c a t t t g a a c a t c g a c a t t t c g a a c g c a c
+    121  a t t g c g g t c - c g t g - - g a g a c a c a - - t c c a
+    151  g g a c c a c t c c t g t c t g a g g g c c - - g g c t - -
+    181  - - -
+///
+ENTRY           crerrbst, 
+TITLE           crerrbst, 183 bases, 5C8A30AB checksum.
+SEQUENCE        
+                5        10        15        20        25        30
+      1  a - - - - - - - a c t c t c a a c a a c G g A t a t C T t G
+     31  g c T - C t c g g a t c G a t G A a G g a c G c A G c g - -
+     61  A a a t G c G a t a c g t a g t g t g a a c t g c - a g a a
+     91  a t a c g t g a a c t a t c g a a t c c c t g a a c g t a t
+    121  a c t g c g c c c - - g a g - - g c c - - - c c g g t - - a
+    151  g a g c - a t g t c t g c c t t a g t g c t - - g g g t - -
+    181  - - t
+///
+ENTRY           ddirr58sst, 
+TITLE           ddirr58sst, 183 bases, 89AE1405 checksum.
+SEQUENCE        
+                5        10        15        20        25        30
+      1  t - - - - - t a a g c a t a a a c g g t G a A t a c C T c G
+     31  a c T c C - c a a a t t G a t G A a G a c c G t A G c a - -
+     61  A a c t G c G a t a a t t c a c t t g a a t t g c - a g c c
+     91  t a c t g - g g a t a g t t g a a a t g t t g a a c g c a c
+    121  a t g a t g a c a t c g g t - - - c c t t t c g g a t t a g
+    151  g t g t t a t a c t t g g g t g a g a g t - - - - - - - - g
+    181  g t c
+///

@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+ <TITLE>tacg Central</TITLE>
+</HEAD>
+
+<BODY>
+<table>
+ 	<tr>
+ <td width="100%"><img src="tacg-4.3-banner.gif" width="800" height="100" alt="tacg banner"></td></tr>
+</table>
+
+<hr>
+<table>
+	<tr>
+		<td width="25%" valign="top" bgcolor="#C1DDEF">
+			<h3>Docs &amp;  Resources</h3>
+			<ul>
+				<li><a href="http://www.biomedcentral.com/content/pdf/1471-2105-3-8.pdf">
+                tacg BMC Bioinformatics paper (2002)</a></li>
+				<li><a href="tacg-4.3-manual.html">tacg manual</a></li>
+				<li><a href="tacg4.xman.html">Extended man page</a> </li>
+				<li><a href="nedit.macros">.nedit file</a></li>
+			</ul>
+<A HREF="tacg_Map.pdf"><IMG SRC="microplasmid.gif" ALIGN="LEFT" ></A>
+		</td>
+		<td width="75%" bgcolor="#CAF4FB">
+			tacg is a command-line program that performs many of the common routines in
+			pattern matching in biological strings.  It was originally designed for
+			restriction enzyme analysis and while that still forms a core of the program, it
+			has been expanded to fill more roles, sort of a 'grep' for DNA.  However, it is
+			also more than that: a brief description of its abilities is at the bottom of
+			this page.
+<P>
+<ul>
+<LI>Download the tacg source code
+<UL>
+	<!--<LI>from author's private stock [unavailable until new ISP comes online] <br>-->
+   <LI><a href="http://sourceforge.net/projects/tacg">from SourceForge</a>
+</UL>
+
+<LI>Check out the <a href="http://sf.net/projects/tacg"> Sourceforge tacg development site.</A>
+
+<LI>Check out the <a href="http://sourceforge.net/cvs/?group_id=39048">bleeding edge CVS version</a>.
+</UL>
+<P>
+
+<table bgcolor="#FFEEB9" width="100%">
+  <tr>
+    <th colspan="2">List of some active WWWtacg servers  * [last Updated ] </th>
+  </tr>
+  <tr>
+    <td>Your LOCAL tacg server: <b>%%WWWHOST%%</b>  </td>
+    <td><a href="http://%%WWWHOST%%/%%HTML_LINK%%/form4.html"><font color="green"> tacg 4.3 </font></A></td>
+    <!--<td><a href="http://%%WWWHOST%%/%%HTML_LINK%%/formt.html"><font color="red"> UNstable </font></A> </td>-->
+  </tr>
+
+  <tr>
+    <td><A href="http://cg0.calit2.uci.edu/tacg4/index.html" >UC Irvine </A>  [09.08.06]</td>
+    <td> <A href="http://cg0.calit2.uci.edu/tacg4/form4.html"><font color="green"> tacg 4.3 </font></A> </td>
+  </tr>
+
+  <tr>
+    <td><A href="http://moo.nac.uci.edu/tacg4/index.html" >UC Irvine </A>  [09.08.06]</td>
+    <td> <A href="http://moo.nac.uci.edu/tacg4/form4.html"><font color="green"> tacg 4.3 </font></A> </td>
+  </tr>
+
+  <tr>
+    <td><A href="http://rcs64.nac.uci.edu/tacg4/index.html" >UC Irvine </A>  [09.08.06]</td>
+    <td> <A href="http://rcs64.nac.uci.edu/tacg4/form4.html"><font color="green"> tacg 4.3 </font></A> </td>
+  </tr>
+
+  <tr>
+    <td><a href="http://codon2.fullerton.edu/tacg4/form4.html">Cal State Fullerton</A> [09.11.06]</td>
+    <td><a href="http://codon2.fullerton.edu/tacg4/form4.html"><font color="green"> tacg 4.3 </font></A></td>
+  </tr>
+
+  <tr>
+    <td><a href="http://exon.fullerton.edu/tacg4/form4.html">Cal State Fullerton</A> [09.11.06]</td>
+    <td><a href="http://exon.fullerton.edu/tacg4/form4.html"><font color="green"> tacg 4.3 </font></A></td>
+  </tr>
+</table>
+
+
+<em>* <font size="-1"><a href="mailto:hjm@tacgi.com">Email me</a> if there is a problem with one of these servers,
+      including the URL of the server you used.
+      Also let me know if you install a tacg server and want it listed here.
+   </font></em>
+<P>
+New features visible in the current Web version include:
+<ul>
+<li>ORF and MET/STOP map</li>
+<li> emulate Dam and/or Dcm methylation</li>
+<LI> analyzing sequence retrieved by accession # from NCBI (Web version only; requires BioPerl)
+<LI> creating circular Postscript or PDF plasmid maps with degeneracies plotted around the
+      circumference and any/all ORFs plotted as well. Click on the image to the left panel for
+      a PDF example.<br>
+</UL>
+</td>
+</tr>
+</table>
+
+<HR>
+
+<b>What tacg is:</b>
+<P>
+<UL>
+<LI>It is a command-line tool, albeit one designed for humans.  It has compiled-in
+  brief help hints, a decent man page with an expanded version thereof in the HTML
+  version.</li>
+<LI>It was written congruent to the philosophy that most large-scale bioinfomatics
+  will done in a pipeline and therefore the tools for those analyses should
+  support pipelines as much as possible.  Ideally such a tool should be designed
+  so that you can pour in a megabytes of data and the pipeline will return you the 7 bytes
+  that really interest you.  The underlying algorithms should be fast enough that you
+  can work interatively, adjusting parameters and re-running the analysis until it's perfect.
+  tacg is not there yet, but that's the goal.</li>
+<LI>It is also written with the philosophy that relatively small, efficient tools are
+  often more  effectively used than large 'frameworks' writ by committee intent on
+  standardizing the universe. If the tool develops a following, then  the user community
+  (rather than a committee) drives the development of new options, standardized
+  interfaces, etc.  Small tools tend to be more easily understood by those that might
+  contribute to  them, and while C is an old, grunty language, it's small, fast,
+  well-understood (except for  pointers and memory allocation), has universal compiler
+  support via gcc, and there is a vast support structure and code base for it.</li>
+<LI>It was intended and written for the analysis of genomic DNA, so it uses dynamic memory
+  for almost all internal storage and therefore it is not limited to a specific
+  sequence length.</li>
+<LI>It is written in ANSI C, using standard libaries or  supplied code, so that
+  it compiles and runs on all unix variants that I've tried: Linux (PPC, Intel,
+  Alpha (64-bit)), DEC Unix(64bit), IRIX(32/64bit), Solaris, ConvexOS, HP/UX,
+  NeXTStep.  It also runs on Win95/NT (compiled with the amazing Cygwin tools), DOS  (with
+  the DJGPP extender), and has been compiled for the Mac as part of Don Gilbert's
+  SeqPup application, although the DOS and Mac versions have not yet been
+  compiled for recent versions.</li>
+<LI>It is meant to be extended to include your own functions.  An example skeleton
+  function is included as a guide, so that even relative newbie programmers
+  should be able to plug in analytical code to extend it.</li>
+</UL>
+
+
+It supports:            [* = new or improved in version 4]
+<UL>
+<LI>* Circular Plasmid maps in postscript or PDF, with degeneracies marked and
+      ORFs from any/all frames plotted as well.</li>
+<LI>* cloning support (search for enz's that do/don't cut in specific ranges</li>
+<LI>searching arbitrarily large nucleic acid strings (dynamic memory
+   allows searching whole bacterial genomes, or eukaryotic chromosomes (or
+   genomes) in one sweep)</li>
+<LI>handles sequences as small as 5 bases for analysis of linkers, oligos</li>
+<LI>handles circular and linear DNA appropriately, correctly</li>
+<LI>allows subsequences to be extracted from larger sequences, generates both
+   subsequence #ing and original sequence #ing</li>
+<LI> can also number the sequence arbitrarily, including negative start points</li>
+<LI> integrated with Jim Knight's Seqio to allow automatic sequence conversion
+   on input, and scanning multiple sequence databases</li>
+<LI>fast (5-35X equiv routines in GCG and EMBOSS) pattern matching of nucleic acids
+   up to about 50 base patterns.</li>
+<LI>simultaneous searching of thousands of patterns read from a database or a
+   few explicit patterns read from the command-line</li>
+<LI>searching with errors (mismatches, not indels, tho that's coming soon).</li>
+<LI>searching for patterns containing IUPAC degeneracies in strings which
+   also contain IUPAC degeneracies</li>
+<LI> searching for regular expressions (in nucleic acid), with autoconversion of
+   IUPAC degeneracies to the appro regex.</li>
+<LI>searching for TRANSFAC matrices, with user-specified cutoffs.</li>
+<LI>GCG-style ladder maps.</li>
+<LI>gel simulations with low and high end cutoffs for 'zoomable' views of the gel</li>
+<LI>selection of Restriction Enzymes explicitly, by overhang generated,
+   magnitude of recognition site, enzyme price, minimum, maximum number of cuts
+   (overall or on a per-pattern basis)</li>
+<LI>supports Combination Cuts of up to 15 REs at a time</li>
+<LI>supports limited AFLP fragment matching / simulation</li>
+<LI>simulates Dam and/or Dcm methylation of DNA</li>
+<LI>generates summaries of # of patterns found, Sites, Fragments (sorted/unsorted)</li>
+<LI>searches for silent sites, with reverse translation</li>
+<LI>Full Linear Maps with enzyme cuts marked AT THE POINT OF CUTTING, not
+   beginning of pattern, with 1/2 strands, optional tics for very compact display</li>
+<LI>co-translation of DNA, based on a (user-expandable) number of Codon usage
+   tables, in 1/3/6 frames, with 1 or 3 letter AA labels</li>
+<LI>* ORF finding in any combination of frames (1/2/6 for example) with FASTA output, with
+   offsets in DNA, protein, Molecular Wt, pI, with optional additional info
+   on AA  frequency in #s or %</li>
+<LI>* Pseudographic ORF map  and MET/STOP map for the same frames specified in the previous item</LI>
+<LI>dump of internal data for analysis / plotting with external plotting programs
+   in 3 formats, incl gnuplot.</li>
+<LI>* conditional output based on matches, for scanning large numbers of
+   sequences at a time</li>
+<LI>* 2 types of Proximity matching:</li>
+<OL>
+<LI>exact specification of the relationships of 2 patterns (upstream,
+        downstream, by how much, within/outside of a range
+<LI>specify rules for arbitrarily complex relationships among many
+   patterns (in a sliding window or in the whole sequence) with
+   logical AND, OR, XOR conjunctions joining pattern
+   specifications (editorial comment: this is cool) <br>
+   for example:  <b>(((A AND B) OR (C XOR D) OR E) AND (F AND G))</b><br>
+   Rules once typed and verified are logged to a file so they can be incorporated into
+   a file of rules (see below)
+</OL>
+<LI>* Now supports FILES of Rules, so you can make up a file of Rules that you're
+      interested in & search for them all at once, without the horrible typing each time.
+
+<LI>sequence extraction surrounding pattern matches, with variable upstream,
+   downstream inclusion, optional reverse translation in FASTA format.
+<LI>* uses autoconf/configure to ease building on different platforms.
+<LI>* includes an explicit example function to show how to add your own funtionality
+<LI> Dual Licensed - GPL or Proprietary Use.
+<LI> Source code included, of course!
+</UL>
+</BODY>
+</HTML>

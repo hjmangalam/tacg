@@ -1,0 +1,290 @@
+# Append this to your ~/.nedit file in the Background Menu Section
+# ie after this heading (uncommented of course)
+
+# nedit.bgMenuCommands: \
+
+tacg>LinMap  Opts rebase mag # frames2cotranslate
+#1st grab the current selection
+buf = get_selection()
+
+# want a different pattern file?
+patfile = string_dialog("Pattern File? [rebase.data]", "OK" )  
+if (patfile == "") patfile = "rebase.data"
+
+# what magnitude of recog site?
+n = dialog("Magnitude?", "4", "5", "6", "8") 
+if (n == "1") mag = "4"
+else if (n == "2")  mag = "5"
+else if (n == "3")  mag = "6"
+else if (n == "4")  mag = "8"
+
+# what frames to cotranslate?
+cotr = dialog("Frames to Cotranslate?", "None", "1F", "3F", "6F")  
+if (cotr == 1) frames = " "
+else if (cotr == 2) frames = " -T1,1 "
+else if (cotr == 3) frames = " -T3,1 "
+else if (cotr == 4) frames = " -T6,1 "
+
+# build the command
+cmd = "/usr/local/bin/tacg3 -Ls -n" mag frames " --raw -R " patfile
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+
+===========================================================================
+
+tacg>LadMap mag width? sorting 
+#1st grab the current selection
+buf = get_selection()
+
+# want a different pattern file?
+patfile = string_dialog("Pattern File? [rebase.data]", "OK" )  
+if (patfile == "") patfile = "rebase.data"
+
+# what magnitude of recog site?
+n = dialog("Magnitude? [4]", "4", "5", "6", "8") 
+if (n == "1") mag = "4"
+else if (n == "2")  mag = "5"
+else if (n == "3")  mag = "6"
+else if (n == "4")  mag = "8"
+
+# how wide do you want it?
+width = dialog("Width? [60]", "60", "90", "120", "150")  
+if (width == 1) wid = " -w 60 "
+else if (width == 2) wid = " -w 90 "
+else if (width == 3) wid = " -w 120 "
+else if (width == 4) wid = " -w 150 "
+
+# sorting?
+sort = dialog("StriderSort? [Y]", "Yes", "No")  
+if (sort == 1) SS = " -c "
+else SS = " "
+
+# build the command
+cmd = "/usr/local/bin/tacg3 -l -n" mag SS wid " --raw -R " patfile
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+
+===========================================================================
+
+tacg>Translate frames to translate  xtrainfo  minorflength
+#1st grab the current selection
+buf = get_selection()
+
+# How many frames to translate and search for ORFs?
+opt = string_dialog("Frames to Translate? (####)[1]", "OK" )  
+if (opt == "") f2t = "1"
+else f2t = opt
+
+# Need the extra 3 lines of AA stats?
+opt = dialog("3 Extra Info lines? [Y]", "Yes", "No") 
+if (opt == "1") xtra = "x"
+else xtra = ""
+
+# Minimum ORF length?
+opt = string_dialog("Minimum ORF length? [50 AAs]", "OK" )  
+if (opt == "") mol = "50"
+else mol = opt
+
+# how wide do you want it?
+width = dialog("Width? [60]", "60", "90", "120", "150")  
+if (width == 1) wid = " -w 60 "
+else if (width == 2) wid = " -w 90 "
+else if (width == 3) wid = " -w 120 "
+else if (width == 4) wid = " -w 150 "
+
+
+# build the command
+cmd = "/usr/local/bin/tacg3 --raw -O" f2t xtra "," mol wid
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+
+
+===========================================================================
+
+tacg>IUPACSrch set name to Tmp pattern, # errors(buttons)
+
+#1st grab the current selection
+buf = get_selection()
+
+# What's the pattern to search for?
+pat = string_dialog("IUPAC Pattern? (<30bp)", "OK" )  
+
+# How many errors to allow?
+opt = dialog("How many Errors to allow? [0]", "0", "1", "2", "3")  
+if (opt == 1) err = "0"
+else if (opt == 2) err = "1"
+else if (opt == 3) err = "2"
+else if (opt == 4) err = "3"
+
+# Sites?
+opt = dialog("Sites? [Y]", "Yes", "No") 
+if (opt == 1) sites = " -S "
+else sites = ""
+
+# Ladder Map
+opt = dialog("Ladder Map? [Y]", "Yes", "No") 
+if (opt == 1) lad = " -l "
+else lad = ""
+
+# how wide do you want it?
+width = dialog("Width? [60]", "60", "90", "120", "150")  
+if (width == 1) wid = " -w 60 "
+else if (width == 2) wid = " -w 90 "
+else if (width == 3) wid = " -w 120 "
+else if (width == 4) wid = " -w 150 "
+
+
+# build the command
+cmd = "/usr/local/bin/tacg3 --raw -pPat," pat "," err  wid lad sites
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+===========================================================================
+
+tacg>RegexSrch set name to Tmp pattern, # errors(buttons)
+
+#1st grab the current selection
+buf = get_selection()
+
+# What's the pattern to search for?
+pat = string_dialog("Regex Pattern?", "OK" )  
+
+# Sites?
+opt = dialog("Sites? [Y]", "Yes", "No") 
+if (opt == 1) sites = " -S "
+else sites = ""
+
+# Ladder Map
+opt = dialog("Ladder Map? [Y]", "Yes", "No") 
+if (opt == 1) lad = " -l "
+else lad = ""
+
+# how wide do you want it?
+width = dialog("Width? [60]", "60", "90", "120", "150")  
+if (width == 1) wid = " -w 60 "
+else if (width == 2) wid = " -w 90 "
+else if (width == 3) wid = " -w 120 "
+else if (width == 4) wid = " -w 150 "
+
+
+# build the command
+cmd = "/usr/local/bin/tacg3 --raw -r'Regex:" pat "'"  wid lad sites
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+
+===========================================================================
+
+tacg>Combined IUPAC/Regex Srch set name to Tmp pattern, # errors(buttons)
+
+#1st grab the current selection
+buf = get_selection()
+
+# What's the pattern to search for?
+## All that the Regex search wants
+pat = string_dialog("Regex Pattern?", "IUPAC", "Regex" )  
+# now eval is it's a IUPAC or Regex search
+if ($string_dialog_button == 1) stype = "I"
+else stype = "R"
+
+if (stype == "R") {
+	# if it's a regex search, that's all we need
+	search = " -r 'Regex:" pat "' "
+} else {
+   # How many errors to allow?
+   opt = dialog("How many Errors to allow? [0]", "0", "1", "2", "3")  
+   if (opt == 1) err = "0"
+   else if (opt == 2) err = "1"
+   else if (opt == 3) err = "2"
+   else if (opt == 4) err = "3"
+	
+   #and now build the entire search term
+   search = " -pIUPAC," pat ",err " 
+}
+
+# Sites?
+opt = dialog("Sites? [Y]", "Yes", "No") 
+if (opt == 1) sites = " -S "
+else sites = ""
+
+# Ladder Map
+opt = dialog("Ladder Map? [Y]", "Yes", "No") 
+if (opt == 1) lad = " -l "
+else lad = ""
+
+#Linear Map
+opt = dialog("Linear Map? [N]", "No", "Yes") 
+if (opt == 1) lin = ""
+else lin = " -L "
+
+# how wide do you want it?
+width = dialog("Width? [60]", "60", "90", "120", "150")  
+if (width == 1) wid = " -w 60 "
+else if (width == 2) wid = " -w 90 "
+else if (width == 3) wid = " -w 120 "
+else if (width == 4) wid = " -w 150 "
+
+
+# build the command
+cmd = "/usr/local/bin/tacg3 --raw " search  wid lad lin sites
+
+# and execute it
+answer = shell_command(cmd, buf)
+
+if (length(answer) == 0) {
+   dialog("Command Failed!\n\n" cmd "\n\n", "OK")
+} else {
+   # Put the result into a new NEdit window
+   new()
+   focus_window("last")
+   insert_string(answer)
+}
+

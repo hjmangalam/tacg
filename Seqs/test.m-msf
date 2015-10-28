@@ -1,0 +1,35 @@
+
+ test.m-msf  MSF: 183  Type: N  January 01, 1776  12:00  Check: 4409 ..
+
+ Name: acarr58sst,      Len:   183  Check:  4962  Weight:  1.00
+ Name: amgrrbst,        Len:   183  Check:  9664  Weight:  1.00
+ Name: bmorrbst,        Len:   183  Check:  2550  Weight:  1.00
+ Name: crerrbst,        Len:   183  Check:  8455  Weight:  1.00
+ Name: ddirr58sst,      Len:   183  Check:  8778  Weight:  1.00
+
+//
+
+    acarr58sst,  a-------ac tcctaacaac GgAtatCTtG gtT-Ctcgcg agGatGAaGa
+      amgrrbst,  ----cgt--c cccgaacggc GgAtcaCTtG gcT-Cgtgga tcGatGAaGa
+      bmorrbst,  aaatgattac cctggacggt GgAtcaCTtG gcT-Cgcggg tcGatGAaGa
+      crerrbst,  a-------ac tctcaacaac GgAtatCTtG gcT-Ctcgga tcGatGAaGg
+    ddirr58sst,  t-----taag cataaacggt GaAtacCTcG acTcC-caaa ttGatGAaGa
+
+    acarr58sst,  acGcAGcg-- AaatGcGata cgtagtgtga atcgc-aggg atcagtgaat
+      amgrrbst,  ccGcAGc--t AtctGcGcgt cgtcgtgtaa tccgc-aggt tatac--gaa
+      bmorrbst,  acGcAGt--t AactGcGcgt catagtgtga actgc-agga cacatttgaa
+      crerrbst,  acGcAGcg-- AaatGcGata cgtagtgtga actgc-agaa atacgtgaac
+    ddirr58sst,  ccGtAGca-- AactGcGata attcacttga attgc-agcc tactg-ggat
+
+    acarr58sst,  catcgaatct ttgaacgcaa gttgcgctct cgtg--gttt aaccccccgg
+      amgrrbst,  catcgaccag tcgaacgcac attgcggcct cggt--gacc cgcgggcccc
+      bmorrbst,  catcgacatt tcgaacgcac attgcggtc- cgtg--gaga caca--tcca
+      crerrbst,  tatcgaatcc ctgaacgtat actgcgccc- -gag--gcc- --ccggt--a
+    ddirr58sst,  agttgaaatg ttgaacgcac atgatgacat cggt---cct ttcggattag
+
+    acarr58sst,  gagc-acgtt cgcttgagtg cc--gctt-- ---
+      amgrrbst,  gggccacgcc tgtctgaggg tc--gt---- --a
+      bmorrbst,  ggaccactcc tgtctgaggg cc--ggct-- ---
+      crerrbst,  gagc-atgtc tgccttagtg ct--gggt-- --t
+    ddirr58sst,  gtgttatact tgggtgagag t--------g gtc
+

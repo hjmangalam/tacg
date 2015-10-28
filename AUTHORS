@@ -1,0 +1,59 @@
+                  Authors contributing to this work
+                  =================================
+$Id: AUTHORS,v 1.2 2005/01/24 21:03:53 mangalam Exp $
+
+tacg was written by and is Copyright (C) 1994-2001 Harry Mangalam, 
+tacg Informatics, hjm@tacgi.com, 949 856 2847.
+
+It includes the following code by other authors:
+
+the Seqio package (seqio.c, seqio.h) was written by James Knight
+(jknight@curagen.com) and has been released as a variant of Open Source code.
+
+  Permission to use, copy, modify, distribute and sell this software
+  and its documentation is hereby granted, subject to the following
+  restrictions and understandings:
+ 
+    1) Any copy of this software or any copy of software derived
+       from it must include this copyright notice in full.
+ 
+    2) All materials or software developed as a consequence of the
+       use of this software or software derived from it must duly
+       acknowledge such use, in accordance with the usual standards
+       of acknowledging credit in academic research.
+ 
+    3) The software may be used freely by anyone for any purpose,
+       commercial or non-commercial.  That includes, but is not
+       limited to, its incorporation into software sold for a profit
+       or the development of commercial software derived from it.
+       
+    4) This software is provided AS IS with no warranties of any
+       kind.  The author shall have no liability with respect to the
+       infringement of copyrights, trade secrets or any patents by
+       this software or any part thereof.  In no event will the
+       author be liable for any lost revenue or profits or other
+       special, indirect and consequential damages.
+              
+Knight, James "SEQIO: A C Package for Reading and Writing Sequences,"
+  Seqio is available at various sites around the web including:
+  http://www.cs.ucdavis.edu/~gusfield/seqio.html
+
+The grepseq routine was originally written by James Knight and included in the
+Seqio package as an example utility.  It was released into the Public Domain.
+
+-------------------------------------------------------------------------------
+
+the strsep routines (strsep.c  strsep.h) were written by Gray Watson
+(http://256.com/gray/email.html) and is released under the following conditions:
+
+ * Permission to use, copy, modify, and distribute this software for
+ * any purpose and without fee is hereby granted, provided that the
+ * above copyright notice and this permission notice appear in all
+ * copies, and that the name of Gray Watson not be used in advertising
+ * or publicity pertaining to distribution of the document or software
+ * without specific, written prior permission.
+ *
+ * Gray Watson makes no representations about the suitability of the
+ * software described herein for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+

@@ -1,0 +1,420 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--   $Id: form4.html.in,v 1.1 2005/01/24 21:38:53 mangalam Exp $    -->
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.51 [en] (X11; I; Linux 2.2.11 i686) [Netscape]">
+   <title> tacg Ver 4.3 Form</title>
+</head>
+<body>
+<!--
+   <TABLE WIDTH="100%">
+   <TR>
+      <TD ALIGN="CENTER" BGCOLOR="#C19E74"><a href="tacg300.Rest.form.html"><b>Restriction Mapping</b></A></TD>
+      <TD ALIGN="CENTER" BGCOLOR="#A2CDAA"><a href="tacg300.Patt.form.html"><b>Pattern Searching</b></A></TD>
+      <TD ALIGN="CENTER" BGCOLOR="#00FFFF"><a href="tacg300.Prox.form.html"><b>Proximity Matching</b></A></TD>
+   </TR>
+   </TABLE>
+-->
+
+<TABLE WIDTH="100%"><TR><TH BGCOLOR="#C19E74"><b><FONT SIZE="+3">
+	Sequence Analysis using tacg V4.3</font></b></TABLE>
+
+This form allows you to supply both DNA sequence and (optionally) your
+own file of Restriction Enzymesor other IUPAC patterns <a href="tacg-4.3-manual.html#GCGrebase">in
+GCG format</a>&nbsp; (or slightly modified for more functionality) for
+Restriction Enzyme Mapping and Analysis, using <a href="mailto:hjm@tacgi.com">Harry
+Mangalam</a>'s <a href="http://tacg.sf.net">tacg 4.3</a>
+program as the analysis engine.
+<br>
+You should be able to see the ends of the thick grey horizontal line below in your window
+
+<hr WIDTH="700" NOSHADE SIZE="10">
+
+<!--  =========================  Start of form  =============================== -->
+
+<FORM ACTION="http://%%WWWHOST%%/%%CGI_LINK%%/tacgi4-cgi.pl" ENCTYPE="multipart/form-data" METHOD=POST TARGET="out">
+<TABLE WIDTH="100%"><TR><TH BGCOLOR="#00FFFF"><b><font color="#FF0000"><font size="+2">Sequence Entry</font></font></b></TABLE>
+
+
+<!--  =========================  Sequence Input  =============================== -->
+<table width="100%" border="0">
+  <tr bgcolor="#F3D4BB">
+    <th ALIGN="LEFT">
+        <b>--EITHER--</b>
+        <a href="tacg4.0.main.html#PasteIn">Paste in the RAW sequence </a> in the window below..
+        &nbsp; &nbsp; &nbsp;
+        <a href="tacg4.0.main.html#SequenceFormat"><small>Notes on format</small></a>
+    </th>
+  </tr>
+
+  <tr bgcolor="#CECECE">
+    <td>
+      <input TYPE=text NAME="PASTEDNAME" VALUE="Unlabeled"  SIZE="40" MAXLENGTH=60><font size=-1>
+      [Optional Output Label for pasted-in sequence]</font>
+      <br><textarea NAME="PASTEIN_SEQ" COLS=75 ROWS=6></textarea>
+    </td>
+  </tr>
+
+  <tr BGCOLOR="#F3D4BB">
+    <th ALIGN="LEFT">
+      <b>--OR--</b>
+      <a href="tacg4.0.main.html#FileBrowser">use the file browser below... </a>
+      <br>
+
+    </th>
+  </tr>
+
+  <tr BGCOLOR="#CECECE">
+    <td>
+      Use the file browser below</b> to upload a
+      <b>DNA sequence file <a href="tacg4.0.main.html#memory">(&lt;500,000
+      characters)</a> to send:</b> <font size=-1>
+      <br>(Output will be labeled with the <b>file name</b>.)</font>
+      <br><input TYPE=file NAME="FUPLOAD_SEQ" VALUE="true" SIZE="50">
+      <br>&nbsp;&nbsp;&nbsp;
+      <input TYPE=checkbox  NAME="RAWREAD"> Force sequence file to be Read as 'raw'.
+      (only numbers, spaces, and sequence)
+    </td>
+
+  <tr BGCOLOR="#F3D4BB">
+    <th ALIGN="LEFT">
+      <b>--OR--</b>
+      <a href="tacg4.0.main.html#Genbank">Insert valid Genbank Accession Numbers or IDs </a><br>
+      <small>in the box below and they'll be retrieved from NCBI (slow - several seconds).</small>
+    </th>
+  </tr>
+
+  <tr BGCOLOR="#CECECE">
+    <td>
+      Valid Genbank Accession Numbers:<br>
+      <textarea NAME="GENBANK" COLS=75 ROWS=3></textarea>
+    </td>
+  </tr>
+
+</table>
+<P>
+<table WIDTH="100%" Border="0">
+  </tr>
+    <tr BGCOLOR="#FFFFCC">
+    <th>
+      <font size=+1>SubSequence Selection and Numbering Options</font>
+    </th>
+  </tr>
+    <tr BGCOLOR="#8DCCFF">
+      <td>
+        <b>The sequence should be analyzed from bases:<br>
+        <input TYPE=text NAME="BEGIN" VALUE="1"  SIZE="6" MAXLENGTH=6></b>to&nbsp;
+        <input TYPE=text NAME="END" VALUE="END" SIZE="6" MAXLENGTH=6>
+        <small>(use "END" to indicate end; integers for other endpoints.)</small>
+      </td>
+    </tr>
+
+    <tr BGCOLOR="#44EEEE">
+      <td>
+        <b>The (sub)sequence should be analyzed as:
+        <input TYPE=radio CHECKED NAME="TOPOLOGY" VALUE="1"></b>
+        Linear&nbsp;<input TYPE=radio NAME="TOPOLOGY" VALUE="0"> Circular&nbsp;
+      </td>
+    </tr>
+
+    <tr BGCOLOR="#8DCCFF">
+      <td>
+        <b>Sequence numbering should start from:</b><br> <input TYPE=text NAME="NUMSTART" VALUE="1"  SIZE="6" MAXLENGTH=6>
+        <small>(Only for Linear Map; Sites are numbered starting from 1.)</small>
+      </td>
+    </tr>
+
+
+</table>
+
+<!-- ================================================================== -->
+<hr NOSHADE SIZE=5>
+<input TYPE=reset NAME="RESET" VALUE="Reset to Defaults" SIZE="20">
+<input TYPE=submit NAME="SUBMIT" VALUE="Submit Sequence to WWWtacg" SIZE="33">
+<hr NOSHADE SIZE=5>
+<!-- ================================================================== -->
+
+<TABLE WIDTH="100%"><TR><TH BGCOLOR="#00FFFF"><b><font color="#FF0000" size="+2">
+Restriction Enzyme Selection</font></b></TH></TR></TABLE>
+
+<STRONG>Select the Restriction Enzymes either By Characteristic or Explicitly</STRONG><BR>
+Filtering options below left apply to entire REBASE files (yours or mine),
+but not to <b>EXPLICITLY</b> picked enzymes to right.
+
+<TABLE BORDER="0" WIDTH="100%">
+<TR>
+	<TD BGCOLOR="#C19E74"><input TYPE=checkbox NAME="SILENTSITES">&nbsp;
+   	<a href="tacg4.0.main.html#SilentSites">Search for possible SILENT Sites</a>
+		<small>(supercedes all other selections and forces Linear Map Mode).</small>
+	</TD>
+</TR>
+<TR>
+   <td BGCOLOR="#CECECE">
+      <a href="tacg4.0.main.html#numberofcuts">Number of hits</a>:  &nbsp;  &nbsp;
+      Minimum:<input TYPE=text NAME="MINCUTS" VALUE="1"  SIZE="5" MAXLENGTH=5> &nbsp; &nbsp;
+      Maximum:<input TYPE=text NAME="MAXCUTS" VALUE="3" SIZE="5" MAXLENGTH=5> &nbsp; &nbsp;
+      <small>Affects BOTH columns of selections</small>
+   </td>
+</tr>
+
+</TABLE>
+
+<TABLE WIDTH="100%" BORDER="1">
+<TR>
+   <th width="50%" bgcolor="#D2FFD2"><FONT COLOR="#EE0000" SIZE="4">Select By Characteristic</FONT></TH>
+   <TH BGCOLOR="#8DE9FF" WIDTH="50%"><FONT COLOR="#EE0000" SIZE="4">Select Explicitly</FONT></TH>
+</TR>
+<TR><td ALIGN="CENTER" BGCOLOR="#D2FFD2">This side is the default. </td>
+    <td ALIGN="CENTER" BGCOLOR="#8DE9FF">This side is selected if
+    <B>ANY</B> names are selected</td>
+</TR>
+
+<TR>
+<td bgcolor="#D8FFDC">
+<a href="tacg4.0.main.html#overhang">Overhang</a>
+<select NAME="OVERHANG">
+<option VALUE="1" SELECTED>Don't Care
+<option VALUE="0">Only Blunt
+<option VALUE="3">Only 3'
+<option VALUE="5">Only 5'
+</select>
+<HR>
+<input type="checkbox" name="DAM" > <a href="tacg4.0.main.html#dam">Dam Sensitive</a> <br>
+<input type="checkbox" name="DCM" > <a href="tacg4.0.main.html#dcm">Dcm Sensitive</a>
+<hr>
+<a href="tacg4.0.main.html#magnitude">Magnitude of Recognition Sequence</a>:<br>
+&nbsp;<select NAME="MAGRECSITE">
+<option VALUE="4">&nbsp;4
+<option VALUE="5">&nbsp;5
+<option VALUE="6" SELECTED>6&nbsp;
+<option VALUE="7">&nbsp;7
+<option VALUE="8">&nbsp;8
+<option VALUE="10">&nbsp;10
+</select>
+base pairs or greater.
+<HR>
+Cost <select NAME="COST">
+<option VALUE="0">No Limit&nbsp;
+<option VALUE="150">&nbsp;CHEAP
+<option VALUE="150">&nbsp;&gt;150 U/$
+<option VALUE="100">&nbsp;&gt;100 U/$
+<option VALUE="75">&nbsp;&gt;75 U/$
+<option VALUE="50">&nbsp;&gt;50 U/$
+<option VALUE="25">&nbsp;&gt;25 U/$
+<option VALUE="10">&nbsp;&gt;10 U/$
+<option VALUE="3">&nbsp;&gt;3 U/$
+<option VALUE="3">&nbsp;EXPENSIVE
+</select>
+<HR>
+
+Selections filtered from from the<br><select NAME="REBASE">
+<option VALUE="rebase.data" SELECTED>Latest REBASE file
+<option VALUE="rebase.dam">Dam sensitive
+<option VALUE="rebase.dcm">Dcm sensitive
+<option VALUE="rebase.dam+dcm">Dam+Dcm sensitive
+<option VALUE="NEB.RB">NEB Catalog
+<option VALUE="Promega.RB">Promega Catalog
+<option VALUE="Stratagene.RB">Stratagene Catalog
+<option VALUE="TFAC-vert.RB">TRANSFAC-vertebrate TFs
+<option VALUE="TFAC-fly.RB">TRANSFAC-Fly TFs
+<option VALUE="TFAC-yeast.RB">TRANSFAC-yeast TFs
+<option VALUE="TFAC-Amphib.RB">TRANSFAC-Amphibian TFs
+<option VALUE="TFAC-Ungul.RB">TRANSFAC-Ungulate TFs
+<option VALUE="TFAC-Bact.RB">TRANSFAC-Bacterial TFs
+</select>
+<font color="#800080"><font size=+1>&nbsp;
+<BR><b>--OR----------</b></font></font>
+<br>
+from <B>YOUR</B> uploaded <a href="tacg4.0.main.html#GCGrebase">GCG-formatted
+REBASE file</a>,
+<BR>using the file browser below.
+<br><i>Uploads supercede the menu selection</i>.
+<br><input TYPE=file NAME="REBASE_UPLOAD" SIZE="20">
+
+<TD BGCOLOR="#8DE9FF" ALIGN=center>
+(To (de)select multiples: &nbsp; <font color="#0000FF">Mac - Cmd+Click</font>
+<BR><font color="#7A03B3">Windows - Ctrl+Click</font> &nbsp; <font color="#008000">Unix - Click</font>)
+<hr>
+<input TYPE=checkbox NAME="COMBOCUT">&nbsp; Simulate <b>multiple digestion</b>.
+<hr>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>AatII<option>AccI<option>AccII<option>Acc65I<option>AciI<option>AclI<option>AfeI<option>AflII<option>AflIII<option>AgeI<option>AhdI<option>AluI<option>AlwI<option>AlwNI<option>ApaI<option>ApaLI<option>ApoI<option>AscI<option>AseI<option>AvaI<option>AvaII<option>AvrII<option>BaeI<option>BaeI<option>BamHI<option>BanI<option>BanII<option>BbeI<option>BbsI<option>BbvI<option>BbvCI<option>BcgI<option>BcgI<option>BciVI<option>BclI<option>BfaI<option>BglI</select>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>BglII<option>BlpI<option>BmrI<option>BplI<option>BpmI<option>Bpu10I<option>BsaI<option>BsaAI<option>BsaBI<option>BsaHI<option>BsaJI<option>BsaWI<option>BseMII<option>BseRI<option>BseSI<option>BsgI<option>BsiEI<option>BsiHKAI<option>BsiWI<option>BslI<option>BsmI<option>BsmAI<option>BsmBI<option>BsmFI<option>Bsp1286I<option>BspEI<option>BspHI<option>BspMI<option>BsrI<option>BsrBI<option>BsrDI<option>BsrFI<option>BsrGI</select>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>BssHII<option>BssKI<option>BssSI<option>BstAPI<option>BstBI<option>Bst4CI<option>BstDSI<option>BstEII<option>BstF5I<option>BstNI<option>BstUI<option>BstXI<option>BstYI<option>BstZ17I<option>Bsu36I<option>BtgI<option>BtrI<option>Cac8I<option>ClaI<option>Csp6I<option>CviJI<option>CviRI<option>DdeI<option>DpnI<option>DraI<option>DraIII<option>DrdI<option>EaeI<option>EagI<option>EarI<option>EciI<option>Ecl136II<option>Eco57I</select>
+<BR>
+<BR>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>EcoNI<option>EcoO109I<option>EcoRI<option>EcoRV<option>FauI<option>Fnu4HI<option>FokI<option>FseI<option>FspI<option>HaeII<option>HaeIII<option>HgaI<option>HhaI<option>HinP1I<option>HincII<option>HindIII<option>HinfI<option>HpaI<option>HpaII<option>HphI<option>KasI<option>KpnI<option>MaeII<option>MaeIII<option>MboII<option>MfeI<option>MluI<option>MlyI<option>MnlI<option>MscI<option>MseI<option>MslI<option>MspA1I<option>MwoI</select>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>NaeI<option>NarI<option>NciI<option>NcoI<option>NdeI<option>NgoMIV<option>NheI<option>NlaIII<option>NlaIV<option>NotI<option>NruI<option>NsiI<option>NspI<option>PacI<option>PciI<option>PflMI<option>PleI<option>PmeI<option>PmlI<option>Ppu10I<option>PpuMI<option>PshAI<option>PsiI<option>PspGI<option>PspOMI<option>PstI<option>PvuI<option>PvuII<option>RsaI<option>RsrII<option>SacI<option>SacII<option>SalI<option>SanDI<option>SapI<option>Sau96I</select>
+<select NAME="RE_SEL" MULTIPLE SIZE="7"><option>Sau3AI<option>SbfI<option>ScaI<option>ScrFI<option>SexAI<option>SfaNI<option>SfcI<option>SfiI<option>SfoI<option>SgfI<option>SgrAI<option>SmaI<option>SmlI<option>SnaBI<option>SpeI<option>SphI<option>SrfI<option>SspI<option>StuI<option>StyI<option>SwaI<option>TaiI<option>TaqI<option>TatI<option>TfiI<option>TliI<option>TseI<option>Tsp45I<option>Tsp509I<option>TspRI<option>Tth111I<option>XbaI<option>XcmI<option>XhoI<option>XmaI<option>XmnI</select>
+<BR>
+
+</TABLE>
+
+<P>
+
+<TABLE WIDTH="100%">
+<TR><TH BGCOLOR="#00FFFF"><b><font color="#FF0000" size="+2">Output Format</font></b></th></TR>
+<TR><TD BGCOLOR="#CECECE">
+   The output should be
+   <select name="WIDTH">
+   <option VALUE="60" selected>60 chars
+   <option VALUE="75">  75 chars
+   <option VALUE="90">  90 chars
+   <option VALUE="105">105 chars
+   <option VALUE="120">120 chars
+   <option VALUE="135">135 chars
+   <option VALUE="150">150 chars
+   <option VALUE="165">165 chars
+   <option VALUE="180">180 chars
+   <option VALUE="195">195 chars
+   <option VALUE="210">210 chars
+   <option VALUE="1"><b>VERY</b>
+   </select>
+   wide, in&nbsp;
+   <input TYPE="RADIO" NAME="FONT" VALUE="0" CHECKED> Regular
+   <input TYPE="RADIO" NAME="FONT" VALUE="1"><font size=-1> Small
+   <input TYPE="RADIO" NAME="FONT" VALUE="2"></font><font size=-2> tiny </font>&nbsp;
+   font.&nbsp;
+   <a href="tacg4.0.main.html#outputsuggest">Suggestions</a>
+   <br><small>NB: Choosing the <b>VERY</b> wide option makes <a href="tacg4.0.main.html#verywide">
+   most of the output</a> stream out in a single line.</small>
+</TD></TR>
+<TR><TD BGCOLOR="#CECECE">
+   <br><input TYPE=checkbox CHECKED NAME="SORTOUT"><a href="tacg4.0.main.html#cutsites">
+   Sort Output by # Hits, Names</a>&nbsp; (DNA Strider-style)
+</TD></TR>
+<TR><TD BGCOLOR="#CECECE">
+   <font color="#FF0000">For debugging strange or absent results:</font>
+   <br><input TYPE=checkbox  NAME="CLI">Show me the tacg <b>command line</b>
+   that generated these results.
+   <br><input TYPE=checkbox CHECKED NAME="TACGERR">Show me <b>ERRORs from tacg</b>.
+   <!-- <br><input TYPE=checkbox  NAME="TACGIERR">Show me <b>ERROR LOG from the
+   CGI Script</b> (LONG+ugly, but in extremis..).&nbsp; -->
+</TD></TR>
+</TABLE>
+
+<!-- ================================================================== -->
+<hr NOSHADE SIZE=5>
+<input TYPE=reset NAME="RESET" VALUE="Reset to Defaults" SIZE="20">
+<input TYPE=submit NAME="SUBMIT" VALUE="Submit Sequence to WWWtacg" SIZE="33">
+<hr NOSHADE SIZE=5>
+<!-- ================================================================== -->
+
+<TABLE WIDTH="100%"><TR><TH BGCOLOR="#00FFFF"><b><font color="#FF0000"><font size=+2>Analyses</font></font></b>
+</b>
+
+<TR><TD BGCOLOR="#00E5BF"><input NAME="SUMMARYTABLE" TYPE=CHECKBOX CHECKED>&nbsp;<a href="tacg4.0.main.html#sumallcuts">
+Summary Table</a> (Absent Sites, # of sites for each Pattern)
+
+<TR><TD BGCOLOR="#8DE9FF"><input NAME="LADMAP" TYPE=CHECKBOX><a href="tacg4.0.main.html#ladmap">
+GCG-like Ladder Map</a> (req >100 b to be useful)
+
+
+<TR><TD BGCOLOR="#00E5BF"><input NAME="GELMAP" TYPE=CHECKBOX>&nbsp;<a href="tacg4.0.main.html#gelmap">
+Pseudo Gel Map</a>&nbsp; LOW cutoff at
+<select name = "GEL_LOCO">
+<option VALUE="10">10
+<option VALUE="100" SELECTED>100
+<option VALUE="1000">1,000
+<option VALUE="10000">10,000
+<option VALUE="100000">100,000
+</select>bp; HIGH cutoff at
+<select name = "GEL_HICO">
+<option VALUE="1000">1,000
+<option VALUE="10000">10,000
+<option VALUE="100000">100,000
+<option VALUE="1000000">1,000,000
+</select>bp.
+
+<TR><TD BGCOLOR="#8DE9FF"><input TYPE=checkbox NAME="SITETAB" checked="true"><a href="tacg4.0.main.html#cutsites">
+Table of Hit Sites</a>
+
+<TR><TD BGCOLOR="#00E5BF"><input NAME="FRAGTAB" TYPE=CHECKBOX><a href="tacg4.0.main.html#fragments">
+Table of Fragments</a> Listed by:
+<select name = "FRAGSORT">
+<option value = "1">Site
+<option value = "2" selected>Size
+<option value = "3">Both
+</select>
+
+<TR><TD BGCOLOR="#8DE9FF"><input NAME="ORFDUMP" TYPE=CHECKBOX>&nbsp; <a href="tacg4.0.main.html#orfs">
+Stream out Open Reading Frames</a> of greater than&nbsp;
+<input TYPE=TEXT NAME="MINORFLEN" VALUE="100" SIZE="4" MAXLENGTH="4">Amino Acids
+<br><spacer TYPE="HORIZONTAL" SIZE="25">in frames
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="1" >1
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="2" >2
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="3" >3
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="4" >4
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="5" >5
+<input TYPE="CHECKBOX" NAME="ORFOUT" VALUE="6" >6
+
+<br><spacer TYPE="HORIZONTAL" SIZE="25">
+<input TYPE="CHECKBOX" NAME="X_ORF_INFO" VALUE="1"> Print the EXTENDED ORF info.
+
+<br><spacer TYPE="HORIZONTAL" SIZE="25">
+<input TYPE="CHECKBOX" NAME="WIDEORFS" VALUE="1"> Print the ORF sequence UNWRAPPED (1 line output).
+
+<br><spacer TYPE="HORIZONTAL" SIZE="25">
+<input TYPE="CHECKBOX" NAME="ORFMAP" VALUE="1"> Print ORF map and MET / STOP map .
+
+<TR>
+  <TD BGCOLOR="#00E5BF"><input NAME="LINMAP" TYPE=CHECKBOX><a href="tacg4.0.main.html#linmap">
+  Entire Linear Map</a>&nbsp;<font color="#FF0000">Long</font>, but required for Co-Translation below.
+  <br><spacer TYPE="HORIZONTAL" SIZE="25"><input NAME="NUMSTRANDS" TYPE=CHECKBOX>Only print top strand
+
+  <spacer TYPE="HORIZONTAL" SIZE="10"><input NAME="NOTICS" TYPE=CHECKBOX> No tic marks
+
+  <spacer TYPE="HORIZONTAL" SIZE="10"><input NAME="LINMAPREGARDLESS" TYPE=CHECKBOX> Print Map even if No Hits
+
+
+  <br><spacer TYPE="HORIZONTAL" SIZE="25"><input NAME="XLATION" TYPE=CHECKBOX>
+
+  <a href="tacg4.0.main.html#linmap">Linear Co-Translation:</a>
+  in <select name = "FRAMES">
+  <option VALUE="1" selected>1&nbsp;
+  <option VALUE="3">3&nbsp;
+  <option VALUE="6">6&nbsp;
+  </select>frame(s),
+  with a &nbsp;
+  <select name = "LAB1_OR_3">
+  <option VALUE="1" selected>&nbsp;1
+  <option VALUE="3">&nbsp;3
+  </select>letter
+  code,
+  <br><spacer TYPE="HORIZONTAL" SIZE="25">using&nbsp;
+  <select name = "CODONUSE">
+  <option value = "0" selected>Standard
+  <option value = "1">Mito.Vertebr
+  <option value = "2">Mito.Yeast
+  <option value = "3">Mito.Molds
+  <option value = "4">Mito.Invert
+  <option value = "5">Mito.Ciliates
+  <option value = "6">Mito.Echino
+  <option value = "7">Euplotid_Nucl
+  <option value = "8">Bacterial
+  <option value = "9">Alt_Yeast
+  <option value = "10">Mito.Ascidian
+  <option value = "11">Flatform
+  <option value = "12">Blepharisma
+  </select>
+  Codon Usage.
+  </TD>
+</TR>
+<TR>
+  <TD BGCOLOR="#8DE9FF">
+    <input NAME="GRAFMAP" CHECKED TYPE=CHECKBOX>
+    	<a href="tacg4.0.main.html#plasmidmap">Generate Circular Plasmid Map</a>
+      &nbsp;&nbsp;&nbsp;<a href="tacg4.0.main.html#PlasmidMap"><small>Notes on Pasmid Maps</small></a><br>
+    <spacer TYPE="HORIZONTAL" SIZE="25"><input NAME="PDF" TYPE=CHECKBOX checked>Convert native Postscript to PDF (smaller file)<br>
+ </TD>
+</TR>
+</TABLE>
+<!-- ================================================================== -->
+<hr NOSHADE SIZE=5>
+<input TYPE=reset NAME="RESET" VALUE="Reset to Defaults" SIZE="20">
+<input TYPE=submit NAME="SUBMIT" VALUE="Submit Sequence to WWWtacg" SIZE="33">
+<hr NOSHADE SIZE=5>
+<!-- ================================================================== -->
+</form>
+</body>
+</html>

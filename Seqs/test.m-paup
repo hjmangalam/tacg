@@ -1,0 +1,28 @@
+#NEXUS
+[test.m-paup -- data title]
+
+[Name: acarr58sst,       Len:   183  Check: CEC03C8E]
+[Name: amgrrbst,         Len:   183  Check: 9F2D57DD]
+[Name: bmorrbst,         Len:   183  Check: 8B5CF270]
+[Name: crerrbst,         Len:   183  Check: 5C8A30AB]
+[Name: ddirr58sst,       Len:   183  Check: 89AE1405]
+
+
+begin data;
+ dimensions ntax=5 nchar=183;
+ format datatype=dna interleave missing=-;
+  matrix
+acarr58ss  a-------actcctaacaac GgAtatCTtGgtT-Ctcgcg agGatGAaGaacGcAGcg-- AaatGcGatacgtagtgtga atcgc-agggatcagtgaat
+amgrrbst,  ----cgt--ccccgaacggc GgAtcaCTtGgcT-Cgtgga tcGatGAaGaccGcAGc--t AtctGcGcgtcgtcgtgtaa tccgc-aggttatac--gaa
+bmorrbst,  aaatgattaccctggacggt GgAtcaCTtGgcT-Cgcggg tcGatGAaGaacGcAGt--t AactGcGcgtcatagtgtga actgc-aggacacatttgaa
+crerrbst,  a-------actctcaacaac GgAtatCTtGgcT-Ctcgga tcGatGAaGgacGcAGcg-- AaatGcGatacgtagtgtga actgc-agaaatacgtgaac
+ddirr58ss  t-----taagcataaacggt GaAtacCTcGacTcC-caaa ttGatGAaGaccGtAGca-- AactGcGataattcacttga attgc-agcctactg-ggat
+
+acarr58ss  catcgaatctttgaacgcaa gttgcgctctcgtg--gttt aaccccccgggagc-acgtt cgcttgagtgcc--gctt-- ---
+amgrrbst,  catcgaccagtcgaacgcac attgcggcctcggt--gacc cgcgggccccgggccacgcc tgtctgagggtc--gt---- --a
+bmorrbst,  catcgacatttcgaacgcac attgcggtc-cgtg--gaga caca--tccaggaccactcc tgtctgagggcc--ggct-- ---
+crerrbst,  tatcgaatccctgaacgtat actgcgccc--gag--gcc- --ccggt--agagc-atgtc tgccttagtgct--gggt-- --t
+ddirr58ss  agttgaaatgttgaacgcac atgatgacatcggt---cct ttcggattaggtgttatact tgggtgagagt--------g gtc
+
+;
+  end;

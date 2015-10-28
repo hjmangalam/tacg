@@ -1,0 +1,40 @@
+ID   acarr58sst
+DE   acarr58sst, 183 bases, CEC03C8E checksum.
+SQ             183 BP
+     a-------ac tcctaacaac GgAtatCTtG gtT-Ctcgcg agGatGAaGa acGcAGcg--
+     AaatGcGata cgtagtgtga atcgc-aggg atcagtgaat catcgaatct ttgaacgcaa
+     gttgcgctct cgtg--gttt aaccccccgg gagc-acgtt cgcttgagtg cc--gctt--
+     ---
+//
+ID   amgrrbst
+DE   amgrrbst, 183 bases, 9F2D57DD checksum.
+SQ             183 BP
+     ----cgt--c cccgaacggc GgAtcaCTtG gcT-Cgtgga tcGatGAaGa ccGcAGc--t
+     AtctGcGcgt cgtcgtgtaa tccgc-aggt tatac--gaa catcgaccag tcgaacgcac
+     attgcggcct cggt--gacc cgcgggcccc gggccacgcc tgtctgaggg tc--gt----
+     --a
+//
+ID   bmorrbst
+DE   bmorrbst, 183 bases, 8B5CF270 checksum.
+SQ             183 BP
+     aaatgattac cctggacggt GgAtcaCTtG gcT-Cgcggg tcGatGAaGa acGcAGt--t
+     AactGcGcgt catagtgtga actgc-agga cacatttgaa catcgacatt tcgaacgcac
+     attgcggtc- cgtg--gaga caca--tcca ggaccactcc tgtctgaggg cc--ggct--
+     ---
+//
+ID   crerrbst
+DE   crerrbst, 183 bases, 5C8A30AB checksum.
+SQ             183 BP
+     a-------ac tctcaacaac GgAtatCTtG gcT-Ctcgga tcGatGAaGg acGcAGcg--
+     AaatGcGata cgtagtgtga actgc-agaa atacgtgaac tatcgaatcc ctgaacgtat
+     actgcgccc- -gag--gcc- --ccggt--a gagc-atgtc tgccttagtg ct--gggt--
+     --t
+//
+ID   ddirr58sst
+DE   ddirr58sst, 183 bases, 89AE1405 checksum.
+SQ             183 BP
+     t-----taag cataaacggt GaAtacCTcG acTcC-caaa ttGatGAaGa ccGtAGca--
+     AactGcGata attcacttga attgc-agcc tactg-ggat agttgaaatg ttgaacgcac
+     atgatgacat cggt---cct ttcggattag gtgttatact tgggtgagag t--------g
+     gtc
+//

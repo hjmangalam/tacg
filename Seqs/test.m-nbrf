@@ -1,0 +1,35 @@
+>DL;acarr58sst
+acarr58sst       183 bp, 183 bases, CEC03C8E checksum.
+ a-------ac tcctaacaac GgAtatCTtG gtT-Ctcgcg agGatGAaGa
+ acGcAGcg-- AaatGcGata cgtagtgtga atcgc-aggg atcagtgaat
+ catcgaatct ttgaacgcaa gttgcgctct cgtg--gttt aaccccccgg
+ gagc-acgtt cgcttgagtg cc--gctt-- ---*
+
+>DL;amgrrbst
+amgrrbst       183 bp, 183 bases, 9F2D57DD checksum.
+ ----cgt--c cccgaacggc GgAtcaCTtG gcT-Cgtgga tcGatGAaGa
+ ccGcAGc--t AtctGcGcgt cgtcgtgtaa tccgc-aggt tatac--gaa
+ catcgaccag tcgaacgcac attgcggcct cggt--gacc cgcgggcccc
+ gggccacgcc tgtctgaggg tc--gt---- --a*
+
+>DL;bmorrbst
+bmorrbst       183 bp, 183 bases, 8B5CF270 checksum.
+ aaatgattac cctggacggt GgAtcaCTtG gcT-Cgcggg tcGatGAaGa
+ acGcAGt--t AactGcGcgt catagtgtga actgc-agga cacatttgaa
+ catcgacatt tcgaacgcac attgcggtc- cgtg--gaga caca--tcca
+ ggaccactcc tgtctgaggg cc--ggct-- ---*
+
+>DL;crerrbst
+crerrbst       183 bp, 183 bases, 5C8A30AB checksum.
+ a-------ac tctcaacaac GgAtatCTtG gcT-Ctcgga tcGatGAaGg
+ acGcAGcg-- AaatGcGata cgtagtgtga actgc-agaa atacgtgaac
+ tatcgaatcc ctgaacgtat actgcgccc- -gag--gcc- --ccggt--a
+ gagc-atgtc tgccttagtg ct--gggt-- --t*
+
+>DL;ddirr58sst
+ddirr58sst       183 bp, 183 bases, 89AE1405 checksum.
+ t-----taag cataaacggt GaAtacCTcG acTcC-caaa ttGatGAaGa
+ ccGtAGca-- AactGcGata attcacttga attgc-agcc tactg-ggat
+ agttgaaatg ttgaacgcac atgatgacat cggt---cct ttcggattag
+ gtgttatact tgggtgagag t--------g gtc*
+

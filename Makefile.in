@@ -1,0 +1,434 @@
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+
+SHELL = @SHELL@
+BUILD_DATE := $(shell date | sed -e s/' '/'\\ '/g)
+UNAME := $(shell uname -a | sed -e s/' '/'\\ '/g | sed -e s/[\(\)\;]//g )
+GCC_VER := $(shell gcc --version |head -1 | sed -e s/' '/'\\ '/g | sed -e s/[\(\)\;]//g )
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+data_file_dir = ./Data
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datarootdir = @datarootdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = .
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+transform = @program_transform_name@
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+CC = @CC@
+LN_S = @LN_S@
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+
+bin_PROGRAMS = tacg
+tacg_SOURCES = seqio.c Cutting.c Proximity.c GelLadSumFrgSits.c ReadEnzFile.c  \
+ SeqFuncs.c MatrixMatch.c ReadMatrix.c SetFlags.c ORF.c ReadRegex.c \
+ SlidWin.c tacg.c RecentFuncs.c
+
+ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_CLEAN_FILES =
+PROGRAMS =  $(bin_PROGRAMS)
+
+
+DEFS = @DEFS@ -I. -I$(srcdir) -DBUILD_DATE=\"$(BUILD_DATE)\" -DUNAME=\"$(UNAME)\" -DGCC_VER=\"$(GCC_VER)\"
+
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+tacg_OBJECTS =  seqio.o Cutting.o Proximity.o GelLadSumFrgSits.o \
+ReadEnzFile.o SeqFuncs.o MatrixMatch.o ReadMatrix.o SetFlags.o  \
+ORF.o ReadRegex.o SlidWin.o tacg.o RecentFuncs.o
+tacg_LDADD = $(LDADD)
+tacg_DEPENDENCIES =
+tacg_LDFLAGS =
+CFLAGS = @CFLAGS@ -Wall
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
+Makefile.in NEWS TODO aclocal.m4 config.guess config.sub configure \
+configure.in install-sh missing mkinstalldirs
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP_ENV = --best
+DEP_FILES =  .deps/Cutting.P .deps/GelLadSumFrgSits.P \
+.deps/MatrixMatch.P .deps/ORF.P .deps/Proximity.P .deps/ReadEnzFile.P \
+.deps/ReadMatrix.P .deps/ReadRegex.P .deps/RecentFuncs.P \
+.deps/SeqFuncs.P .deps/SetFlags.P .deps/SlidWin.P  \
+.deps/seqio.P .deps/tacg.P
+SOURCES = $(tacg_SOURCES)
+OBJECTS = $(tacg_OBJECTS)
+
+all: tacg
+
+
+mostlyclean-binPROGRAMS:
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+distclean-binPROGRAMS:
+
+maintainer-clean-binPROGRAMS:
+
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	  else :; fi; \
+	done
+	$(mkinstalldirs) $(pkglibdir)
+	cp Data/*.data $(pkglibdir)
+	chown -R 644 $(pkglibdir)
+	cp Docs/tacg.1 $(mandir)
+
+install_web: $(bin_PROGRAMS)
+	@echo ""
+	@echo "The web install is still a bit primitive.  You'll have to edit the"
+	@echo "script: [tacg_web_install.pl] in the tacgi4 directory, set the "
+	@echo "CONFIGURED variable to '1' (on ~ line 60) and then run it."
+	@echo ""
+
+newdist:
+	@echo "Making a new distro directory for tacg"
+	@if test -d "newdist"; then \
+	  echo " newdist exists - reaming.."; \
+	  rm -rf newdist;\
+	else \
+	  echo "newdist doesn't exist - creating!"; \
+    fi;\
+	mkdir newdist newdist/Data newdist/Docs newdist/tacgi4 newdist/Seqs newdist/test; \
+	cp Cutting.c GelLadSumFrgSits.c MatrixMatch.c \
+	  ORF.c Proximity.c ReadEnzFile.c ReadMatrix.c ReadRegex.c RecentFuncs.c \
+	  SeqFuncs.c seqio.c seqio.h SetFlags.c SlidWin.c \
+	  tacg.c tacg.h  AUTHORS COPYING COPYRIGHT INSTALL NEWS README install-sh \
+      ChangeLog  Makefile.am Makefile.in missing mkinstalldirs \
+	  config.guess configure configure.in config.sub control newdist
+	cp Data/*.data  newdist/Data;\
+    man2html Docs/tacg.1 >Docs/tacg4.man.html;\
+	cp ./Docs/tacg-4.3-manual.txt ./Docs/tacg-4.3-manual.html Docs/tacg4.man.html \
+	   Docs/tacg4.xman.html Docs/tacg.1  Docs/tacg4.0.main.html Docs/nedit.macros  newdist/Docs;\
+	cp Seqs/hlef.seq Seqs/hsp.cluster.1000.fasta Seqs/humanprlreceptor.gb \
+	   Seqs/humanprlreceptor.gcg Seqs/humprlrec.pep.fasta Seqs/test.* newdist/Seqs
+	cp tacgi4/*.in tacgi4/microplasmid.gif tacgi4/tacg-4.3-banner.gif tacgi4/tacg_Map.pdf \
+	   tacgi4/nedit.macros tacgi4/tacg_web_install.pl newdist/tacgi4; \
+	cp test/testtacg.pl newdist/test;
+
+tarball: newdist
+	if test -d "tacg-$(VERSION)-src"; then \
+	  echo "Directory tacg-$(VERSION)-src exists - reaming.."; \
+	  rm -rf tacg-$(VERSION)-src;\
+	fi;
+	@echo "Making a new Distribution tarball for tacg"
+	mv newdist tacg-$(VERSION)-src;\
+	tar -cjvf tacg-$(VERSION)-src.tar.bz2 tacg-$(VERSION)-src
+
+test: tacg
+	@echo ""
+	@echo "testing your executable - you'll need Digest/MD5.pm in your Perl's"
+	@echo "@INC path and your perl should be available at the std /usr/bin/perl"
+
+	@cd test; ./testtacg.pl
+	@touch ./tacg
+
+
+
+deb: tacg
+	@echo ""
+	@echo "Creating new directory structure for deb based on latest compile"
+	@echo ""
+	if test -d "debian"; then \
+	  echo "Directory [debian] exists - reaming.."; \
+	  rm -rf debian;\
+	fi;
+	mkdir -p debian/DEBIAN debian/usr/bin debian/usr/share/man/man1 \
+	debian/usr/lib/tacg debian/usr/share/doc/tacg/;
+	chmod -R 755 debian;
+	cp control debian/DEBIAN;\
+	install -s tacg debian/usr/bin;\
+	cp Docs/tacg.1 debian/usr/share/man/man1; gzip --best debian/usr/share/man/man1/tacg.1; \
+	cp Data/*data debian/usr/lib/tacg; \
+	cp copyright.debian debian/usr/share/doc/tacg/copyright;\
+	cp ChangeLog debian/usr/share/doc/tacg/changelog; gzip --best debian/usr/share/doc/tacg/changelog;\
+	cp changelog.Debian debian/usr/share/doc/tacg; gzip --best debian/usr/share/doc/tacg/changelog.Debian;\
+	cp Docs/tacg4.help.html Docs/tacg4.0.main.html Docs/tacg4.xman.html  Docs/nedit.macros  debian/usr/share/doc/tacg/;
+	fakeroot dpkg-deb --build debian
+	mv debian.deb tacg_$(VERSION)-1_i386.deb; lintian tacg_$(VERSION)-1_i386.deb;
+
+
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	done
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+tacg: $(tacg_OBJECTS) $(tacg_DEPENDENCIES)
+	@rm -f tacg
+	$(LINK) $(tacg_LDFLAGS) $(tacg_OBJECTS) $(tacg_LDADD) $(LIBS)
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(PACKAGE)-$(VERSION)
+top_distdir = $(distdir)
+
+# This target untars the dist file and tries a VPATH configuration.  Then
+# it guarantees that the distribution is self-contained by making another
+# tarfile.
+distcheck: dist
+	-rm -rf $(distdir)
+	GZIP=$(GZIP_ENV) $(TAR) zxf $(distdir).tar.gz
+	mkdir $(distdir)/=build
+	mkdir $(distdir)/=inst
+	dc_install_base=`cd $(distdir)/=inst && pwd`; \
+	cd $(distdir)/=build \
+	  && ../configure --srcdir=.. --prefix=$$dc_install_base \
+	  && $(MAKE) $(AM_MAKEFLAGS) \
+	  && $(MAKE) $(AM_MAKEFLAGS) dvi \
+	  && $(MAKE) $(AM_MAKEFLAGS) check \
+	  && $(MAKE) $(AM_MAKEFLAGS) install \
+	  && $(MAKE) $(AM_MAKEFLAGS) installcheck \
+	  && $(MAKE) $(AM_MAKEFLAGS) dist
+	-rm -rf $(distdir)
+	@banner="$(distdir).tar.gz is ready for distribution"; \
+	dashes=`echo "$$banner" | sed s/./=/g`; \
+	echo "$$dashes"; \
+	echo "$$banner"; \
+	echo "$$dashes"
+dist: distdir
+	-chmod -R a+r $(distdir)
+	GZIP=$(GZIP_ENV) $(TAR) chozf $(distdir).tar.gz $(distdir)
+	-rm -rf $(distdir)
+dist-all: distdir
+	-chmod -R a+r $(distdir)
+	GZIP=$(GZIP_ENV) $(TAR) chozf $(distdir).tar.gz $(distdir)
+	-rm -rf $(distdir)
+distdir: $(DISTFILES)
+	-rm -rf $(distdir)
+	mkdir $(distdir)
+	-chmod 777 $(distdir)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu Makefile
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+	-rm -rf .deps
+
+maintainer-clean-depend:
+
+%.o: %.c
+	@echo '$(COMPILE) -c $<'; \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.lo: %.c
+	@echo '$(LTCOMPILE) -c $<'; \
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am: install-binPROGRAMS
+install-exec: install-exec-am
+
+install-data-am:
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am: uninstall-binPROGRAMS
+uninstall: uninstall-am
+all-am: Makefile $(PROGRAMS)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean-am
+
+distclean: distclean-am
+	-rm -f config.status
+
+maintainer-clean-am:  maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+	-rm -f config.status
+
+.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
+maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all installdirs \
+mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

@@ -1,0 +1,2049 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.51 [en] (X11; I; Linux 2.2.11 i686) [Netscape]">
+
+<title>tacg Version 4.0 - Documentation</title>
+</head>
+<body bgcolor="#D1E4E6">
+
+<center>
+<h2>
+Welcome to <font color="#FF0000">tacg Version 3.5</font></h2></center>
+
+<b><font color="#800000">Document Version 4.0 - June 6, 2003</font></b>
+<P>
+This page provides information about both the commandline and Web interface of  <font
+color="#FF0000">tacg Ver 4.0</font>, describes some of the philosophy behind its
+design, provides links to more documentation, and where it can be got.<br>
+Please note that this document is in flux, incomplete, and certainly 
+inaccurate in places.  The man page is more likely to be correct than 
+this doc, and the help section even more likely to be correct.  In the event
+of complete incomprehensibility, <A
+href="mailto:hjm@tacgi.com?Subject=Need help with tacg">please mail me.</a>
+<p>
+A web interface to version 4.0 is available; 
+<a href="http://tacg.sf.net/">you can find some sites that offer it here.</a> &nbsp;
+<P>
+<hr>
+<center><h2><font color="#FF00FF">Table of Contents</font></h2></center>
+<center><a href="#clicrossindex">Cross Index of Command-line Options</a></center>
+<ul>
+	<li> <a href="#whatsnew">What's new with Version 3?</a>
+	<li> <a href="#whatis">What is it?</a>
+
+	<li> <a href="#whatdo">How does it handle incoming sequence?</a>
+	<li> <a href="#willdo">What will it do next?</a>
+	<li> <a href="#where">Where can I get it?</a>
+	<li> <a href="#manpage">Is there a man page I can look at?</a>
+	<li> <a href="#webinterface">Is there a GUI or Web Interface?</a>
+	<li> <a href="#designcrit">Design Criteria</a>
+		<ul>
+			<li> <a href="#simplicity">Simplicity (and a few alternatives)</a>
+			<li> <a href="#portability">High Portability</a>
+			<li> <a href="#speed">Speed and Capacity</a>
+			<li> <a href="#memory">Memory Usage</a>
+		</ul>
+	<li> <a href="#features">Feature Set</a>
+		<ul>
+	      <li><a href="#seqhand">Sequence Input Formats, Handling</a>
+   	      <ul>
+      	      <li><a href="#formats">Sequence Formats Supported</a>
+               <li><a href="#subseqs">Subsequences, File Fragments</a>
+               <li><a href="#degeneracy">Handling Degeneracy</a>
+               <li><a href="#databases">Databases, multiple sequences</a>
+               <li><a href="#"></a>
+            </ul>
+	      <li><a href="#enzselect">Enzyme-Specific Pattern Selection</a>
+		      <ul>
+               <li><a href="#fileformats">Pattern File Formats</a>
+          	      <ul>
+                     <li><a href="#fmtrebase">REBASE</a>
+                     <li><a href="#fmtxrebase">Extended REBASE</a>
+                     <li><a href="#fmtregex">Regular Expressions</a>
+                     <li><a href="#fmttransfac">TRANSFAC Matrix formats</a>
+                     <li><a href="#"></a>
+				      </ul>
+			      <li><a href="#explicit">Explicit pick by name</a>
+          	      <ul>
+                     <li><a href="#rebaseformat">Format</a>
+                     <li><a href="#combinedcuts">Combined Cuts option</a>
+                     <li><a href="#aflp">AFLP option</a>
+                     
+                     <li><a href="#"></a>
+                     <li><a href="#"></a>
+				      </ul>
+               
+			      <li>Selected recursively by characteristic, based on:
+				      <ul>
+					      <li><a href="#magnitude">Magnitude of recognition sequence</a>
+					      <li><a href="#overhang">Overhang of resulting ends</a>
+					      <li><a href="#numberofcuts">Minimum, Maximum times they cut the sequence</a>
+					      <li><a href="#altrebase">Alternative REBASE database files to use</a>
+					      <li><a href="#methylation">by Methylation specificity</a>
+				      </ul>
+		      </ul>
+         <li><a href="#linmap">Linear Restriction Map</a>
+         	<ul>
+					<li><a href="#">Pattern Labels</a>
+               <li><a href="#">co-Translation</a>
+               <li><a href="#">Silent Sites</a>
+               <li><a href="#">Options</a>
+               <li><a href="#"></a>
+				</ul>
+         <li><a href="#orfs">Open Reading Frame Analysis</a> <font color="#FF00FF">NEW</font>
+          	<ul>
+               <li><a href="#">Search Algorithm</a>
+               <li><a href="#">Codon Table Selection</a>
+               <li><a href="#">Extended Information</a>
+               <li><a href="#">Output Formats</a>
+               <li><a href="#"></a>
+				</ul>
+        
+         <li><a href="#sumallcuts">Summary of All Cuts</a>
+         <li><a href="#cutsites">Tables of Cutting Sites</a>
+         <li><a href="#fragments">Tables of Fragment Sizes</a>
+         <li><a href="#ladmap">Ladder Map</a>
+         <li><a href="#infrequentmap">Infrequent Cutters Map</a>
+         <li><a href="#gelmap">PseudoGraphic Gel Map</a>
+         <li><a href="#patmatch">Pattern Matching</a> <font color="#FF00FF">NEW</font>
+            <ul>
+               <li><a href="#patterns">Pattern Matching with Errors</a>
+               <li><a href="#proximity">Proximity Matching</a>
+	               <ul>
+   	               <li><a href="#ppp">Pattern Pair Proximity matching</a>
+                     <li><a href="#rules">Complex, Multiple Pattern, Rules-based Proximity Matching</a> 
+      	               <font color="#FF00FF">NEW</font>
+                  </ul>
+               <li><a href="#seqextract">Sequence Extraction based on hits</a> <font color="#FF00FF">NEW</font>
+               <li><a href="#rawout">Pattern Match Data Output by 'Bins'</a>
+            </ul>
+         <li><a href="#wotherprogs">Using tacg with Other Programs</a> <font color="#FF00FF">NEW</font>
+            <ul>
+               <li><a href="#wnedit">NEdit</a>
+               <li><a href="#wjoe">joe</a>
+               <li><a href="#wless">less</a>
+               <li><a href="#wreadseq">readseq</a>
+               <li><a href="#wgnuplot">gnuplot</a>
+               <li><a href="#wagrep">agrep</a>
+               <li><a href="#wgenscript">genscript</a> (aka Gnu enscript)
+               <li><a href="#walpha">Alpha</a>
+            </ul>
+         <li><a href="#scandbs">Using tacg to Scan Databases</a>
+
+         <li><a href="#udp">The Odd one: UDP Reporting</a>
+      </ul>
+
+   <li><a href="#changes2.28">Changes and Fixes since Ver 2.28</a>
+	   <ul>
+		   <li> <a href="#changesmajor228">Major</a>
+ 		   <li> <a href="#changesminor228">Minor</a>
+	   </ul>
+
+   <li> <a href="#changes17">Changes and Fixes since Ver 1.7</a>
+	   <ul>
+		   <li> <a href="#changesmajor17">Major</a>
+		   <li>	<a href="#changesminor17">Minor</a>
+	   </ul>
+
+   <li> <a href="#changes15">Changes and Fixes since Ver 1.5</a>
+	   <ul>
+		   <li> <a href="#changesmajor15">Major</a>
+		   <li> <a href="#changesminor15">Minor</a>
+	   </ul>
+
+   <li> <a href="#changes134">Changes and Fixes since Ver 1.34</a>
+	   <ul>
+		   <li> <a href="#changesmajor134">Major</a>
+		   <li> <a href="#changesminor134">Minor</a>
+	   </ul>
+
+   <li> <a href="#bugs">Continuing Bugs and Oddities</a>
+	   <ul>
+		   <li> <a href="#bugsmajor">Major</a>
+		   <li> <a href="#bugsminor">Minor</a>
+	   </ul>
+
+   <li> <a href="#todolist">To Do List</a>
+
+   <li> <a href="#legalstuff">...And The Small Print Taketh Away...</a>(Copyright
+		   Notice and Legal Stuff)
+</ul>
+
+
+
+
+<hr SIZE="5" WIDTH="250">
+<h3><a NAME="whatsnew"></a>What's new or changed with Version 4.0 ? (vs 3.x) </h3>
+
+<h4>Briefly:</h4>
+<ul>
+	<li> Added <a href="#plasmidmaps">circular graphic plasmid maps</a> in Postscript and PDF.
+	<li> Added <a href="#rules">'Rules-based' searching </a>
+	<li> Added <a href="#cloning">cloning features</a> to find REs that hit or 
+   		don't hit in particular regions.
+	<li> brought man pages and HTML-ized man pages up to date.
+	<li> use of -p (pattern) also sets -S (Sites table) so that tacg acts more grep-like.
+	<li> changed license to DUAL license, either GPL or proprietary.
+   <li> better autoconf integration (tho no automatic regression testing yet)
+   <li>integration (finally) with Jim Knight's <b>SEQIO</b> to allow automatic
+      sequence conversion on input and scanning multiple sequence databases (or
+      not - with <a href="#raw">--raw</a> it still supports the ability to
+      assume that ALL input is sequence - useful for analyzing file fragments
+      or editor buffers).
+   <li>can use it to search for arbitraily complex combinations of patterns at
+         the same time by combining pattern specifications with the logic
+         conjunctions AND, NOT.&nbsp; see <a href="#rules">--rule</a>.
+   <li>searching for regular expressions (in nucleic acid), with autoconversion
+         of IUPAC degeneracies to the appropriate regex.
+   <li>searching for TRANSFAC matrices, with user-specified cutoffs.
+   <li>gel simulations with low and high end cutoffs for expansion.
+
+   <li>selection of Restriction Enzymes explicitly, by overhang generated,
+         magnitude of recognition site, price, minimum, maximum number of cuts
+         (overall or on a per-pattern basis).
+   <li>supports Combination Cuts of up to 15 REs at a time.
+   <li>supports limited AFLP fragment matching / simulation.
+   <li>simulates Dam and/or Dcm methylation of DNA
+   <li>searches for silent sites, with reverse translation.
+   <li>ORF finding in any combination of frames with FASTA output, with offsets
+         in DNA, protein, Molecular Wt, pI, with optional additional info on
+         AA&nbsp; frequency in #s or %.
+   <li>conditional output based on matches, for scanning large numbers of
+         sequences at a time.
+   <li>sequence extraction surrounding pattern matches, with variable upstream,
+         downstream inclusion, optional reverse translation in FASTA format.
+   <li>various ways of making the output even more compact (printing only
+         single strands, or eliminating tics)
+   <li>uses autoconf/configure to ease building on different platforms.
+   <li>by default, tacg no longer sends usage data back to me.
+   <li>includes an explicit example function to show how to add your own funtionality.
+   <li>much more robust, debugged, especially as to memory allocation.&nbsp;
+         Since most of the routines tacg run in a loop now, memory leaks are
+         much more apparent and get plugged quicker.
+   <li>BUT: more features leads to more (new) bugs so be on guard..
+</ul>
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="whatis"></a>What is it?</h3>
+<font color="#FF0000">tacg</font> is a character-based, command line tool
+for unix-like operating systems for pattern-matching in nucleic acids and 
+performing some of the basic
+protein manipulations. It was originally designed for
+restriction enzyme analysis of DNA, but has been extended to other types
+of matching. It now handles degenerate sequence input in a variety of matching
+approaches, as well as patterns with errors, regular expressions and TRANSFAC-formatted
+matrices.
+<br>It was designed to be a 'grep' for DNA and like the original grep,
+it's capabilities have grown so that now the author has to keep calling
+up the help page to figure out which flags (now ~50) mean what.
+<p>
+tacg itself is NOT a GUI application in any sense. However, it's existance
+as a strictly command-line tool lends itself well to Webification and it is 
+now distributed with a web interface form and a Perl CGI handler (the original 
+C CGI written with Tom Boutell's CGIC code is also distributed with it for 
+historical/educational purposes, but Perl is a MUCH easier interface language.
+NO question about it.)
+<br>
+ Also, by it's strict command line nature, it can parasitize the interface of a number of GUI
+programs that allow passing selections made within their windows to external
+programs. This is particularly effective with a free, Xwindow editor called
+NEdit. With minimal reconfiguration, NEdit can become a fairly good biosequence
+editor and analysis tool a la Strider for XWindows. See the entry for 
+<a href="#wnedit">NEdit below</a>.
+<p>
+A real world example may help to illumninate.. say the Genbank entry for the lambda
+genome.
+<p><tt>&nbsp;tacg -w75 -n6 -F2 -l -c -g'100,10000' -L -T3,1 -O145x,25 &lt;
+lamcg.gb | gzip - > lambda.map.gz</tt>
+<p>Translation:&nbsp; Process the file 'lamcg.gb' (Genbank format) thru
+the seqio routines (transparent to users) and pipe the following sequence
+to <font color="#FF0000">tacg</font>, returning the analysis:
+<ul>
+   <li> 75 characters wide (-w75)
+
+   <li> on all 6+ cutters (-n6)
+   <li> giving me the sorted fragment sizes (-F2) of those Enz's that match
+   <li> providing a ladder map summary (-l)
+   <li>sort tabular ouput by number of hits and thence alphabetically (-c)
+   <li>provide a gel simulation with a 100 bp LOW cutoff and a 10000 bp HIGH
+         cutoff (-g100)
+   <li>with a linear restriction map (-L)
+   <li>with 1 letter, 3 frame translation (-T3,1)
+   <li>with the ORF table for frames 1,4,5 at a minimum ORF size of 25 AAs with
+         the extended composition info (-O145x,25)
+   <li>and pipe the output thru 'gzip' to a file called lambda.map.gz.
+</ul>
+Altho it's not clear why you would be interested in seeing this particular
+analysis, here's the <a href="http://24.1.175.29/tacg/lambda.map.gz">resulting
+output</a> (130KB text, gzipped - you'll need a gzip-compatible app to
+view it, such as <a href="http://www.aladdinsys.com/consumer/expander1.html">Stuffit
+Expander, Stuffit For Windows</a>, <a href="http://www.winzip.com">Winzip</a>,
+or even ... <a href="ftp://prep.ai.mit.edu/pub/gnu/gzip-1.2.4.tar.gz">gzip</a>).
+<p>The lambda genome used to generate this map is also included in the
+tacg distribution directory (called <a href="http://24.1.175.29/tacg/lamcg.gb.gz">lamcg.gb.gz</a>)&nbsp;
+
+<hr SIZE="5" WIDTH="250">
+<h3><a NAME="whatdo"></a>How does it handle incoming sequence?</h3>
+If the --raw flag is used, the file is processed directly by the GetSequence() function
+which reads everything and strips out anything not interpretable as an IUPAC character. 
+Note that there are a lot of IUPAC characters and the typical letter to your Mum read
+with the --raw flag will probably yield quite a bit of acceptable, if uninterpretable,
+sequence.<br>
+If the --raw flag is not used, the input stream is processed by the SEQIO routines.
+ If the stream 
+contains multiple sequences, they are passed to tacg serially, in an internal loop.
+<br>tacg reads ASCII characters from the buffer passed in by SEQIO, determines
+whether there are IUPAC characters in the stream and, depending on the
+-D flag option, <b>EITHER</b> strips out anything not an 'a', 'c', 't',
+'u', or 'g', <b>OR</b> allows all IUPAC characters (but strips all others,
+including numbers, spaces, tabs, linefeeds, etc), and places that input
+sequence in a buffer.
+
+<p>
+
+What it does then depends on what other flags are set. The 1st writ
+function (probably still the most popular) is Restriction Enzyme Analysis.
+Flags calling this function cause tacg to read in a series of named
+patterns (either from the command line, or more typically, from a GCG-formatted
+REBASE file, now somewhat extended for increased functionality) and match
+them against the sequence. These matches are logged, then
+some basic math is done with them and the output is sent to stdout, in
+the form of tables of cut sites, fragments generated, various maps and
+simulations.
+
+<p>
+
+The number of recognition patterns is
+now dynamically allocated so 1000s of patterns can be searched for at once
+(I've generated ~7000 without problems), as long as they are in the simple
+format required.&nbsp; For instance it can now process all the patterns
+in the TRANSFAC database at one shot (altho I'm not sure that would produce
+anything usable).
+
+<p>
+
+A similar function matches (possibly degenerate) input with patterns
+that contain errors (as well as simple degeneracies). This means that if
+the pattern is <b>gartc</b> with 1 error, it could match 
+<b>nartc</b>,
+<b>gnrtc</b>,
+<b>gantc</b>,
+<b>garnc</b>, or 
+<b>gartn</b>. 
+Of course, the 1st and last sequences decay
+to <b>artc</b> and <b>gart</b>, as a leading or lagging 'n' makes no difference
+in the pattern. NB: <a href="#subseqpat">See the note</a> on how subsequence
+patterns are currently handled.
+<p>Related functions (<a href="#proximity">-P</a> and <a href="#rule">--rule</a>)
+analyze the data from the above searches by parameters that you give them and 
+filter the number of reports by your proximity rules.
+<p>
+The <i>-O flag</i> allows <a href="#orfs">Open Reading Frames</a> to be
+extracted. This function is not very sophisticated, but does present the
+data in a way that allows it to be analyzed by other programs (each ORF
+is written in a FASTA format so that you can use the resulting file for
+other types of searching). 
+
+<p>
+
+Enzyme selection can be filtered by a variety of criteria; these criteria
+affect what is printed as output (if only 3 enzymes match your selection
+criteria, only those 3 will show up in most analyses. They can be chosen
+by 'magnitude' of recognition site (4, 5, 6 cutters, etc), by overhang
+generated, by minimum/maximum times they cut, cost, dam/dcm protection, etc.
+
+<p>
+
+The entire feature set is described in more detail below, but it includes:
+<ul>
+   <li>Enzyme cut-frequency summary tables,
+   <li>Tables of site data (sorted or not)
+   <li>Tables of fragment data (sorted or not; ordered or not)
+   <li>Linear map with names stacked efficiently with/without translations in
+         1,3, or 6 frames, from 1 of 8 Codon Usage tables
+   <li>Pseudo-graphical ladder maps a la GCG
+   <li>Summary map of infrequent cutters
+   <li>Gel simulations (using a simple log fit).
+   <li>Tables of ORFs for any frames, with offsets in bases, AAs, and MolWt. [new]
+   <li>Entering patterns from the commandline [new]
+   <li>Searching for patterns with errors [new]
+   <li>Proximity matching - reports only sites that match distance criteria (up/downstream,
+         less/more than a distance, within a range of distances) [new]
+   <li>Other match data output formats
+</ul>
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="willdo"></a>What will it do next?</h3>
+What you want it to do will have an effect on what I work on. If you want
+something added, especially a variant of an existing analysis, I'd be happy
+to consider it, so let me know your opinion. Otherwise, I try to add what 
+I believe to be the most useful features, especially if they are missing from
+other tools.
+<p>Anyone who believes the promises of software suppliers also believes
+in the tooth fairy. That said...
+<ul>
+   <li>I'd like to add secondary structure prediction output to the postscript
+         maps, so if I can wrangle some public domain code into shape, I may be
+         able to carry thru on this wild promise as well.
+   <li>XML output (<a href="http://www.labbook.com/products/xmlbsml.asp">BSML </a> for example)
+   		 would be a neat additional feature.
+   <li> support for more sequence formats to Seqio would be useful (support for some
+   		binary formats (Lasergene, DNA Strider, GFF, etc).
+   <li> automated regression testing would be very useful for development testing and
+   		porting to different platforms.  
+   <li> adding support for more efficient searching using Manber's agrep code for extremely fast
+   		approximate searching.
+</ul>
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="where"></a>Where can I get it?</h3>
+tacg V3.5 and higher is now available via  <a href="http://tacg.sf.net">its own
+Sourceforge Project site </a> in  ANSI C source code. Precompiled binaries for a few
+architectures may follow. Instructions are included with each package. 
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="webinterface"></a>Is there a GUI or Web Interface?</h3>
+tacg is a command line program (see <a href="#simplicity">Simplicity</a>,
+below) but as such, it lends itself well to Webification as a cgi program.
+<br>
+The Version 3 Web interface is actually composed of three similar pages that  emphasize
+different aspects of tacg's abilities.  All three pages address the same CGI
+(perl-based for this version), and call the same tacg executable.  The reason for  the
+different pages is just for clarity. Only the 1st is finished and you can find sites
+that make it publicly available via the  <a href="http://tacg.sf.net">Sourceforge
+project site</a>
+
+<p>
+
+The only substantial crippling is that it currently has a cutoff at 500,000 characters
+as the output for that size of analysis can get very large for some analyses. If you
+routinely use more sequence than this, it's probably worth your time to install it
+locally. <b>NB</b> The 500,000 character limit, while probably sufficient for most
+analyses, counts the header and comment characters as well.
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="manpage"></a>Is there a man page I can look at?</h3>
+Yup. You have your choice of 
+<ul>
+	<li> a real groffed manpage, 
+	<li> <a href="http://tacg.sf.net/Docs/tacg3.man.pre">a PREFORMATTED man page</a>,
+	<li> <a href="http://tacg.sf.net/Docs/tacg3.man.conv.html">an auto-HTMLized version
+		thereof</a>, 
+	<li> or a <a href="http://tacg.sf.net/Docs/tacg3.man.html">slightly more complex 
+   	Webified man page</a>
+</ul>      
+All are included with both the source code and the binary pkgs.
+
+<hr SIZE="5" WIDTH="250">
+
+<h3><a NAME="designcrit"></a>Design Criteria</h3>
+
+<h4><a NAME="simplicity"></a>Simplicity (and a few Alternatives)</h4>
+In answer to: "Why does the world need another restriction mapping program,
+especially one as crude as this?" or Why didn't you just use (or modify)
+XXX?", I enumerate:
+<ol START="1">
+   <li>Well, in the 1st place, crude is not always bad... 'grep' could be
+         classified as crude and it's one of the most useful and used programs
+         in the world. It's free, simple, flexible, chainable, and very fast;
+         it provides the desired info in a useable form with a minimum of
+         mucking about.
+   <li>There are a variety of programs available for Windows and (especially)
+         the Mac for doing these kinds of analysis, but there's little along
+         the same lines for unix, especially Linux, which is an extremely
+         attractive OS for bioinformatics. There is the very complete 
+         <a href="http://www.hgmp.mrc.ac.uk/Software/EMBOSS/">EMBOSS package</a>
+         tho, which does a LOT more than tacg, but what they both do, tacg does much
+         faster (20-50x faster).
+   <li>Many available programs, even the commercial ones, start to come undone
+         at sequence lengths quite a bit smaller than those now being
+         published. Dynamic memory allocation relieves this limit, so I
+         decided to write one that incorporatedS this feature. tacg is relatively miserly
+         in memory requrirements - vs the EMBOSS <i>restrict</i> program which uses >100MB RAM
+         to analyze the E coli genome (4.6 MB), tacg uses 13MB.
+   <li>Even some of my favorite programs (such as the beautifully designed DNA
+         Strider) refuse to analyze degenerate DNA sequence, making the
+         generation of useable plasmid maps from the usual bits of known
+         sequence, polylinker, and hand-drawn maps impossible or extremely
+         unpleasant.
+   <li>While I have had access to GCG for quite some time, I have been
+         increasingly aggravated at it's speed, output, cost, and the fact that
+         it doesn't run on Linux. 
+         While tacg's code is sufficiently arcane that
+         few bench biologists will attempt to add functionality to it, an undergrad
+         CS student could, especially with the inclusion of the new example 
+         function.
+   <li>There is also the challenge of creating a program that, like grep has
+         significant utility in a relatively small footprint.
+   <li>It was fun.
+</ol>
+However, if you want <b>alternatives</b>, here are a few:
+<ol TYPE="1" START="1">
+   <li>The very complete <a href="http://www.hgmp.mrc.ac.uk/Software/EMBOSS/">
+   	EMBOSS package</a> has to top the list.  It's well-designed, autoconfigs, has good
+      documentation, and is Open Source (GPL).  All you could ask for is a little more
+      speed...
+   <li>Roland Walker's<a href="http://www.ncbi.nlm.nih.gov/CBBresearch/Walker/SEALS/index.html">
+   	SEALS Perl package</a> is also very comprehensive, but requires a lot of add-ons
+      and admin to get it up an running.
+   <li>There's the stalwart (if ugly) <font color="#FF7810"><a
+      href="http://www.gcg.com">GCG</a></font>, but it's $ware and does not
+      (yet?) run on Linux. It also remains essentially a collection of
+      unfriendly command-line programs (hey, nice glass house..) sheltered
+      under a common but still not too intuitive GUI. The GUI is strangely
+      warped - it appears to be very similar to a HTML forms-based GUI, but
+      with neither the benefit of HTML, nor many of the advantages of a
+      'native' GUI. The controls are surprisingly crudely laid out (much like
+      the tacg Web form), which is odd for a 'native' app; I would have
+      expected a much more compact and intuitive interface.
+   <li><a href="http://www.ccsi.com/firstmarket/cutter/cut2.html">Webcutter
+      2</a> is a Web-only cgi (no command-line version, no source code) that <a
+      href="mailto:maxwell@minerva.cis.yale.edu">Max Heiman</a> put together at
+      about the same time that I was writing tacgi. I've tried it a few times
+      and while it may be useful, I found it too slow and the output a bit
+      info-sparse. It does have some features that tacg lacks (coloration of
+      selected Restriction Enzymes (REs), grabbing sequences direct from 
+      Genbank to restrict), but for my own use they weren't that compelling. 
+      Although the access is free,  you cannot install it locally, nor examine
+      the source code.  Nevertheless, if anyone thinks that a feature of
+      WebCutter would make tacg considerably more usable, I'd be interested in
+      hearing about it. 
+   <li><a href="http://www.bio.indiana.edu/~tjyin/WebGene/">WebGene</a> is a
+      service offered from Indiana which offers a small subset of the options
+      and analyses that WWWtacg does. It has a similar Restriction Enzyme
+      selection interface that the original WWWtacg had, but I decided that
+      while it was a nice display, it took too much HTML to code which made
+      selecting the REs too slow. It offers both an ORF interface as well as a
+      Restriction Enzyme interface.
+   <li><a href="http://locus.jouy.inra.fr/soft/cloneit/cloneit.html">Cloneit</a>, a
+   	unix-based cloning program with a web interface as well.
+   <li><a href="http://www.entigen.com">BioNavigator</a> from eBioinformatics, now 
+   	Entigen, VERY nice (uses tacg, incidentally), but for-pay.
+   <li><a href="http://curatools.curagen.com/">Curatools</a>, Curagen's genomics portal
+   	(still free, I believe).
+   <li>restmap (perl thingie out of stanford by Steve Chervitz, now at
+      Neomorphic).&nbsp; Quite good Web output, including colored image maps
+      that really nice) but being perl, it's a bit slow and doesn't have nearly
+      the features that tacg has. Appears to have been taken offline..?
+   <li>The <a href="http://workbench.sdsc.edu"> Biology Workbench </a> is an
+      excellent example of how a Web Interface can make coherent a great number
+      of the free software tools of the net. Now that you mention it, tacg is
+      one of its included tools :).
+      <br>The only exception I take to Web interfaces (including my own) is the
+      response time/uncertainty of the connection and the inability to retain
+      state easily. But it is a great way to take advantage of programs that
+      you'd never be able to take the time to get working and working
+      reasonably easily and a well thought-out interface can do a lot to reduce
+      the problem of retained state.
+   <li>Steve Smith's '<font color="#FF7810">GDE</font>' has been <a
+      href="ftp://megasun.bch.umontreal.ca/pub/gde/linux/">compiled for
+      Linux</a>, but requires a fair amount of dedication to put and hold it
+      all together; last time I looked it was available only an OpenLook
+      interface, which is an increasing disadvantage. Steve is now at GCG (I
+      think - the new versions of GCG seem to show the GDE influence.) so there
+      probably won't be a huge amount of work going into it.
+   <li><a href="http://home.cc.umanitoba.ca/~frist">Brian Fristensky</a>'s
+      estimable suite of programs <a
+      href="http://home.cc.umanitoba.ca/~psgendb/programs.html">BIRCH</a> (of
+      which tacg is also a part) is pretty good and his comments and
+      suggestions have resulted in a a number of the improvements seen here,
+      especially the Degenerate Sequence matching.
+   <li>MSI has just released an app called Gene Explorer, which includes quite
+      a bit of functionality as a loss-leader to attract researchers to their
+      higher-end products. Haven't had enough experience with it to comment
+      further.
+   <li>James Tisdall's '<a
+      href="ftp://cbil.humgen.upenn.edu/pub/dnaworkbench/">DNA Workbench</a>'
+      is designed along the same idea as <font color="#FF0000">tacg</font>, but
+      requires <font color="#FF7810">perl</font> and is therfore interpreted.
+      Despite perl's many syntactic and other advantages, I wanted something
+      even simpler (a standalone app) and therefore easier to install, faster,
+      and more complete.
+   <li><a href="mailto:gilbertd@bio.indiana.edu">Don Gilbert</a>'s
+      multiplatform, GUI '<font color="#FF7810"><a
+      href="ftp://ftp.bio.indiana.edu/molbio/seqpup/"> SeqPup</a></font>' is
+      the closest to an ideal setup in terms of design and interface.&nbsp; It
+      has recently been recoded in Java and Don is still leading the
+      way in terms of innovation and interface in bioinformatics.&nbsp; Anyone
+      interested in interface design for bioinformatics is well-advised to
+      check out and follow Don's contributions. His have consistently led the
+      field in terms of usability, Internet use, cohesiveness, and
+      inventiveness.
+   <li>On some systems, you can run <a
+      href="http://www.ardi.com/">Executor</a>, <a
+      href="http://www.mae.apple.com/">Macintosh Application Environment</a>,
+      <a href="http://www.insignia.com/">SoftWindows</a>, and <a
+      href="http://www.connectix.com/html/connectix_virtualpc.html">Virtual
+      PC</a> and thus have access to the Mac and Windows programs, but that's
+      also somewhat costly, slow, and complex.
+</ol>
+
+<h3>
+Installation</h3>
+tacg REQUIRES only 2 files - the executable (<font color="#FF0000">tacg</font>,
+which can be renamed) and the Codon table file 'codon.prefs'.  Most people will
+want to use the restriction enzyme database file (rebase.data; included with
+the distributions, which is simply the <a
+href="http://rebase.neb.com/rebase/rebase.html">GCG-formatted version of Rich
+Robert's REBASE</a>), but it is not strictly needed - you can enter patterns
+from the command line since Ver 2. The codon usage file (codon.prefs) is also
+required if you want to do any translation.  It was required in the 1st few
+versions, then was compiled into the app in version 2 and now has been
+externalized again for easier access and modification.  As the sequencing
+factories roll thru more organisms, there will more need for changing or adding
+to the file.
+<p>
+<a name="rebasehacks">
+The data files (rebase.data, codon.prefs, other pattern files) will be  
+found in any of 3 places automatically, in the following order:
+ the current directory ($PWD), the home directory
+($HOME), or the <font color="#FF0000">tacg</font> lib directory ($TACGLIB). The
+program searches these paths and gives up only if the file can't be found in
+any of these places. 'rebase.data' is ASCII text and can be edited and modified
+by the user, if required. I'd suggest placing 'rebase.data' in the TACGLIB
+directory and keeping modified versions of these files, if required, in your
+home directory which is searched first.
+<P>
+tacg can use the NEB/REBASE-supplied file of restriction enzyme data as is,  (in GCG
+format - <a href="http://rebase.neb.com/rebase/link_gcg">latest  unmodified version
+here</a>)  but can also make use of additional extended information if available. 
+Version 3 will use error, cost, and methylation information added to the  file as
+shown <a href="rebase.data">here</a>.
+
+<P>
+
+The format of the unmodified version is:
+<pre>
+Comments
+..
+;         Top   Recognition   Bottom
+;Name   Offset  Pattern       Offset  !  Isoschiz                   >Supplier Index
+;AarI      3    CACCTGC        0      !                             >
+;AatI      3    AGG'CCT        0      !  StuI,Eco147I,Pme55I,SseBI  >O
+AatII      5    G_ACGT'C      -4      !                             >ADEFIKLMNOR
+;AauI      1    T'GTAC_A       4      !  Bsp1407I,BsrGI,SspBI       >I
+AccI       2    GT'mk_AC       2      !  FblI,XmiI                  >ABDEGJKLMNOQRS
+</pre>
+
+<P>
+The format of the MODIFIED version is:
+<pre>
+Comments
+..
+;           Top Recognition     Bottom
+;Name    Offset  Pattern        Offset Err dam dcm   units   $    !  Isoschiz         >Supplier Index
+;AarI         3 CACCTGC          0      0  100 100     0     0    !                   >
+AatII         5 G_ACGT'C        -4      0  100 100  2500   176    !                   >ADEFIKLMNOR
+AccI          2 GT'mk_AC         2      0  100 100  2500   220    !  FblI,XmiI        >ABDEGJKLMNOQRS
+AccII         2 CG'CG            0      0  100 100   444    99    !  Bsh1236I,BstFNI  >KQR
+Acc65I        1 G'GTAC_C         4      0  100   3  5000   200    !  KpnI,Asp718I     >DFINR
+</pre>
+
+In the above, the extra fields are:
+<ul>
+   <li>Err - the maximum number of errors that can be tolerated in the search.
+   <li>dam - the offset from the Top Offset that if methylated by Dam 
+      methylase, blocks cutting
+   <li>dcm - the offset from the Top Offset that if methylated by Dcm 
+      methylase, blocks cutting
+   <li>units - the number of units packaged (by NEB) in their Small size lots
+   <li>$ -  the cost for that many units above.
+</ul>
+
+<h4><a NAME="outputsuggest"></a>Program Output</h4>
+
+The output of tacg uses only alphanumeric characters (except for the recent circular
+graphics maps) so that all of its output can be viewed on a vanilla vt100-like
+terminal, although you can do more useful things if you're using an X display or have
+imported the output into a Word Processor (some of the output can best be viewed using
+very small fonts or in multiple columns on a page).
+
+<p>
+
+The different output sections have been prefixed with "==" so that you can easily jump
+to the different sections if you're viewing the output with an editor or pager such as
+<a href="#wless">less</a>. In the WWW version, the different sections have been labeled
+with HTML tags so that clicking the automatically generated Table of Results entry will
+drop you to the corresponding results section.
+
+<h5><a NAME="plasmidmap"></a>Plasmid Maps</h5>
+<ul>
+  <li>WARNING: This is a beta-level function and may explode without warning or 
+      give inaccurate results.  If you suspect the latter, please let me know.
+  <li><b>Select the # of REs</b> to place via the Restriction Enzyme Selection section above,
+      paying  special attention to the <b>Maximum Number of Cuts</b> setting.
+      Usually a Max of 1 or 2 is  what you want.
+  <li><b>To place ORFs on map</b>, check the "Stream Out Open Reading Frames" stanza
+      immediately above, setting the minimum size of the ORF to detect, and the frames
+      to display. ORF (The extended  info will be printed but is currently ignored in
+      the plasmid map.) <I>The map will not accurately track ORFs that cross the
+      origin, so if you suspect that an ORF crosses the origin, edit or subselect the
+      sequence to verify.</I>
+</ul>
+
+<p>
+
+For the Web interface, if you're using a <b>Mac</b>, printing to a
+Laserwriter-type device, you might try the '105' width, with the 'Small' font,
+then use Page Setup to select Landscape output, 2-up (2 pages fitted to one
+page). <p>If you're using <b>MS Windows</b>, there are probably similar output
+selections that you can use.
+<p>
+If you're using a <b>unix box</b>, save the output in whatever width
+you want and pass it thru a text-to-postscript filter to generate nicely
+formatted output. Some that I've used are:
+<ul>
+   <li>lptops - included on SGI's; probably available somewhere for other platforms.
+   <li><a href="ftp://sunsite.unc.edu/pub/Linux/system/Printing/nenscript-1.13++.tar.z">nenscript</a>
+      - (Free implementation of Adobe's enscript)
+   <li><a href="http://www.hut.fi/~mtr/genscript/">genscript aka GNU enscript</a>
+      - Free, most features, currently supported, no good reason to use any other...
+   <li>a2ps - a monster text-printing system that will handle almost any
+      conceivable file format (and allows you to color code your own if you
+      want).
+</ul>
+Use it thusly:
+<br><tt>genscript -1GZ -r -fCourier7 -p- [filename] | lpr -P[PSprinter]</tt>
+<p>
+Most Xterminals allow different font selections and window re-sizing,
+so you can probably view the results adequately that way as well.
+
+<hr>
+
+<h4><a NAME="portability"></a>High Portability</h4>
+The program is written in vanilla ANSI C. After being directed to the correct
+libraries, it compiles with few complaints on:
+<ul TYPE="DISC" COMPACT>
+   <li>Silicon Graphics/IRIX 5.3, 6.2 (R3000, R4X00, R5000, R10K) (cc)
+   <li>Sun SPARC/SunOS (4.1.3) (gcc)
+   <li>Sun SPARC/Solaris (gcc, cc)
+   <li>DEC Alpha/DEC Unix aka OSF/1 (V3.0/347) (cc, gcc)
+   <li>Convex C3480/ConvexOS (cc, gcc)
+   <li>HP-UX/Exemplar OS (single CPU of an SPP2000) (cc, gcc)
+   <li>NeXT boxes (Black)/NeXTSTEP (3.2) (except the UDP code) (gcc)
+   <li>Intel PCs running Linux (Slackware, RedHat, Caldera) (gcc)
+   <li>DEC Alpha Linux (gcc)
+   <li>MkLinux on PowerMacs (gcc)
+   <li>Probably anything with gcc.
+</ul>
+Bewildering to me, on those systems where both the native commercial compiler 
+(cc) and gcc have been available, <b>gcc has consistently outperformed cc</b>.
+&nbsp; YMMV. I think this is because almost all the core code is integer ops
+and therefore the carefully coded math and floating point libs make little 
+difference.  Stemming from this, tacg runs faster on an Intel P6 architecture 
+than on many  RISC workstations of similar or even higher clock speed.
+<hr>
+<h4>
+<a NAME="speed"></a>Speed and Capacity</h4>
+The program uses a pre-calculated hashtable lookup of the restriction enzyme
+recognition sites, so that only about half of the sequence is checked any
+further than the initial hash (which itself is generated via the very efficient
+shift/add DFA algorithm). Depending on the degeneracy of the input sequence, the kind
+of output you request and the i/o of the machine, the program processes DNA at
+this speed:
+<br>&nbsp;
+<table BORDER >
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <th>Speed*</th>
+      <th>Hardware</th>
+      <th>OS</th>
+      <th>Compiler, flags</th>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>68</td>
+      <td>i486/66</td>
+      <td>RH Linux 2.0.18</td>
+      <td>gcc -O2 -m486</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>140</td>
+      <td>R4000/100 Indigo2</td>
+      <td>IRIX 5.3</td>
+      <td>cc -O2 -mips2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>165</td>
+      <td>early DEC Alpha</td>
+      <td>OSF/1</td>
+      <td>gcc -O2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>290</td>
+      <td>R4400/200 Indigo2&nbsp;</td>
+      <td>IRIX 5.3</td>
+      <td>cc -O2 -mips2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>313</td>
+      <td>SPP/HP-PA</td>
+      <td>SPP-UX 5.1/HP-UX 10.1</td>
+      <td>gcc -O2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>300</td>
+      <td>PMac8500/PPC604/120</td>
+      <td>Mklinux 2.0.27</td>
+      <td>gcc -O2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>330</td>
+      <td>DECAlphaStation/233</td>
+      <td>RH Linux 2.0.29</td>
+      <td>gcc -O2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>450</td>
+      <td>Sparc Ultra1/??MHz&nbsp;</td>
+      <td>Sun OS v5.5</td>
+      <td>gcc -O2</td>
+      </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>454</td>
+      <td>R10000/175 Indigo2&nbsp;</td>
+      <td>IRIX 6.2</td>
+      <td>cc -O2 -mips2</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>515</td>
+      <td>Intel PPro/200</td>
+      <td>RHLinux 2.0.27</td>
+      <td>gcc -O2 -486</td>
+   </tr>
+</table>
+
+<p>* in Kb/sec, crudely adjusted for cpu usage via the `time` shell command,
+using 215 enzymes, digesting the E coli genome (4.638 MB), for only the summary listing (-s).
+Requesting the full analysis (-n4 -sSlc -F3 -g100) takes about twice this
+time. The full Linear Map doesn't take much more CPU time, but considerably
+more wall time due to the i/o (output is 10x input).
+<p>
+NB: This is about the <b>slowest performance</b> you can expect. Because
+of the size of the input sequence, the program has to go thru several rounds
+of memory allocation. Shorter sequences, more typical of cloning projects,
+complete essentially immediately even on slow machines.
+<p>Here's a table of how fast the same analysis completes on various sequence
+lengths (for a PPro/200/96M/PCI-SCSI and a 486/66/32M/VESA-SCSI):
+<table BORDER >
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <th>Sequence Length</th>
+      <th>Seconds(PPro)</th>
+      <th>Bases/s(PPro)</th>
+      <th>Seconds(486)</th>
+      <th>Bases/s(486)</th>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>100</td>
+      <td>.04</td>
+      <td>2.5k</td>
+      <td>.28</td>
+      <td>360</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>1,000</td>
+      <td>.05</td>
+      <td>20k</td>
+      <td>.3</td>
+      <td>3.3k</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>10,000</td>
+      <td>.07</td>
+      <td>143k</td>
+      <td>.4</td>
+      <td>24.4k</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>100,000</td>
+      <td>.2</td>
+      <td>500k</td>
+      <td>1.4</td>
+      <td>71.4k</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>1,000,000</td>
+      <td>1.6</td>
+      <td>617k</td>
+      <td>11.3</td>
+      <td>88.5k</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>4,630,000</td>
+      <td>9.1</td>
+      <td>509k</td>
+      <td>68</td>
+      <td>68k</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>10,000,000</td>
+      <td>22.7</td>
+      <td>492k</td>
+      <td>261</td>
+      <td>38k</td>
+   </tr>
+</table>
+
+<p>
+From earlier, crude analyses it appears to be about 7-35 times faster
+than the equivalent routines in the GCG 'map' program.
+<p>
+In my experience, interacting with tacgi/tacg via it's web interface (on an
+100MHz R4000 SGI) over 2 LAN hops is both faster and easier than using GCG's
+native Xwindows interface (on a 200MHz R4400 SGI). There may be some subjective
+feeling involved here, but objectively, it's faster by 10X (on a machine that's
+less than 1/2 as fast :) ).  GCG has recently been trumpeting that its code is now
+parallel, allowing much faster operation.  Putting the above in a similar
+context, you'd have to buy ~20 CPUs to run your analyses with GCG's routines
+compared to 1 if you ran them on tacg.
+
+
+<h4><a NAME="memory"></a>Memory Usage</h4>
+tacg uses dynamic memory allocation for most data structures so that while
+there are a few hard-coded limitations (mostly in output format), it easily
+handles sequences into the millions of bases.
+<p>
+As a practical rule of thumb, the program needs about 2 MB of free memory
+for itself, and then, depending on what results you've asked for, as much
+as 3 times the input sequence length to hold all the intermediate results
+before they are barfed to stdout. For the E Coli genome (4.7Mbases), tacg
+memory usage tops out at about 13 MB, so on a 16 MB machine, you'll probably
+be doing some swapping in this case. On a 32 MB Linux PC, I had no swapping
+on the above 4.7 Mbase analysis, but quite a bit with 10MB (about 40MB
+total required, according to 'top'). YMMV.
+<p>
+In the Web form, there is a cutoff of 500,000 characters (<b>not</b>
+bases) as input; currently this includes extraneous characters such as
+headers, numbers, spaces, etc, so if you think you are being unfairly denied
+service, check how many bytes your file actually is. The command-line version
+is limited only by your machine's RAM and your patience. (Actually, I think Linux's max
+per-PID allocation is currently ~900MB...?
+
+<hr SIZE="5" WIDTH="250">
+<h3><a NAME="features"></a>Feature Set</h3>
+Inspired by [add mailto] Christian Marck's elegant DNA Strider, I tried for a
+similiar output format, changing a few things I didn't like, adding a few
+things I wished he had. I'm open to suggestions for enhancements, interface
+changes, etc. 
+<br>Kvetch or it won't change.
+
+<hr>
+
+<h4><a NAME="seq_format"></a><font color="#FF0000">Sequence Input</font></h4>
+tacg will take any <b>ASCII data</b> as input.&nbsp; If it isn't a recognized
+format, it will assume that it's raw sequence and will process it accordingly.
+&nbsp;
+You can also explicit tell it that all input is to be considered sequence with the 
+<i>--raw</i> flag.
+If this is the case, it will ignore anything that isn't a,c,g, u, or t
+(or IUPAC degeneracies - see below) and subject that sequence to analysis.
+Because of this, numbering, spacing, line width, etc, of the input file
+should not be a problem.
+<br>
+The Web interface allows you to upload entire files of sequence for
+analysis. Recently, with the recruitment of Jim Knight's SEQIO,
+Version 3 in both commandline and Web form allows most ASCII sequence formats 
+(see below) to
+be read and processed without further modification or editing.
+<p>
+<b>Input formats supported by SEQIO (and therefore tacg and WWWtacg):</b>
+
+<table BORDER >
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>IG/Stanford&nbsp;</td>
+      <td>GenBank/GB</td>
+      <td>NBRF</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>EMBL</td>
+      <td>GCG</td>
+      <td>DNAStrider (ASCII)</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>Fitch</td>
+      <td>Pearson/Fasta</td>
+      <td>Zuker (in-only)</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>Olsen (in-only)</td>
+      <td>Phylip3.2</td>
+      <td>Phylip</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>Plain/Raw</td>
+      <td>PIR/CODATA</td>
+      <td>MSF</td>
+   </tr>
+
+   <tr ALIGN=CENTER VALIGN=CENTER>
+      <td>ASN.1</td>
+      <td>PAUP/NEXUS</td>
+      <td></td>
+   </tr>
+</table>
+
+<p>
+
+However, it will <b>NOT</b> accept (at least reliably) binary file formats such as
+those from DNA Strider, MacVector, NBI, GeneWorks, etc. However, most commercial
+programs have an ASCII export function that should work. For the WWW interface,
+anything that you can cut and paste into the window and looks like sequence ought to be
+fine.  As mentioned above, the <i>--raw</i> option skips SEQIO and so reverts tacg to
+it's former aggressive behavior of considering EVERYTHING sequence.
+
+<h4><a NAME="iupacdegens"></a>IUPAC Degeneracies</h4>
+IUPAC Degeneracies are those characters which denote uncertainty in the
+sequence; most are familiar with <b>y</b> (pyrimidines - <b>c</b> or <b>t</b>)
+and <b>r</b> (purines - <b>a</b> or <b>g</b>), but there are several others
+that can be useful. The entire set is:
+<table BORDER >
+   <tr ALIGN=CENTER>
+      <th>Base</th>
+      <th>Name</th>
+      <th>Bases Represented</th>
+      <th>Complementary Base</th>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>A</th>
+      <td>Adenine</td>
+      <td>A</td>
+      <td>T</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>T</th>
+      <td>Thymidine</td>
+      <td>T</td>
+      <td>A</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>U</th>
+      <td>Uridine(RNA only)</td>
+      <td>U</td>
+      <td>A</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>G</th>
+      <td>Guanidine</td>
+      <td>G</td>
+      <td>C</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>C</th>
+      <td>Cytidine</td>
+      <td>C</td>
+      <td>G</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>Y</th>
+      <td>pYrimidine</td>
+      <td>C T</td>
+      <td>R</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>R</th>
+      <td>puRine</td>
+      <td>A G</td>
+      <td>Y</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>S</th>
+      <td>Strong(3Hbonds)</td>
+      <td>G C</td>
+      <td>W</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>W</th>
+      <td>Weak(2Hbonds)</td>
+      <td>A T</td>
+      <td>S</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>K</th>
+      <td>Keto</td>
+      <td>T/U G</td>
+      <td>M</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>M</th>
+      <td>aMino</td>
+      <td>A C</td>
+      <td>K</td>
+      </tr>
+
+   <tr ALIGN=CENTER>
+      <th>B</th>
+      <td>not A</td>
+      <td>C G T</td>
+      <td>V</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>D</th>
+      <td>not C</td>
+      <td>A G T</td>
+      <td>H</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>H</th>
+      <td>not G</td>
+      <td>A C T</td>
+      <td>D</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>V</th>
+      <td>not T/U</td>
+      <td>A C G</td>
+      <td>B</td>
+   </tr>
+
+   <tr ALIGN=CENTER>
+      <th>N</th>
+      <td>Unknown</td>
+      <td>A C G T</td>
+      <td>N</td>
+   </tr>
+</table>
+
+<hr>
+<h4>
+<a NAME="degeneracy"></a>Handling Degeneracy</h4>
+tacg V2 was modified to handle degenerate input sequence as well as the
+previous gatc-only sequences. Version 3 has the same matching engine as 
+Version 2 which matches
+sequence using the fast, hexamer hashtable look-ahead algorithm that DNA
+Strider uses (my implementation).  When it hits a degeneracy in the leading
+hexamer window, it switches to a more extensive (but slower)
+matching approach until the degeneracy is cleared, whereupon it
+switches back to the faster approach. This allows tacg to accurately search 
+sequence
+that is only slightly degenerate (such as many genomic sequences) essentially
+as fast as nondegenerate sequence.
+<p>
+Although tacg behaves as above in the default mode, it can be forced into
+several other modes if desired. Truth be told, I'm not aware of ANYONE
+besides me actually using the  other modes, tho they are formally useful.
+See the explanation of the 
+<a href="tacg3.man.html#Dflag"><i>-D</i> options in the man page.</a>
+
+<h4><a NAME="enzselect"></a><b><font color="#FF0000">Enzyme Selection</font></b></h4>
+Restriction Enzymes can be selected either by:
+<p>
+<a NAME="explicit"></a>
+<b>Explicit pick from all the active entries from the latest REBASE.</b>
+<br>
+Enzymes can be picked <b>explicitly</b> via the 
+<a href="tacg3.man.html#xflag"><i>-x</i> flag</a>
+(-x NameA,NameB,NameC... where NameX is the case INsensitive name of the Enzyme  or
+pattern you wish to use in the GCG-formatted REBASE file, either 'rebase.data' or
+another specified by the 
+<a href="tacg3.man.html#Rflag"><i>-R flag</i></a> (-R alt.rebase.file).)
+<p>
+<b>or</b>
+<p>
+<b>Selected recursively by characteristic, based on:</b>
+<p>
+<a NAME="magnitude"></a><b>Magnitude of recognition sequence</b>&nbsp;
+<a href="tacg3.man.html#nflag"><i>-n</i></a>
+<br>The 'magnitude' of the recognition sequence depends on the number of
+defined bases that make up the site. Degenerate bases can also contribute:
+<pre>acgt&nbsp;&nbsp;&nbsp; each count&nbsp;&nbsp; '1'&nbsp; magnitude point&nbsp;
+yrwsmk&nbsp; each count&nbsp; '1/2' magnitude point&nbsp;
+bdhu&nbsp;&nbsp;&nbsp; each count&nbsp; '1/4' magnitude point&nbsp;
+n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doesn't count at all
+
+(tgca=4, tgyrca=5, tgcnnngca=6, etc)</pre>
+<a NAME="overhang"></a><b>Overhang of resulting ends</b> (5', 3', blunt)
+&nbsp; <a href="tacg3.man.html#oflag"><i>-o</i></a>
+
+<br>This refers to the stretch of unpaired bases at the border of the cut
+created by offset breaks in the phosphate backbone. Enzymes can leave:
+<pre><font color="#FF0000">5' overhangs</font> - ie. BamHI(G'GATC_C)&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BamHI
+&nbsp;5'...tag<font color="#0000FF">G GATC_C</font>cga...3'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5'...tag<font color="#0000FF">G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GATCC</font>cga...3'
+&nbsp;3'...atc<font color="#0000FF">C CTAG G</font>gct...5'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3'...atc<font color="#0000FF">CCTAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G</font>gct...5'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^
+&nbsp;
+&nbsp;<font color="#FF0000">3' overhangs</font> - ie. BbeI(G_GCGC'C)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BbeI
+&nbsp;5'...tag<font color="#0000FF">G_GCGC'C</font>cga...3'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5'...tag<font color="#0000FF">GGCGC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C</font>cga...3'
+&nbsp;3'...atc<font color="#0000FF">C CGCG G</font>gct...5'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3'...atc<font color="#0000FF">C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CGCGG</font>gct...5'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;<font color="#FF0000">Blunt (no overhang)</font> ... You get the idea...</pre>
+
+<P>
+
+<a NAME="numberofcuts"></a><b>Minimum, Maximum times they hit the sequence</b>
+&nbsp; <a href="tacg3.man.html#mMflags"><i>-m, -M</i></a>
+<br>This is pretty self explanatory, but..
+<br>'<b>Minimum</b>' indicates the minimum # of times a pattern <font color="#FF0000">HAS
+TO</font> match before it's <font color="#FF0000">included in</font> the
+output (the default is 1).
+<br>'<b>Maximum</b>' indicates the maximum # of times an enzyme <font color="#FF0000">CAN</font>
+match before it's <font color="#FF0000">excluded from</font> the output (no
+default maximum).
+
+<p>
+
+<a NAME="altrebase"></a><b>Alternative REBASE database files to use</b>
+&nbsp; <a href="tacg3.man.html#Rflag"><i>-R</i></a>
+<br>This option allows you to specify an alternative REBASE file to use
+in the matching, perhaps edited to contain only cheap enzymes or otherwise
+customized for your lab/site.&nbsp; It starts at 300 entries, which is
+enough for most Restriction Enzyme databases, such as REBASE, but if you
+format TRANSFAC or TFD into REBASE form, it will easily process them (about
+3000 entries).
+<br>
+<hr>
+<h4><a NAME="linmap"></a><font color="#FF0000">Linear Restriction Map</font>
+&nbsp; <a href="tacg3.man.html#Lflag"><i>-L</i></a></h4>
+
+<ul>
+   <li>produces linear restriction maps, with enzyme names nested compactly, readably.
+   <li>is routinely tested to more 4.6 Mbases, has been tested to 70 Mbases.
+   <li>handles linear/circular topologies
+   	&nbsp; <a href="tacg3.man.html#fflag"><i>-f</i></a>, subsequences
+      &nbsp; <a href="tacg3.man.html#beflag"><i>-b, -e</i></a>.
+   <li>shows EXACT cutting position (not just the start of the recognition
+      sequence - minor quibble with Strider and other programs)
+   <li>can make the Linear Map even more compact by eliminating the second strand
+   	&nbsp; <a href="tacg3.man.html#strandsflag"><i>--strands</i></a> or the tic marks
+      &nbsp; <a href="tacg3.man.html#noticsflag"><i>--notics</i></a>
+   <li>can show co-linear translation
+   <ul>
+      <li>in 1/3/6 frames, in 1 or 3 letter codes
+      	&nbsp; <a href="tacg3.man.html#Tflag"><i>-T</i></a>
+      <li>using one of several Codon Usage Tables
+      	&nbsp; <a href="tacg3.man.html#Cflag"><i>-C</i></a>
+   </ul>
+   <li>can scale output (reasonably intelligently) in widths up to ~230 characters
+   	&nbsp; <a href="tacg3.man.html#wflag"><i>-w</i></a>
+	<li>can re-number the sequence arbitrarily, negative numbers as well as positives
+   	&nbsp; <a href="tacg3.man.html#numstartflag"><i>--numstart</i></a>
+   <li>shows numeric indices for both the whole sequence (<font
+      color="#189E17">4635</font>, below) and the subsequence (<font
+      color="#1612FF">181</font>, below) if specified.
+   
+</ul>
+
+<hr><a NAME="linmapmap"></a>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bsu36I
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sau3AI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DpnI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AlwI&nbsp; NlaIV
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BstYI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tsp4CI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BbvI&nbsp;&nbsp;&nbsp;&nbsp; BamHI&nbsp;&nbsp; AlwI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MseI MaeIII SfaNI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \&nbsp;&nbsp;&nbsp; \&nbsp;&nbsp; \ \&nbsp; \&nbsp; \&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \&nbsp;&nbsp;&nbsp; \&nbsp;&nbsp;&nbsp;&nbsp; \\
+&nbsp;&nbsp;&nbsp; <font color="#1612FF">181</font>&nbsp;&nbsp; gagaaacaacaatggatcctaaggttagaacattgttaaaagttactgttgaagatgctt&nbsp;&nbsp;&nbsp; 240
+&nbsp;&nbsp; <font color="#189E17">4635</font>&nbsp;&nbsp; ctctttgttgttacctaggattccaatcttgtaacaattttcaatgacaacttctacgaa&nbsp;&nbsp; 4694
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp; ^&nbsp;&nbsp;&nbsp; *
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; E&nbsp; K&nbsp; Q&nbsp; Q&nbsp; W&nbsp; I&nbsp; L&nbsp; R&nbsp; L&nbsp; E&nbsp; H&nbsp; C&nbsp; Z&nbsp; K&nbsp; L&nbsp; L&nbsp; L&nbsp; K&nbsp; M&nbsp; L</pre>
+
+<hr SIZE="5">
+
+<h4><a NAME="plasmidmap"></a><font color="#FF0000">Plasmid Maps</font>
+&nbsp; <a href="tacg3.man.html#ps"><i>--ps, --pdf</i></a></h4>
+Plasmid maps can be generated by using these flags.  The <i>--ps</i> flag causes it to be
+generated in the original Postscript.  The <i>--pdf</i> flag invokes the <i>--ps</i>
+option silently and then <a href="http://www.ghostscript.com">ghostscript</a> to convert
+the postscript to be converted to Adobe's Portable Document Format (aka pdf).  The plasmid
+map shows a variant of the standard <a href="http://tacg.sourceforge.net/degenMap.pdf">
+circular plasmid map</a>, with Restriction Enzyme hits marked around the periphery.  The
+algorithm that lays out the distribution of RE names is sub-optimal, but works OK for
+small numbers of hits. You can generate some interesting spirograph-like effects by
+forcing large numbers of hits to be plotted.  In addition, it plots any degeneracy as
+shaded marks around the circumference.  You can also add any  ORFs from any 6 frames as
+radial lines by using the  <a href="tacg3.man.html#Oflag"><i>-O</i></a> flag to find ORFs
+larger than the minimum ORF size you specify. For example, to request a map in PDF format
+with ORFs larger than 50 Amino acids from frames 1, 3, and 5, the appro flags would be:
+<br><font size="-1"><tt>--pdf -O135,50 </tt></font>
+
+<h4><a NAME="orfs"></a><font color="#FF0000">Simple ORF Analysis</font>
+&nbsp; <a href="tacg3.man.html#Oflag"><i>-O</i></a></h4>
+tacg can search for Open Reading Frames (ORFs) in any of the 6 frames with
+a user-specified minimum ORF size
+&nbsp; <a href="tacg3.man.html#Oflag"><i>-O</i></a>.
+ It is not a sophisticated search algorithm;
+the rules are:
+<ul>
+   <li>It assumes that the sequence starts in a ORF - this may cause ORFs to be
+      reported without starting <b>M</b>'s and may lead to short ORFs being
+      reported in short input sequences. (If it has not hit a STOP before it
+      gets to the end of the input sequence, it will report the cruft that it
+      assumed was an aleady started ORF.
+   <li>If not already in an ORF, a <b>Met</b> codon starts an ORF and a
+      <b>STOP</b> codon ends it.
+   <li>If the ORF is smaller than the specified size when it hits a STOP, it's
+      discarded.
+   <li>Internal Met's are not noted in any other way, as they are in some other
+      apps such as Lasergene's Protean (good graphic design there), although
+      this is an easy addition.
+   <li>If there is an unidentified AA (because of degeneracies in the DNA) the
+      AA is translated as an 'X' and given the averaged MolWt (118.89 Da), but
+      the ORF is allowed to continue (see output below).
+</ul>
+
+Very little analysis is done (still..). The beginning and ending Offsets
+in both base pairs and Amino Acids are reported so that it can be found on
+a linear map (offsets for frames in the opposite strand are calculated
+so that they refer to the current top strand). The size in both Amino Acids
+and KDa is calculated, as is the pI.&nbsp; Perhaps most usefully, the results
+are writ to stdout in FASTA format, with the stats as the ID line 
+so that it can be examined by a more sophisticated pattern matcher
+such as grep, agrep, perl, etc (see <a href="#wotherprogs">Using tacg with
+Other Programs</a>
+<br>The output of this analysis can be in either a single line (by specifying 
+-w 1) in the case where you're concerned that the external pattern matcher
+won't be able to pick up a pattern split by a linefeed) or wrapped at the
+regular width.
+<br>Programming Note: The data structure that holds the ORF information
+is dynamically allocated so that all the ORF info is available until the
+end of the program. As well this allows very large sequences to be scanned
+in one sweep - my aging 486/66/32M will process the E coli genome, searching
+all the ORFs for a degenerate 10 AA motif with 'agrep' in under 5 minutes,
+but this means that it can suck up QUITE a lot of memory.&nbsp;
+
+
+<a NAME="orftable"></a>Here is some sample output:
+<br>
+<hr SIZE="5">
+<pre>% ./tacg -O156,60&nbsp; &lt; dpp.mel.seq
+
+== ORF Analysis for Frame 1:&nbsp;&nbsp; 7 ORF(s) > 60 AAs
+&nbsp;F#&nbsp; ORF#&nbsp;&nbsp; Begin(bp/AAs)&nbsp;&nbsp;&nbsp;&nbsp; End(bp/AAs)&nbsp;&nbsp; #AAs&nbsp;&nbsp;&nbsp; MWt(KDa)
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 2581 /&nbsp;&nbsp; 860&nbsp;&nbsp;&nbsp; 2922 /&nbsp;&nbsp; 974&nbsp;&nbsp;&nbsp; 114&nbsp;&nbsp;&nbsp; 13155.40
+MWTVLWHAENFMTSFADHQASGAEAPNKKHSPRLAHNRPRFCLLMASLERFSGCNTRNFVQRQHNSPKDSLNFDQLSDWVAAAPQHHRNWLAEKLELHPLLNGPIRNPQDFTDG
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 3091 /&nbsp; 1030&nbsp;&nbsp;&nbsp; 3282 /&nbsp; 1094&nbsp;&nbsp;&nbsp;&nbsp; 64&nbsp;&nbsp;&nbsp;&nbsp; 7107.97
+MLNKNDKTQPRIVICNLCTCTLNHLVAPVLLLDAPPAPILFMPLSVAHCCCCCHTHTHIRTTQK
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 5929 /&nbsp; 1976&nbsp;&nbsp;&nbsp; 6216 /&nbsp; 2072&nbsp;&nbsp;&nbsp;&nbsp; 96&nbsp;&nbsp;&nbsp;&nbsp; 9692.80
+MEVDAGSGMLGAGQVGYGLGWVLAPLRFPGHADAADGARGATTPADKAVRVQLPTPAREASAQATKLAKMQRDQGMSGGVLARMGLRLGLCGINCA
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 7522 /&nbsp; 2507&nbsp;&nbsp;&nbsp; 7704 /&nbsp; 2568&nbsp;&nbsp;&nbsp;&nbsp; 61&nbsp;&nbsp;&nbsp;&nbsp; 7430.89
+MYIYLFFACVQYQTLMFNKSGKNLYCAYKNHQNHKGYALPYEPTYLTRSQQTLHFESIHWV
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 7870 /&nbsp; 2623&nbsp;&nbsp;&nbsp; 8160 /&nbsp; 2720&nbsp;&nbsp;&nbsp;&nbsp; 97&nbsp;&nbsp;&nbsp; 10690.71
+MIYVWDVGECVSVCWRRLGGWGAERADRAGRSDPAESSSKTTTAAAIMIHSRNVGNGCLTILFFFSIFGSRRRRSCAGYEIHTTQILTHTATVAFTT
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp; 11071 /&nbsp; 3690&nbsp;&nbsp; 11277 /&nbsp; 3759&nbsp;&nbsp;&nbsp;&nbsp; 69&nbsp;&nbsp;&nbsp;&nbsp; 7770.53
+MWNKLARASQRFSRSFFSSLRATISAALFRGQRMMGTLPRVTNRAKSESTMESIRASISSSRVLARLMA
+> 1&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp; 12406 /&nbsp; 4135&nbsp;&nbsp; 12768 /&nbsp; 4256&nbsp;&nbsp;&nbsp; 121&nbsp;&nbsp;&nbsp; 14055.17
+MILKEEHPHQSIETAANAARQAQVRWRMAHLKALSRTRTPAHGNCCGRVVSKNHFFKHSRAFLWFLLCNLVMNADAFAHSQLLINVQNQVRNRKKKWFKTLKSQQRKTQQRQTATLAALPI
+
+== ORF Analysis for Frame 5:&nbsp;&nbsp; 5 ORF(s) > 60 AAs
+&nbsp;F#&nbsp; ORF#&nbsp;&nbsp; Begin(bp/AAs)&nbsp;&nbsp;&nbsp;&nbsp; End(bp/AAs)&nbsp;&nbsp; #AAs&nbsp;&nbsp;&nbsp; MWt(KDa)
+> 5&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 11241 /&nbsp; 3747&nbsp;&nbsp; 10885 /&nbsp; 3627&nbsp;&nbsp;&nbsp; 120&nbsp;&nbsp;&nbsp; 13410.25
+MEALMDSIVDSLFALFVTLGNVPIIRCPRNSAAEMVARKLEKKLRENLWDARANLFHMDATQAGGGVFSFQRPVLLLLDRNMDLATPLHHTWSYQALVHDVLDLGLNLVYVEDETASAGK
+> 5&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 8007 /&nbsp; 2669&nbsp;&nbsp;&nbsp; 7708 /&nbsp; 2568&nbsp;&nbsp;&nbsp; 101&nbsp;&nbsp;&nbsp; 10973.69
+MAAAVVVLLDDSAGSDRPARSARSAPQPPNLRQHTDTHSPTSHTYIIILTTLNKAEQIPKFEEPDSNSQSGSRTIPQNEVPARQRRRSSDTASALALGWDL
+> 5&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 2304 /&nbsp;&nbsp; 768&nbsp;&nbsp;&nbsp; 2113 /&nbsp;&nbsp; 703&nbsp;&nbsp;&nbsp;&nbsp; 65&nbsp;&nbsp;&nbsp;&nbsp; 7230.86
+MLAQHQIEIKVYPPFRSIPCYVCFLPGQNNSALFWALGATQKVMIKLCGDPVEGTRLRGYPSTSS
+> 5&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 1734 /&nbsp;&nbsp; 578&nbsp;&nbsp;&nbsp; 1492 /&nbsp;&nbsp; 496&nbsp;&nbsp;&nbsp;&nbsp; 82&nbsp;&nbsp;&nbsp;&nbsp; 9039.19
+MPISWHKKMRQPCPHSPAITEGTGLCIIFNEDICQQKCSGVLFMAFKAKPIFITTATAGQRKTTRDAVVVVVVLIIDTSYAN
+> 5&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp; 762 /&nbsp;&nbsp; 254&nbsp;&nbsp;&nbsp;&nbsp; 583 /&nbsp;&nbsp; 193&nbsp;&nbsp;&nbsp;&nbsp; 61&nbsp;&nbsp;&nbsp;&nbsp; 6683.20
+MLCPSILPFTLKHKFMLSVHFFQCTTKLTPCGAESATRRRSAKGKGAHGQGTGCATDWLTR
+
+== ORF Analysis for Frame 6:&nbsp;&nbsp; 5 ORF(s) > 60 AAs
+&nbsp;F#&nbsp; ORF#&nbsp;&nbsp; Begin(bp/AAs)&nbsp;&nbsp;&nbsp;&nbsp; End(bp/AAs)&nbsp;&nbsp; #AAs&nbsp;&nbsp;&nbsp; MWt(KDa)
+> 6&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 11181 /&nbsp; 3727&nbsp;&nbsp; 10997 /&nbsp; 3664&nbsp;&nbsp;&nbsp;&nbsp; 63&nbsp;&nbsp;&nbsp;&nbsp; 7224.82
+MCPSSAVRGTVPLKWWHASWRRSCARTFGMRVPICSTWMPRKPAAECSAFRDLCSCCWTGTWI
+> 6&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 10764 /&nbsp; 3588&nbsp;&nbsp;&nbsp; 9728 /&nbsp; 3241&nbsp;&nbsp;&nbsp; 347&nbsp;&nbsp;&nbsp; 39136.07
+MTHKGSPFPTVAEAIQEELESYRNSEEEIKRLKTSMGIEGESDIAFSLVNDTTARLTNAVNSLPQLMEKKRLIDMHTKIATAILNFIKARRLDSFFEIEEKVMSKQTLDRPLLDLLRDGEFGQAEDKLRLYI
+IYFICAQQLPESEQERLKEALQAAGCDLTALAYVQRWKGIMNRSPSISQATQYEGGGTKTVSMFTKLVSQGSSFVMEGVKNLVVKRHVSFSFQIQIQVLYQNCLQNLPVTKITEQVMECRSNAETDDYLYLD
+PKLLKGGEVLPKNRAPFQDAVVFMVGGGNYIEYQNLVDFIKQKQTSNVQRRIIYGASTLTNARQFLKELSALGGEIQSPTATS
+> 6&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 6774 /&nbsp; 2258&nbsp;&nbsp;&nbsp; 6530 /&nbsp; 2175&nbsp;&nbsp;&nbsp;&nbsp; 83&nbsp;&nbsp;&nbsp;&nbsp; 9280.03
+MQGNCNRLAGEWTQKGQPRMREDAALPARNPTFLGLHYPGLGRFFVRPTAPNGHQQTAANSFIKHKQIPWTCSALTPHAAFEH
+> 6&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 5901 /&nbsp; 1967&nbsp;&nbsp;&nbsp; 5687 /&nbsp; 1894&nbsp;&nbsp;&nbsp;&nbsp; 73&nbsp;&nbsp;&nbsp;&nbsp; 8163.18
+MVLFLRVVCFSPVDNKVQPTCGYRTDRFRVLVALVLGASRWLTLRANDAKQQIKGAIRKIAARDVLLNCSSKA
+> 6&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 1647 /&nbsp;&nbsp; 549&nbsp;&nbsp;&nbsp; 1310 /&nbsp;&nbsp; 435&nbsp;&nbsp;&nbsp; 114&nbsp;&nbsp;&nbsp; 13523.17
+MKTSVSKNVRAFCLWHLRQNRFLLPQRQQGKGKPHATLSSLSSSSSLTHRMQIKSVSQPDHKVAAPDRRICRFQCWERGDPWRFRSRIPDTDTETRLEVKRTRPIRRDLWHESS
+
+==--------------------------&nbsp; End of Analysis&nbsp; --------------------------==</pre>
+
+<hr SIZE="5">
+
+<h4><font color="#FF0000">Tabular Output</font></h4>
+All these output formats, as well as the Linear Map and Summaries are affected
+by the <b>width parameter</b> 
+&nbsp; <a href="tacg3.man.html#wflag"><i>-w</i></a>;
+if you can manage the wider output,
+it's more efficient and easier to view.&nbsp; The -w flag has a special
+case besides the normal.&nbsp;&nbsp; If you specify -w1, it will set the
+output to be 10,000,000 characters wide, assuring that all output for a
+particular stanza will be in 1 line.&nbsp; This is sometimes useful for
+post-processing data.
+
+<h4><a NAME="sumallcuts"></a><font color="#FF0000">Summary of All Cuts</font> 
+&nbsp; <a href="tacg3.man.html#sflag"><i>-s</i></a></h4>
+
+This is no longer printed by default; you have to explicitly request all
+output. This was to make tacg more amenable to inclusion into other programs
+as a shell command - see <a href="#wotherprogs">Using tacg with Other Programs</a>.
+This output includes info on EVERY active (uncommented) enzyme/pattern
+in the rebase file that has passed all the filtering flags (-n, -o, -m/M).&nbsp;
+<hr>
+<pre>Restriction Enzymes that DO NOT CUT in this sequence:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BbeI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EheI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FseI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KasI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NarI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NheI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NotI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PacI&nbsp;&nbsp;&nbsp; PaeR7I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SalI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SfiI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SpeI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SwaI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XhoI
+
+&nbsp;Total Number of Cuts per Restriction Enzyme:
+
+&nbsp;&nbsp;&nbsp;&nbsp; AatII&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp; BsiYI&nbsp; 130&nbsp;&nbsp;&nbsp;&nbsp; EcoNI&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MluI&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SalI&nbsp;&nbsp;&nbsp; 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AccI&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BsmI&nbsp;&nbsp; 30&nbsp; EcoO109I&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MmeI&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SapI&nbsp;&nbsp;&nbsp; 7
+&nbsp;&nbsp;&nbsp;&nbsp; AflII&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp; BsmAI&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp; EcoRI&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MnlI&nbsp; 184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SauI&nbsp;&nbsp;&nbsp; 1
+&nbsp;&nbsp;&nbsp; AflIII&nbsp;&nbsp; 13&nbsp;&nbsp; Bsp120I&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; EcoRII&nbsp;&nbsp; 49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MscI&nbsp;&nbsp; 17&nbsp;&nbsp;&nbsp; Sau96I&nbsp;&nbsp; 61
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AgeI&nbsp;&nbsp; 12&nbsp; Bsp1286I&nbsp;&nbsp; 26&nbsp;&nbsp;&nbsp;&nbsp; EcoRV&nbsp;&nbsp; 14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MseI&nbsp; 106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ScaI&nbsp;&nbsp;&nbsp; 4
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AluI&nbsp;&nbsp; 89&nbsp;&nbsp;&nbsp;&nbsp; BspEI&nbsp;&nbsp; 22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EheI&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MspI&nbsp; 278&nbsp;&nbsp;&nbsp;&nbsp; ScrFI&nbsp; 145
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [remainder omitted]</pre>
+
+<hr SIZE="5">
+<h4><a NAME="cutsites"></a><font color="#FF0000">Tables of Cutting Sites</font>
+&nbsp; <a href="tacg3.man.html#Sflag"><i>-S</i></a></h4>
+
+(for enzymes that pass the filtering flags)
+<br>All of the following output formats (except the Infrequent Cutters
+Map) can have the REs listed by order of their names in the database or
+<font color="#FF0000">sorted
+by # of cuts and thence alphabetically</font>, like Strider, using the
+&nbsp; <a href="tacg3.man.html#cflag"><i>-c</i></a> flag.
+<br>In the next example output, the first example is sorted by 'order in
+database', the second is sorted by '# cuts, then alphabetically'.&nbsp;
+<hr><font color="#FF0000">sorted by 'order in database'</font>
+<pre>&nbsp; ==&nbsp; Cut Sites by Restriction Enzyme&nbsp;
+
+AatII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G_ACGT'C - 2 Cut(s)
+&nbsp;&nbsp; 1118&nbsp; 12143
+
+AccI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT'mk_AC - 16 Cut(s)
+&nbsp;&nbsp;&nbsp; 632&nbsp;&nbsp; 3008&nbsp;&nbsp; 3073&nbsp;&nbsp; 3079&nbsp;&nbsp; 5393&nbsp;&nbsp; 5816&nbsp;&nbsp; 6881&nbsp;&nbsp; 7974&nbsp;&nbsp; 8815&nbsp;&nbsp; 9978&nbsp; 11962
+&nbsp; 14136&nbsp; 16857&nbsp; 18087&nbsp; 20067&nbsp; 20222
+
+AceIII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CAGCTCnnnnnnn'nnnn_ - 8 Cut(s)
+&nbsp;&nbsp; 2127&nbsp;&nbsp; 5417&nbsp; 11681&nbsp; 11750&nbsp; 15151&nbsp; 17252&nbsp; 17584&nbsp; 21795
+
+AciI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C'CG_C - 48 Cut(s)
+&nbsp;&nbsp;&nbsp; 567&nbsp;&nbsp;&nbsp; 850&nbsp;&nbsp; 1512&nbsp;&nbsp; 2455&nbsp;&nbsp; 2931&nbsp;&nbsp; 3300&nbsp;&nbsp; 3339&nbsp;&nbsp; 3490&nbsp;&nbsp; 4842&nbsp;&nbsp; 5468&nbsp;&nbsp; 5600
+&nbsp;&nbsp; 5907&nbsp;&nbsp; 6174&nbsp;&nbsp; 6318&nbsp;&nbsp; 7533&nbsp;&nbsp; 8123&nbsp;&nbsp; 8807&nbsp;&nbsp; 9086&nbsp;&nbsp; 9745&nbsp; 10482&nbsp; 10805&nbsp; 11626
+&nbsp; 11669&nbsp; 11896&nbsp; 12050&nbsp; 12214&nbsp; 12404&nbsp; 12417&nbsp; 12675&nbsp; 13337&nbsp; 13646&nbsp; 14217&nbsp; 14881
+&nbsp; 15949&nbsp; 16013&nbsp; 16668&nbsp; 17060&nbsp; 17089&nbsp; 17101&nbsp; 17132&nbsp; 18035&nbsp; 18140&nbsp; 18820&nbsp; 18896
+&nbsp; 19781&nbsp; 21146&nbsp; 21536&nbsp; 21958
+
+AflII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C'TTAA_G - 5 Cut(s)
+&nbsp;&nbsp; 1292&nbsp;&nbsp; 4185&nbsp; 11172&nbsp; 18334&nbsp; 20663
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [remainder omitted]</pre>
+<hr WIDTH="250"><font color="#FF0000">sorted by '# cuts, then alphabetically'</font>&nbsp; 
+<a href="tacg3.man.html#cflag"><i>-c</i></a> flag
+<p>== Cut Sites by Restriction Enzyme&nbsp;
+<pre>ApaI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G_GGCC'C - 1 Cut(s)
+&nbsp; 21979
+
+ApaLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G'TGCA_C - 1 Cut(s)
+&nbsp; 10676
+
+Bpu10I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CC'TnA_GC - 1 Cut(s)
+&nbsp;&nbsp;&nbsp; 844
+
+Bpu1102I&nbsp;&nbsp;&nbsp; GC'TnA_GC - 1 Cut(s)
+&nbsp; 13369
+
+NarI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GG'CG_CC - 1 Cut(s)
+&nbsp; 16014
+
+NgoAIV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G'CCGG_C - 1 Cut(s)
+&nbsp; 15606
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [remainder omitted]</pre>
+
+<hr SIZE="5">
+<h4>
+<a NAME="fragments"></a><font color="#FF0000">Tables of Fragment Sizes</font>
+&nbsp; <a href="tacg3.man.html#Fflag"><i>-F</i></a></h4>
+(unsorted by fragment size, sorted or both; 'vertical' ordering can also
+be sorted with '-c' as in the above example.&nbsp;
+<hr>
+<pre>&nbsp; **&nbsp; SORTED Fragment Sizes by Restriction Enzyme **
+
+AatII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G_ACGT'C - 5 Fragment(s)
+&nbsp;&nbsp; 1849&nbsp;&nbsp; 3449&nbsp;&nbsp; 3731&nbsp;&nbsp; 4289&nbsp;&nbsp; 5110&nbsp; 14062
+
+AccI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT'mk_AC - 5 Fragment(s)
+&nbsp;&nbsp;&nbsp; 639&nbsp;&nbsp; 1187&nbsp;&nbsp; 2192&nbsp;&nbsp; 3574&nbsp; 11828&nbsp; 13070
+
+AflII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C'TTAA_G - 2 Fragment(s)
+&nbsp;&nbsp; 6078&nbsp;&nbsp; 6541&nbsp; 19871
+
+AflIII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A'CryG_T - 13 Fragment(s)
+&nbsp;&nbsp;&nbsp;&nbsp; 35&nbsp;&nbsp;&nbsp; 170&nbsp;&nbsp;&nbsp; 459&nbsp;&nbsp;&nbsp; 493&nbsp;&nbsp;&nbsp; 956&nbsp;&nbsp; 1268&nbsp;&nbsp; 1712&nbsp;&nbsp; 1913&nbsp;&nbsp; 2360&nbsp;&nbsp; 2419&nbsp;&nbsp; 4091
+&nbsp;&nbsp; 4920&nbsp;&nbsp; 5733&nbsp;&nbsp; 5961
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [remainder omitted]</pre>
+
+<hr SIZE="5">
+<h4>
+<a NAME="ladmap"></a><font color="#FF0000">Ladder Map</font>
+&nbsp; <a href="tacg3.man.html#lflag"><i>-l</i></a> <small>(el, not one)</small>
+</h4>
+
+<ul>
+<li>
+overhangs indicated: 5'(\), 3'(/) blunt(|) cutters
+
+<li>
+if more than 1 cut maps to a space, the number of cuts is shown numerically
+(see <font color="#1612FF">AluI</font>, below)
+
+<li>
+total # of cuts indicated at end of line).
+
+<li>
+width-sensitive, so you can increase accuracy by choosing a wider output.
+See also the <a href="ftp://mamba.bio.uci.edu/pub/tacg/lamda.map.gz">complete
+output of the lambda analysis</a>.
+</ul>
+
+<hr>
+<pre>&nbsp; Ladder Map of Restriction Enzyme Cut Sites:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 900 1800 2700 3600 4500 5400 6300 7200 8100 9000
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :
+&nbsp;&nbsp;&nbsp;&nbsp; AccI ----------------\-----------------\--------------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2
+&nbsp;&nbsp;&nbsp;&nbsp; AciI -----------------\-----------\--\---\\------\--\\------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8
+&nbsp;&nbsp;&nbsp; AflII ---------\-------------\---------\--\----\---\---------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6
+&nbsp;&nbsp;&nbsp;&nbsp; AhdI ---------------------------/---------------------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :
+&nbsp;&nbsp;&nbsp;&nbsp; <font color="#1612FF">AluI</font> --|---|||--23||||2||-|2--2---|2|232||-|-|22--2-|3|-||--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 50
+&nbsp;&nbsp;&nbsp;&nbsp; AlwI ------2---\-----------\--2-------------\2--------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9
+&nbsp;&nbsp; Alw26I ----------------------------------------------------\--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1
+&nbsp;&nbsp;&nbsp; AlwNI -----------------------/--------------/--/-------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; :</pre>
+
+<hr SIZE="5">
+<h4>
+<a NAME="infrequentmap"></a><font color="#FF0000">Infrequent Cutters Map</font> 
+&nbsp; part of the <a href="tacg3.man.html#lflag"><i>-l</i></a> flag </h4>
+(a la Strider) of enzymes that cut less than X (a small number of times)
+- (In version 2/3 this has been changed to be length-sensitive; X = 2 until
+the sequence increases to beyond 10,000, then X increases proportional
+to the log of the increased size). This output option is not called explicitly,
+but is appended to the Ladder map (-l).
+<br>It should be obvious, but each label is of the form:
+<br><b>Name@Cut_Site</b>
+<hr>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;== Summary of Enzymes that cut ** 2 ** times or less:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XcmI@9286
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XcmI@2466&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UbaEI@9054
+&nbsp;&nbsp;&nbsp; Sse8647I@1801&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SexAI@9288&nbsp; UbaDI@13309
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SmaI@2882&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PstI@10119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PstI@15573
+&nbsp;&nbsp;&nbsp; Psp5II@1801&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pfl1108I@10898&nbsp;&nbsp; SgrAI@16556
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NruI@2248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HgiEII@10152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PflMI@18025
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NcoI@2848&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SexAI@8621&nbsp; EcoNI@12615&nbsp; NruI@17146
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BstXI@2962&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EcoNI@10850&nbsp;&nbsp; NgoAIV@15606&nbsp; PmlI@20299
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BstEII@4076&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EagI@12054&nbsp; NarI@16014&nbsp;&nbsp; Pfl1108I@20364
+&nbsp;&nbsp; BstEII@1183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bsu36I@10980&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HgiEII@18039 MluI@22230
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BstDSI@2848&nbsp;&nbsp; NcoI@7724&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bpu1102I@13369&nbsp; PacI@18544 MluI@22201
+&nbsp; Bpu10I@844&nbsp;&nbsp; PshAI@5399&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ApaLI@10676&nbsp;&nbsp;&nbsp;&nbsp; EagI@16150&nbsp;&nbsp; BstXI@20204
+&nbsp; AatII@1118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BstDSI@7724&nbsp; AatII@12143&nbsp;&nbsp; Bsu36I@16688&nbsp;&nbsp;&nbsp; ApaI@21979
+&nbsp; ||| | |&nbsp; |&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; ||| | ||&nbsp; | | |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; || ||&nbsp; | |&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; ||
+-------------------------------------------------------------------
+&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :
+&nbsp; 2000&nbsp; 4000&nbsp; 6000&nbsp; 8000 10000 12000 14000 16000 18000 20000 22000</pre>
+
+<hr SIZE="5">
+<h4>
+<a NAME="gelmap"></a><font color="#FF0000">Pseudo Gel Map</font>
+&nbsp; <a href="tacg3.man.html#gflag"><i>-g</i></a>
+</h4>
+
+<ul>
+   <li>This option shows approximately how different digests would look if run
+      on an agarose gel. Turn the page 90&deg;, blur your eyes slightly, and
+      it'll look like a massive agarose gel... really. Useful for selecting
+      restriction enzymes for best separation of fragments...
+   <li>It uses a straight log10() approximation, but the addition of math to
+      simulate different percentages of agarose/polyacryamide would be trivial.
+      If anyone has a favorite approximation, I'd be happy to include it.
+   <li>It uses the same representation as the <a href="#ladmap">ladder map</a>,
+      with single fragments represented as '|', multiple fragments that cannot
+      be resolved as a digit showing how many map to that space.
+   <li>the flag values set the LOW and HIGH CUTOFFs - fragments smaller or
+      larger than this window are excluded from the simulation. The value must
+      be an integer multiple of 10 (10, 100, 1000, etc).
+</ul>
+
+Below is a section of gel output generated with the width set to '-w75';
+the sequence length was 22380 bp (so the gel is automatically extended
+to 30 Kb).
+<p>From examining the UDP data so far, this is the option that is used
+incorrectly most of the time. To obtain the results below (a 10 bp cutoff),
+it should be used thusly:
+<br><b>tacg -g10 [other flags] &lt; input.file</b>
+<br>If you wanted a 1000 bp cutoff, change it to:
+<br><b>tacg -g1000 [other flags] &lt; input.file</b>
+<hr>
+<pre>&nbsp;== Pseudo-Gel Map of Digestions:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10000
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .
+&nbsp;AatII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2
+&nbsp; AccI |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; |&nbsp; | |2|&nbsp;&nbsp; 222 |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 16
+AceIII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; || |&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8
+&nbsp; AciI&nbsp;&nbsp; ||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; || ||&nbsp;&nbsp; | |&nbsp; | |22 || 33||4 |227||3| |2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 48
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .
+&nbsp;AflII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; |&nbsp; | |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+AflIII&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; |&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; | 2 2&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11
+&nbsp; AhdI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7
+&nbsp; AluI |&nbsp;&nbsp;&nbsp;&nbsp; 3 ||3&nbsp; 3|222 |||2223 3334|2352|2|42|||&nbsp; 2|2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 74
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .&nbsp; . . . ....&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .&nbsp; .
+&nbsp; AlwI&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | ||&nbsp;&nbsp; |&nbsp; |||&nbsp; ||||2|| |&nbsp; 3|&nbsp;&nbsp; ||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26
+Alw26I |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | |&nbsp; | |2|| 3 32||3|&nbsp;&nbsp; |4|2 |&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 35
+&nbsp;AlwNI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 2&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7
+&nbsp; ApaI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [rest deleted]</pre>
+
+<hr SIZE="5">
+
+
+<h4><a NAME="rules"></a><font color="#FF0000">Rules-based Logical Associations</font>
+&nbsp; <a href="tacg3.man.html#ruleflag"><i>--rule, --rulefile</i></a></h4>
+<i>--rule</i> allows  you  to  specify arbitrarily   complex   logical   associations   of
+small motifs  to  detect   the   patterns   that interest   you.   Here's an example:<br>
+Say  you  wanted to search for an enhancer that you suspected might be involved in the 
+transcriptional regulation  of a pituitary-specific gene.  You knew that you were looking
+for a sequence about 1000  bp long  in which there were at least 2 Pit1 sites and 3-5
+Estrogen response elements, but NO TATAA boxes. If  you had defined these patterns in a
+file called <u>pit.specific</u> as:
+<font size="-1"><pre>
+ Pit1  0  WWTATNCATW    0 1 ! Pit1 site w/ 1 error
+ ERE   0  GGTCAGCCTGACC 0 1 ! ERE site w/ 1 error
+ TATAA 0  tataawwww     0 0 ! TATAA site, no errors allowed </pre></font>
+<br>
+ you could specify this search by:<br><br>
+<font size="-1"><tt>tacg --rule '((Pit1:2:7&ERE:3:5)&(TATAA:0:0),1000)' -R pit.specific <
+input_sequence </tt></font>
+<br><br>
+This query searches a sliding window  of  1000  bps (-W  1000) for ((2-7 Pit1 AND 3-5 ERE
+sites) AND (0 TATAA sites)).  These combinations can be as  large as  your  OS  allows 
+your  command-line to be with arbitraily  complex  relations   represented   with
+logical   AND   (&),   OR   (|),  and  XOR  (^)  as conjunctions.  Parens enforce
+groupings;  otherwise it's evaluated left to right.
+<P>
+After rules are evaluated from the commandline, if the rule parses
+correctly, the rule is written to the tacg.patterns file (created in the current directory
+if it doesn't exist) so that it can be incorporated into a FILE of such rules which can
+then be evaluated en masse using the <i>--rulefile</i> flag.  This option, followed by a
+path to the file, allows all the uncommented rules in the file to be evaluated at once. 
+The format for the rules in both the <u>tacg.patterns</u> and the rulefile is as follows:
+<font size="-1"><pre>
+free-format comments 
+free-format comments down to the '..' separater between header and body.
+..
+;comments below the '..' must have a ';' character as the 1st character of the line.
+;Name ,   Rule  , sliding window   -  Note that they must be separated by a ','
+TestRule1  ,  (MwoI:1:8 | NaeI:1:8 | NarI:1:8) , 866
+;rules can be split over multiple lines with a '\' as the last (continuation) character
+TestRule2  ,  ((MwoI:1:8 | NaeI:1:8 | NarI:1:8) ^ ( NciI:1:8 & NcoI:1:8) | \
+(NdeI:1:8 | (NgoMIV:1:8 & NheI:1:8))),866
+</pre></font>
+
+
+<h4><a NAME="clone"></a><font color="#FF0000">Cloning functions</font>
+&nbsp; <a href="tacg3.man.html#cloneflag"><i>--clone</i></a></h4>
+The --clone flag allows you to specify regions of the sequence which can or cannot be
+cleaved by the REs selected by the other RE selection criteria (-o, -n, --cost, -m, 
+-M, etc).  You can specify up to the compiled-in limit of 15 criteria at once in the form
+of: <font size="-1"><tt>--clone #_#,#x#,#x#,#_#... </tt></font> where # is an integer
+indicating the sequence offset and each <i>#_#</i> or <i>#x#</i> is a criterium.  
+<i>#_#</i> indicates a range that MAY
+NOT be cleaved; <i>#x#</i> indicates a range that MUST BE cleaved.  <br> 
+The output indicates which criteria are met, with any combinations that perfectly meet all
+the criteria reported 1st.
+
+<h4><a NAME="patmatch"></a><font color="#FF0000">Pattern Matching</font>
+&nbsp; <a href="tacg3.man.html#pflag"><i>-p</i></a></h4>
+The pattern matching used in tacg has been extended to a more general approach
+for nucleic acids so that it is applicable for searching for degenerate
+patterns with a specified number of errors (in possibly degenerate sequences).
+<h5>
+<a NAME="patterns"></a>Pattern Matching with Errors</h5>
+The original tacg allowed searching for nucleic acid patterns with the
+standard IUPAC degeneracies, but V2/3 allows you to extend this capability
+by allowing searching with mismatch errors.
+<p>Quite often when you are searching for binding sites for transcription
+patterns, you wish to search for not only degenerate sites but degenerate
+sites with 'a bit of slop'. You can use tacg to do this in 2 ways, using
+the 
+&nbsp; <a href="tacg3.man.html#pflag"><i>-p</i></a> flag:
+<br>Say you had defined a site (called NPR) on a promoter by footprinting
+as 'gtcagggcgaat' and you wanted to search another implicated region for
+this sequence but you wanted to allow 2 errors to be allowed, so that you
+could find a sequence that would, for example match as follows:
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...gtcagggcgaat...
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...gtcggggcgatt...</pre>
+An appropriate flag/option sequence to obtain such a match would be:
+<p>
+<tt>tacg -pNPR,gtcagggcgaat,2 -Sl -w75 &lt;input.file |less</tt>
+<p>
+Translation: search <u>input.file</u> for the NPR sequence <b>gtcagggcgaat</b>,
+allowing at most 2 errors (<b>-pNPR,gtcagggcgaat,<font color="#CC33CC">2</font></b>),
+returning the
+<b>S</b>ite data and a <b>l</b>adder map (<b>-Sl</b>) formatted
+75 characters <b>w</b>ide (<b>-w75</b>) and pipe the results directly to
+the pager program 'less' (<b>|less</b>)
+<p>
+NB: In versions < 3.5, the error term can be omitted if you want perfect matches (O mismatches
+allowed). <tt>-pNPR,gtcagggcgaat</tt> indicates that no mismatches are allowed. 
+Additionally, when the <i>-p</i> flag is invoked, it also sets the -S flag so that tacg now
+behaves more like a <i>grep</i>.
+<p>
+<b>or<a NAME="GCGrebase"></a></b> you can specify that the sequence is
+<b>always</b>
+supposed to be searched 'with slop' via the addition of a single character
+in the <a href="http://www.neb.com/rebase/rebase.f2.html">standard GCG-formatted
+<b>REBASE</b>
+file</a> entry:
+<p>Here is the standard GCG REBASE format line:
+<pre>NPR&nbsp; 6&nbsp;&nbsp; gtcagggcgaat&nbsp;&nbsp; 0&nbsp; !NPR is searched with 0 errors</pre>
+Here is my hack to the standard GCG format line:
+<pre>NPR&nbsp; 6&nbsp;&nbsp; gtcagggcgaat&nbsp;&nbsp; 0&nbsp; <font color="#CC33CC">2</font> !NPR is always searched with 2 errors</pre>
+<P>
+You can also add more info to the REBASE file as described 
+<a href="#rebasehacks">here</a>.
+
+
+The algorithm to do this is reasonably brute force: an 'n' scan of the
+sequence is done, replacing every base of the sequence with an 'n'. If
+there is more than 1 error allowed, then each successive generation is
+'n'-scanned. At each iteration, each generated pattern is compared with
+the previous ones so that only novel patterns are actually stored. This
+approach dramatically decreases the number of patterns searched for, but
+can consume substantial CPU resources in the validation for long patterns
+with many errors allowed. There's a tweak to the algorithm that will also
+substantially decrease this time, but I haven't implemented it yet. I'll
+see if anyone uses it 1st.&nbsp; 
+Udi Manber's very fast, elegant, bitmasked 
+<a href="ftp://ftp.cs.arizona.edu/agrep/agrep-2.04.tar.Z"><b>agrep</b></a>
+could also be applied to this approach, but I haven't spent the time to
+do so yet.
+
+
+<h4><a NAME="proximity"></a><font color="#FF0000">Proximity Matching</font>
+&nbsp; <a href="tacg3.man.html#Pflag"><i>-P</i></a></h4>
+This is another option designed specifically for Transcription Factor (TF)
+analyses. I apologize that the commandline is particularly horrible, but 
+ In many cases, you are
+interested in a particular juxtaposition of 2 or more TFs; this option
+allows you to specify up to 10 sets of relationships between TFs and extract
+only those which match your criteria. The output has been organized so
+that you can see both the <font color="#000080">raw data (All)</font> and
+the <font color="#800080">filtered data (Matched)</font> in the same output
+stanza (below):
+<hr>
+<pre>== Proximity Matches:
+
+lef(1E)/IHF(0E) * 1 matches * found from search parameters: lef,200,IHF
+&nbsp;&nbsp; 57309/57116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+&nbsp;== Ladder Map of Enzyme Sites:&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # hits
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10000 20000 30000 40000 50000 60000 70000 80000 90000100000
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000080"> lef |--|-|-|463222222||||25|2|243---|324|222222--32223|-||3-3|--&nbsp;&nbsp; 98 (All)
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#800080"> lef ----------------------------------|-------------------------&nbsp;&nbsp;&nbsp; 1 (Matched)
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#800080"> IHF ----------------------------------|-------------------------&nbsp;&nbsp;&nbsp; 1 (Matched)
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000080"> IHF ----------------------------|-----|-------------------------&nbsp;&nbsp;&nbsp; 2 (All)
+
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp; :</pre>
+
+<h5>
+<a NAME="rawout"></a>Pattern Match Data Output by 'Bins' <font color="#FF00FF">NEW</font>
+&nbsp; <a href="tacg3.man.html#Gflag"><i>-G</i></a>
+</h5>
+This option 
+was included to allow the results of the matching to be exported to other
+programs for further analysis. Especially where there is a high number
+of matches, it may be of more use to plot or analyze these data using an
+external program, whether it be a spreadsheet, plotting app, or custom-writ
+program. I don't presume to know what you might want to do with the data
+and so to make tacg play nicely with other apps in the best unix tradition,
+I've tried to address some of the simpler data output formats that might
+be of most use. Output is possible in 2 rectangular formats (<b>X</b> and
+<b>Y</b>;
+one is the diagonal flip of the other) as well as in a long form (<b>L</b>)that
+may be better suited for simple, custom-writ programs that just want to
+read x,y pairs. The very slick <a href="http://www.gnuplot.org">gnuplot</a>
+can read the multiple columns of the <b>Y</b> form with only a very small
+amount of editing or filtering of the output. An example of gnuplot's processing
+of some tacg-generated data is shown as well. See also the <a href="#wgnuplot">gnuplot
+stanza in the section below</a>.
+<h4>
+<a NAME="wotherprogs"></a><font color="#FF0000">Using tacg with Other Programs</font></h4>
+tacg is obviously not the only molbio program you need to do your work.
+There are many analyses tacg just cannot do; to that end, it at least regurgitates
+your data in a re-digestible form so that you can masticate it further
+elsewhere. If you can program a bit, for quick and dirty programs you probably
+can't do better than <a href="http://www.perl.org">perl</a> (but if you
+can program a bit, you already know that). If you can't program, importing
+your data into a spreadsheet and manipulating it cell by cell is certainly
+viable with the sophistication of modern spreadsheets.
+<p>
+In terms of working with your data in the context of tacg, there are
+lots of other programs that make input easier, and output more readable/browsable.
+Here are some that I use on a regular basis:
+<ul>
+<li>
+<a NAME="wnedit"></a><a href="http://www.nedit.org">NEdit</a> A
+well-designed, actively supported, free GUI editor for Xwindows on unix
+and VMS. Besides its own features, NEdit allows you to seamlessly pipe
+selected text to external programs (...like tacg) and display the output
+in a NEdit window, and even add menu items of external programs (...like
+tacg), effectively making the NEdit/tacg combination a decent GUI biosequence
+analysis tool.
+<br>
+I've included a few of my own shell commands and other NEdit settings
+in the <b>dotnedit</b>
+file accompanying the distribution. Either copy your .nedit
+to a safe place and start NEdit with mine, or edit the tasty bits of mine
+into yours. If you're just browsing, 
+<a href="http://tacg.sf.net/Docs/dotnedit">here's my <b>.nedit</b></a>.
+And incidentally, 
+<a href="http://userpage.fu-berlin.de/~sgmd/.nedit">here's another</a> from Thomas Siegmund
+which allows biosequence coloration inside Nedit.  He has also developed some very neat 
+<a href="http://www.hszk.bme.hu/~tz124/kaptain/">Kaptain scripts</a> to wrap many of the 
+EMBOSS applications (some 
+<a href="http://userpage.fu-berlin.de/~sgmd/screenshots.html">examples shown here</a>.
+
+<br>
+While the NEdit/tacg combo doesn't allow quite the same flexibility
+as Strider, it does allow you to use an exceptional editor to modify or
+annotate your sequence in a very natural way and also allows you to submit
+parts of that sequence for some of the usual analyses. On slow machines,
+(~486/66) there is a perceptible pause while the data is passed to tacg
+and tacg's output is redirected back into nedit, but the window does appear;
+at least you don't have to go searching for it as you usually do in GCG.
+<br>
+<li>
+<a NAME="wjoe"></a><a href="http://sourceforge.net/projects/joe-editor/</a>
+I can't stand vi or emacs so when I have to text-edit thru a term window,
+I use joe. Now a standard part of most Linux distros, it compiles on just about everything
+and while it isn't as powerful as emacs, it's intuitive and doesn't force
+you to be bimodal as does vi. In order to use it with tacg, you can (as
+with vi and emacs, use it's shell command to pass-thru whatever you've
+selected to an external command:
+
+<br>Example:
+<ul>
+<li>
+<b>^KB</b> to mark the beginning of a block
+
+<li>
+<b>^KK</b> to mark the end of the block
+
+<li>
+<b>^K/</b> to pipe the selected, hilited text to whatever program you wish,
+such as <b>tacg -n4 -sSl</b> (to get summary, Sites and the ladder map
+imported into joe) so that you can move around and edit the results from
+within joe.
+</ul>
+
+<li>
+<a NAME="wless"></a><a href="ftp://ftp.gnu.org/gnu/less">less</a>
+My favorite pager - slick design, fast, memory miser. Like joe, it can
+pass selected text (but by lines only) to an external app with the '|from
+mark X to here' command.
+
+<br>Example:
+<ul>
+<li>
+go to the start of the selected text
+
+<li>
+hit 'm', then a key to mark the current position (say 'a')
+
+<li>
+move to the end of the text
+
+<li>
+hit '|', then the same indicator key as above ('a'), then the command you
+wish to pipe it to (<b>|a tacg -n4 -sSl</b>)
+</ul>
+
+<li>
+<a NAME="wreadseq"></a><a href="ftp://ftp.bio.indiana.edu/molbio/readseq/">readseq</a>
+The standard for biological sequence format conversion, from that biocomputing
+code wiz Don Gilbert. You can quibble with the interface a bit, but it's
+a lifesaver. If only GCG could convert sequence like readseq...
+
+<li>
+<a NAME="wgnuplot"></a><a href="http://www.cs.dartmouth.edu/gnuplot/gnuplot.html">gnuplot</a>
+gnuplot is a another of those many unix utilities that seems crude and
+clunky until you play with it a while. And after a bit, things fall into
+place and you wonder how you got along without it. Using tacg's <b>-G</b>
+output with <b>Y</b> format, it is easy to plot the distribution of A/T
+rich regions (using a pattern entry called 'at-rich') in the E coli genome,
+along with the distribution of an IHF site (pattern called 'ihf') allowing
+1 error. While they should both be further reduced with a sliding window,
+you can see that it is reasonably easy to visualize primary data from tacg.
+Example:
+
+<ul>
+<li>generate the plot data:
+		<pre>tacg -x at-rich,ihf -G2000,Y &lt; ec.raw > plot.data</pre>
+
+<li>clip off the top and bottom few lines with your favorite editor (or be
+		scripted with `head` and `tail`, if the whole thing is going to be iterated).
+
+<li>start gnuplot and type the commands:
+
+<li><b><tt>plot 'plot.data' using 2</tt></b>
+
+<li><b><tt>replot 'plot.data' using 3</tt></b>
+
+<li>The output is a plot with A/T-rich regions marked by green dots and IHF sites
+		marked by red dots.
+</ul>
+
+<li>
+<a NAME="wagrep"></a><a href="ftp://ftp.cs.arizona.edu/agrep/">agrep</a>
+A really useful tool that works very much like the other members of the
+'grep' family but with a few notable differences. It's VERY fast, and like
+tacg, you can use it to search for patterns with errors. I was originally
+going to use it as the basis for tacg's searching with errors, but by the
+time I started to understand the bit operations that it uses, I had already
+implemented a workable scheme using the code I had already written, which
+was more applicable to the kind of output I wanted. I might switch later
+- it's a very cool algorithm (underlies Jim Knight's grepseq as well as
+the Glimpse and Harvest search tools). The technical papers describing
+it (in the same FTP tree) are models of readability.
+
+<li>
+<a NAME="wgenscript"></a><a href="http://www.hut.fi/~mtr/genscript/">Genscript
+(Gnu enscript)</a> This is an ASCII to postscript converter that allows
+you to scale and rotate text on the printed page. For many tacg analyses,
+it's convenient to have very wide output and genscript allows you to squeeze
+the text you want in the space you have.
+
+<li>
+<a NAME="walpha"></a><a href="ftp://www.cs.umd.edu/pub/faculty/keleher/Alpha/">Alpha</a>
+Not a unix tool at all, but a hair-raisingly, spine-tinglingly good shareware
+text editor for the Mac from Pete Keleher. Often compared with the commercial
+BBedit. The reason I use it is because it works the way I work - almost
+everything I'd like in an editor is there and if it isn't, Alpha is mostly
+written in tcl so that it can be extended to do whatever you want. If I
+was going to try a native Mac port of tacg, I'd try it 1st as an add-in
+to Alpha, similar to the shell commands added to NEdit, <a href="#wnedit">described
+above</a>.
+</ul>
+
+<h4>
+<a NAME="scandbs"></a><font color="#FF0000">Using tacg to Scan Databases</font></h4>
+Thanks to the SEQIO lib, tacg now handles this just fine.&nbsp; Another
+thing that would be very handy for database handling is the ability to
+deal transparently with gzipped/compressed data; this is available via
+the <a href="http://quest.jpl.nasa.gov/zlib/">zlib</a> library.
+<h4>
+<a NAME="udp"></a><font color="#FF0000">The Odd one: UDP Reporting</font></h4>
+<font color="#FF0000">tacg</font> was also designed to track it's own use
+and spread - something in which I'm also interested.
+However, with version 3.x, this has ceased to be the default. You can
+still explicitly send back info with the 
+&nbsp; <a href="tacg3.man.html#Qflag"><i>-Q</i></a> flag
+ (and I'd be grateful), but it annoyed a
+few people and I think it has fulfilled it's usefulness.
+ The binaries have been compiled with code (udping.c) that spits a small
+amount of data back to me at each usage IF YOU EXPLICITLY ALLOW IT TO.
+<br>The data that gets sent back is:
+<ul>
+	<li>the IP number of the hosting machine
+	<li>the cpu type
+	<li>Operating System and Version # (output of 'uname -a')
+	<li>what flags were used in calling the program
+	<li>the number of bases processed.
+</ul>
+It does NOT return user names or actual sequence.
+An example of the data that is returned:<br>
+<p><tt><font color="#0000FF"><font size=-1>Returned: [hw=IP22 os=IRIX osver=5.3]
+[TACG Version 1.5F] /usr/local/bin/tacg -n5 -o5 -F2 -slL -g100 &lt;100000
+bp></font></font></tt>
+
+
+<h4><a NAME="legalstuff"></a>...And The Small Print Taketh Away...</h4>
+
+<b><u>COPYRIGHT NOTICE</u></b>
+<p>
+Copyright (c) 1994-2001 by Harry Mangalam, tacg Informatics.<br>
+hjm@tacgi.com, 949 856 2847
+
+<p>
+
+Permission to use, copy, modify, and distribute this software and its
+documentation is hereby granted, subject to the following restrictions
+and understandings:
+<ol TYPE="1" START="1">
+
+<li>Any copy of this software or any copy of software derived from it must
+	include this copyright notice in full.
+
+<li>All materials or software developed as a consequence of the use of this
+   software or software derived from it must duly acknowledge such use, in
+   accordance with the usual standards of acknowledging credit in academic
+   research.
+
+<li>This software is licensed under the 
+	<a href="http://www.gnu.org/copyleft/gpl.html">
+   Free Software Foundation's General Public</a> which is available by clicking the preceding
+   link or at <i>http://www.gnu.org/copyleft/gpl.html</i>
+   and is also included in the source code distribution in the file <b>COPYING</b>
+   
+<li> If the GPL is unacceptable to you or your organization, you may also contact 
+	the author to negotiate a proprietary license under which you are relieved of the terms of the 
+   GPL.
+   
+<li>This software is provided AS IS with no warranties of any kind. The author
+   shall have no liability with respect to the infringement of copyrights,
+   trade secrets or any patents by this software or any part thereof. In no
+   event will the author be liable for any lost revenue or profits or other
+   special, indirect and consequential damages. Period. 
+</ol>
+
+</body>
+</html>

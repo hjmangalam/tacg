@@ -1,0 +1,12 @@
+This is the dummy regex database of regex expressions that might be used for 
+searching a zillion regex's at once.  Good Luck..
+..
+;RxName1    an{5,7}ty(am|ma)tyk !
+RxName3    wtc(aa|tg)gg{2,4}y    ! After the '!' various other fields
+HarryM     tw{2,3}(tgg|caa)gy{2,} !
+; This line should be ignored
+RxName13    gn{5,7}ty(ag|ttaa)tgy !  
+RxName     gwtcg{2,4}a(aa|tg)ta    ! After the '!' various other fields
+Dummy_Name   tw{2,3}(tgg|caa)gy{2,} !
+Rxtest3     gyt{3,6}tn{2,5}acymk(ty|ghy) !
+Regex7      wt{3,7}arn{3,4}w{2,4}(rt|yw) !

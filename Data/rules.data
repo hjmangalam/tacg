@@ -1,0 +1,54 @@
+HJM: DO NOT modify this file while in the tacg/Data directory - it will mess
+     up the test results.  Please copy and modify elsewhere!
+     
+This is a demo file describing the file format for the rule strings that are 
+used by the --rulefile option.
+
+Briefly, it takes the overall format of a GCG REBASE file.  Anything that
+appears before the separator line consisting of '..' is a comment.
+Anything after that separator, unless prefixed with a ';' at the beginning of a
+line is a rule or part thereof.
+
+A rule consists of a Rule Name of up to 10 characters, the rule itself which
+must be enclosed in parens, and a sliding window term, all separated by commas.
+
+Rules can be split over several lines if the last character in each of the lines
+is a backslash (\) and the entire length is less than the compiled-in max of 
+2000 characters (MAX_LEN_RULESTRING).
+
+
+..
+;Name ,   Rule  , sliding window                                 
+TestRule1  ,  ((MwoI:1:8 | NaeI:1:8 | NarI:1:8) ^ ( NciI:1:8 & NcoI:1:8) | \
+(NdeI:1:8 | (NgoMIV:1:8 & NheI:1:8))),866
+
+;TestRule1  ,  (MwoI:1:8 & NaeI:1:8 | NarI:1:8) ,866
+
+;   -x 'MwoI,NaeI,NarI,NciI,NcoI,NdeI,NgoMIV,NheI' 
+
+;TestRule2  ,  (MwoI:1:8 | NaeI:1:8 | NarI:1:8) ^ \
+;( NciI:1:8 & NcoI:1:8) | (NdeI:1:8 | \
+;(NgoMIV:1:8 & NheI:1:8)),66
+
+;TestRule2 ,   (EcoRV:1:8&FauI:1:8(Fnu4HI:1:8|FokI:1:8(FseI:1:8&FspI:1:8)|((HaeII:1:8 &HaeIII:1:8| \
+;             HgaI:1:8&HhaI:1:8)&Hin4I:1:8)|HinP1I:1:8)&(HincII:1:8^(KasI:1:8|KpnI:1:8(MaeIII:1:8| \
+;             MboI:1:8&MboII:1:8)|(MfeI:1:8^MluI:1:8)|MlyI:1:8)&(MnlI:1:8|MscI:1:8(MseI:1:8| \
+;             (MslI:1:8&MspA1I:1:8)^MwoI:1:8)|NaeI:1:8)&NarI:1:8)^NciI:1:8),10000
+
+;TestRule3  ,  ((HpaII:13:38 ^ AatII:1:8) | (AccI:1:8 & Acc65I:1:8 & AciI:1:8) | ((AclI:1:8 & AfeI:1:8) ^ AflII:1:8)),1111
+
+;TestRule4  ,  (((PpuMI:1:8 & ((AflIII:1:8 & AgeI:1:8) |  AhdI:1:8) &  AloI:1:8) & AloI:1:8 | AluI:1:8) ^ (AlwI:1:8 & AlwNI:1:8) )|\
+;              ((((HgaI:1:8&HhaI:1:8)&Hin4I:1:8)|HinP1I:1:8)&(HincII:1:8^(KasI:1:8|KpnI:1:8(MaeIII:1:8|))))),9876
+
+;--rule 'TestRule4  ,  (((PpuMI:1:8 & ((AflIII:1:8 & AgeI:1:8) |  AhdI:1:8) &  ApaI:1:8) & MaeIII:1:8 | AluI:1:8) ^ (AlwI:1:8 & AlwNI:1:8) | ((((HgaI:1:8&HhaI:1:8)&HinfI:1:8)))),800' -e 30000 < Seqs/hlef.seq
+
+;|HinP1I:1:8)&(HincII:1:8^(KasI:1:8|KpnI:1:8(MaeIII:1:8|)))) ),800' -e 30000 < Seqs/hlef.seq
+
+;TestRule4  ,  ((((PpuMI:3:5 & ((AflIII:0:2 & AgeI:1:2) |  (AhdI:0:3) &  ApaI:2:4) & MaeIII:0:2 | AluI:3:6))) ^ \
+;(AluI:5:8 & AlwNI:1:2) | ((HgaI:1:3&HhaI:5:18)&HinfI:1:8)&(HincII:3:8^(KasI:3:9|KpnI:1:3&MaeIII:1:8))),1200
+
+;TestRule5  ,   ((PpuMI:3:8 | PshAI:1:3 ^ PsiI:2:4) & ((PspGI:2:7 | PspOMI:1:8 & HindIII:0:2) | (ApaI:1:2 & PstI:1:8))),1445
+                 
+;;TestRule6  ,   (((MwoI:1:2 &  NaeI:0:1) & (  NarI:2:2 | NciI:10:18 & NcoI:2:8)) & (NdeI:2:4 ^ NgoMIV:1:3) | NheI:5:8  ),999
+          
+; ./tacg --rule 'TestRule4  ,  ((((PpuMI:3:5 & ((AflIII:0:2 & AgeI:1:2) |  (AhdI:0:3) &  ApaI:2:4) & MaeIII:0:2 | AluI:3:6))) ^ (AluI:5:8 & AlwNI:1:2) | ((HgaI:1:3&HhaI:5:18)&HinfI:1:8)&(HincII:3:8^(KasI:3:9|KpnI:1:3&MaeIII:1:8))),1200' -e 30000 < Seqs/hlef.seq

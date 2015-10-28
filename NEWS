@@ -1,0 +1,1224 @@
+$Id: NEWS,v 1.1.1.1 2001/11/14 18:36:37 mangalam Exp $
+
+
+ STILL TO DO:
+H=Hi priority        E=Easy
+M=Medium priority    H=Hard
+L=Low priority       ?=Dunno
+
+BUGS LIST 
+--------- 
+10.17.01
+Fixed BAD realloc bug in ReadEnz in which test for end of alloc'ed mem in RE was 
+calculated wrong - basic math error.  Showed up bc tryin gto do a bunch of matching
+with errors and the cal overflowed teh end of RE.
+
+Need to add check for gs to configure script.
+
+Hmmm - couldn't the realhash() be used to check the sequences for the degenerate 
+searching as well as check collisions between names..? could, but it's still a stupid
+way to do the searching.
+
+need to change --rule to be --rule 'RuleName,(rulestring),width' & propagate 
+changes thru the app and docs - manpage and real manual.
+
+since sliding window term is now included with Rule, is there any reason to 
+have a --slidwin flag/option??? Does anything else use it?
+
+FIXED! BUG!  if searching for patterns with errors, screws up the Fragments output.
+Sounds like the offset with the degenerate sequence overwrites the fragments memory 
+or something..
+
+BUG! --rules without enclosing ()s causes coredump.
+Need 'make install' &  'make test' functionality added to the makefile.
+
+Need RPM and Deb packaging for tacg (binary and source) to be able to get it
+installed fast.
+
+
+Required: 
+- Search for ORFS with alternative inititator codons
+- make test, make install
+- graphics
+
+Very attractive:
+- multiple agrep search
+
+Should count ALL bases ACGTNYWKM etc as go.
+
+6.8.01 - Seqio breaks on 33MB data & tacg allocates way too much mem for it 
+via the --raw flag (175M for a 33M sequence!), but it does do it - fixed by 
+making the Degeneracy Logging optional - on a huge input file, this can have BIG 
+consequenses.  This should also be re-written using shorts (2bytes) **index
+with a multiplier index based on teh 2nd dimension. ie at [0][0-65535] the 
+numbers = the number * the 1st index, so a number @ [3][45666] = 3*65535+45666 =
+242271.  This would drop the RAM requirements to 1/2.  Probabaly also a better
+way to do it.
+
+
+Seqio also breaks when raw Genbank files are read in (header is slightly off in
+terms of a std genbank file).
+
+Seqio has to be updated to allow binary DNASTAR and Strider files.
+
+
+5.2.01 - (fr Dick McCaman) when pasting in raw sequence in the paste-in window,
+  should be able to  tell the output where the numbering should start ie:
+  start sequence numbering here [____1] (default 1)
+
+  Also from Dick McCaman), the Find Open Reading frames behavior in assuming
+that it starts in an ORF should be optional (ie don't start defining ORFs
+until you hit a met.
+
+Bunch of rules suggestions still on paper..
+
+3.21.01 - in a file with multiple sequences, doesn't mark the stanzas correctly
+should detect multiple sequences and make a TOC that takes you to the individual 
+seqs and THEN to the individual sub-analyses.  Currently the links gnerated for 
+a file of multiple sequences don't work very well at all.
+
+ GenerateTOC(char *datestamp) {  << has to be passed the VERSION # as well!
+
+2.24.01 - FIXED finally - linear mapping now prints with the right spacing 
+between stanzas.  Thanks Dick!
+
+FIXED - 10.9.00 - Acck - noted and fixed - didn't pass thru the Codons and Codon table choice
+for doing translations in the LinearMap().  So no translations showed up.  
+
+
+10.9.00 - should add opt to -O (ORFs) to require/not require starting M so you
+can look for exons or at least extended ORFs without a starting Met - this
+leads into combining this into requiring splice sites etc for real gene
+finding. -O ###,minsize,[M,A], where [M,A] = start with Met,  start with Any
+aa.  Also (again), should be able to start on ANY given codon,  but this
+requires a different way of searching for the ORFs - would have to do it on 
+DNA, translating per triplet and matching for the desired start triplet.
+
+10.5.00 - change udp host to har
+
+10.4.00 - broke Usage() into smaller bits so that only a screen's worth goes
+onscreen at one time.  Not perfect, but works ok.
+
+9.19.00 - regression testing should test each flag in at least one 
+condition where it might fail and preferably in several conditions, especially 
+in combo with  other flags that would often be used at the same time.  Could go
+thru the udp logs  to get an idea of which flags ARE actually used together a
+lot.
+
+FIXED 9.19.00 - --raw broken bc of mem overrun when have lots of degeneracies. 
+check it better, fool.  case of [0]=size of alloc'ed mem [1]=next el to fill,
+but I overwrote [0] AND wasn't updating [0] when I realloc'ed.  Fool.
+
+
+Make the functions into a lib:
+   compile all code into .o (except for tacg.c)
+   gcc -shared -Wl,-soname,libtacg.so.1 -o libtacg.so.1.0 *.o
+
+   then copy it to /usr/local/lib 
+
+   then copy libtacg into /usr/local/lib and set the symlinks
+   cp libtacg.so.1.0 /usr/local/lib
+   cd /usr/local/lib
+   ln -s libtacg.so.1.0 libtacg.so.1
+   ln -s libtacg.so.1 libtacg.so
+
+   (making sure that /usr/local/lib is entered
+   in /etc/ld.so.conf (and re-run ldconfig)
+
+   then compile tacg.c into object
+   gcc gcc -O2 -m486 -Wall tacg.c -o tacg.o
+
+   and link with the lib:
+   gcc -O2 -m486 -Wall -lm -ltacg tacg.c -o tacg 
+
+   do now we have an operational tacg that's 30K instead of 350K
+
+   Should probably build a seqio lib as well as a tacglib to keep them
+   functionally distinct.
+
+REALLY NEEDS REGRESSION TESTING!!!
+   
+9.10.00 - finally functionized LinearMap (but it needs regression testing
+	like mad)
+9.1.00 - thanks to Markus Hoenicka, fixed some nasty off-by-one errs in 
+caclulating the endpoints for sorting the frags and sites and overruns in the 
+ending sequence (was still using the tacked-on sequence at the end (not checking
+for ending conditions in the DD.Dat struct.  Also idiotically (and thankfully 
+recently) left off a closing comment which wiped out a complete function.
+Also replaced un alloced char * with an alloc'ed char array in the places he 
+pointed out.
+
+8.19.00 - fr disc w/ Jason, AndrewD, should add extreme regression testing.  So
+all opts/ flags should have 1st level test and commom interactions should be
+tested as well.  
+
+8.16.00 - OK FIXED the -D problem I think.  
+-D0 is OK (eliminates degens)
+-D1 is OK -> -D3 when it hits a degeneracy
+-D2 is OK -> allows degens but ignores degens in the KEY hexamer, will match
+	against degens outside of the hex - sort of hokey, but cuts down on false 
+   positives
+-D3 is OK -> allows degens but only finds EXACT matches (will not allow possible
+	matches to be reported)
+-D4 is OK -> allows degens and reports all possible matches (up to the max of 
+	MAX_DEGEN (usu 256-fold degen 
+
+8.16.00 - slight caveat to the last fix - there was an error in the code
+whereby  the same code that prevented multiple names from being printed in the
+Linear Map allowed unrepeated names from getting printed in the 1st place b/c
+of the code  that checked the OVERLAP sections.  FIXED by blanking the
+BackCheck array whenever the OVERLAP check is invoked.  A bit extreme, but will
+only be invoked in the Linear Map mode and who's going to ask for a linear map
+of a Megabase...?  Now to fix the -D problem...
+
+7.25.00 - FIXED 8.15.00 - when matching into long degenerate stretches, usually
+have  repeated labels in exactly the same place.   Have the labelling routine
+check to see that there's only 1 label of the same  string at the same position
+(was already in there, but the code was testing for  an off-by-one array
+position - but it was working before...?
+
+7.12.00 - -h (help) should be able to output only the stanza of interest; if 
+I want help only on -D, Ishould b eable to specify "-h '-D'" and get only that
+help instead of going thru the whole thing.  This would allow each bit to be 
+considerably more helpful, and still be readable in a single screen (would have 
+20 lines to provide help instead of a 3 lines..  
+Something to think abou thow to do this... each flag maps to a line offset..?
+Sunno yet..
+
+FIXED: 6.25.00 - Looks like the Degen control (-D) is broken :(
+
+5.16.00 - According to JES, can use perl util h2xs to wrap tacg code as a perl 
+module if rewrite the functions as a lib rather than as compiled-in code.  This 
+should allow perl to use tacg's functions direct...
+
+5.5.00 - degen logging added to GetSequence2() (but not extensively tested), 
+have to add same code to GetSequence().  Also have to 
+
+4.30.00 - now starting the postscript bits finally after 3 years...
+
+4.30.00 - finally functionized a number of the largest case stanzas in 
+SetFlags(), to reduce the size of the main fn() and get them out of harms way.
+
+Note that -i0 (= --idonly=0) will allow all possible output even if there are 
+no pattern match hits.  Should be documented in a FAQ-o-matic table or manual.
+
+
+4.19.00 - should have a mechanism for saving '--rules' phrases so that you can 
+specify them by either by novel entry or by name:
+
+%RULE\tintiation_complex\t(rty:2:3|(hkhj:1:5&yiu3:4))|((hui:2:4)&(tyu:11:15))
+^      ^                  ^   
+|      |                  + the rule itself
+|      + Name of the rule
++those lines prefixed by "$rule:" are in fact rules
+
+if 1st char is a %, the entire line is tokenized on '\t' [or whitespace?] into 3 things:
+1) the $RULE identifier - redundant, but it is a good reminder
+2) the NAME of the RULE
+3) the rulestring itself
+(and the rulestring should be insensitive to whitespace, right)
+token should be a tab or whitespace, not a ':'
+
+4.15.2000 - looks like I've got HTML integrated into the bugger as a standalone.
+
+
+Make sure that manual has the info that clearly explains the differences between 
+calling flags with single letters (-H1 != -H 1) -H1 is correct; -H 1 is NOT correct
+and the longopt flags (both '--HTML 1' and '--HTML=1' are equal and correct.
+
+
+Idiot!  Print name and contact info on every output sheet.
+
+4.8.2000 -G will cause a segfault if it doesn't get the full, correct flags
+ie -G # will segfault (needs to be -G {#,X|Y|L}.  Need to fix this with more 
+error checking in SetFlags.
+
+<A HREF="javascript:{}" ONCLICK="window.open('CTHelp.html#','_screen',
+'width=600,height=400,scrollbars=yes,resizeable')">
+
+<script language="JavaScript" src="/js/general.js">
+</script>
+(<A HREF="CTHelp.html#FileFormat">Format expected, Data Coding</A>) <br>
+
+following is the formal def of the window.open args, It is important to note that the 
+third parameter to the window.open() function can contain no whitespace: 
+myWindow = window.open("http://www.netscape.com", "myWindowName",
+      "toolbar=yes,location=yes,directories=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,height=400,width=600");
+To display textbit, graphics in a popup external, unadorned window, use this method:
+javascript:displayWindow('tpj0403-0004b.html', '600', '450')
+put in head: <SCRIPT TYPE="text/javascript" LANGUAGE="JavaScript"></SCRIPT>
+<a href="javascript:{}" onclick="window.open('/graphics/isys/mapviewer.gif','_screen','width=720,height=580,resizeable')"><img src="/graphics/isys/mapviewer_s.gif" border=0></a>
+
+this is an href that works, withouth the script tag in the head section.
+<A HREF="javascript:{}" ONCLICK="window.open('tacg3.main.html','_screen','width=720,height=580,resizeable')">
+this should open tacg3.main.html..?</A>
+
+
+2.27.00 - The Completely built-in HTML is a good idea from a number of 
+standpoints.  It will allow the whole output to be browsable in Netscape, it
+will allow me to use Netscape's coloring/fonting ability to make things stand
+out, like 'color-by-size', color-by-hydrophobicity, color by number of times a
+pattern hits, how expensive an Enzyme is, etc.
+this should have the ability to do complete pages or just the tacg-related bits 
+so that it can be used to provide either complete, valud HTML pages or be 
+included in larger HTML documents.  So -H should take a variety of flags.
+-H 	= complete HTML page with TOC, etc (just adds the HTML header and footer)
+-H 1	= just the internal tacg-related bits WITH the TOC
+-H 2	= internal bits without the TOC
+
+2.26.00 - when extracting sequences from raw sequence (seq didn't come in via 
+SEQIO), coredumped b/c SEQinfo struct hadn;t been initialized.  Added checking for this.
+-Also related to --raw, F.NBases wasn't being updated in the original
+GetSequence() so all sequence showed up as degeneracies in the header (altho it
+still searched everything OK.
+From SeqFuncs.c:321
+/* This is the original base-handling section which did NOT update F.NBases
+	It appears to be completely handled by this
+         case 'a': case 'c': case 'g': case 't': cc favored 4 always get added nn
+            if (seq_Cntr++ >= begin) sequence [totSeqCnt++] = ct;   cc add it to the sequence nn
+            if (seq_Cntr > end) goto gotAllSeq; cc nasty but efficient way to break out of loops nn
+         break;
+*/         
+- Also fixed the regex problem with mistakenly escaping the '[' and ']'.  
+Now it works the way it's supposed to, more or less.
+
+
+2.12.00 - fixed odd bug in which if gel (-g 100,1000) is requested AND
+Fragments are requested, AND the HI_CO in the gel is less than the sequence
+size, the fragment  analysis segfaults b/c of an artificial truncation of
+'seq_len' which should never be changed.  Patched now; but it should be
+changed in the code to a local variable and  so that it doesn't affect later
+ones.  (The change DOES stay local to the fn() of course but it was being set 
+for ALL analyses, not just the gel ones.
+
+NCBI's ORF finder allows alternative start codons AND for the found ORFs to be 
+output in either protein or DNA format.  I should do that as well.. or steal 
+their code - naah - it's all ncbi toolkit-based.  Have to write it anew.
+
+12.14.99 A whole bunch of problems relating to the transition from gcc to egcs
+__extension__, different acceptable type definitions (u_long, in udping.c), 
+file system vars in seqio.c (probably a LOT of wacko-ness in seqio.c)
+
+
+12.3.99
+THIS APPEARS to be fixed by removing it entirely.  With that stanza removed
+completely, it now works fine on linux, DEC UNIX, IRIX.  Have to test on 
+Sun/Solaris, Win32.  If it buggers up, may have to use Stephane's #ifdef 
+dance to step around the various probelms with it.
+
+Looks like win32 needs to have that defined, so I'll have to add it back in for 
+windows.
+
+in seqio.c line 152
+/* extern char *sys_errlist[]; */
+extern const char *const sys_errlist[]; 
+may have to insert an ifdef statement to allow OSF to declare the 1st statment
+instead of the second.
+
+committed changes back to CVS 11.23.99
+
+Should set up the FAQ-o-matic for tacg.
+
+12.2.99 When use the --raw sequence entry, the bases are counted incorrrectly,
+leading to an incorrect header for each sequence.  Not serious but a leetle bug 
+nevertheless
+
+FIXED: 11.22.99 - need to specify that -# needs to be called AFTER the -R flag
+that  specifies an alt matrix file.  Or patch the SetFlags routine to allow
+out-of-order calls.  Note in the help file... Nope - FIXED!  Just needed to add
+a little  post-flag-checking checking.
+
+FIXED: it segfaults on the large matrix file (from transfac...) - this is fixed
+- had managed to exclude the size checking for RE in the ReadMatrix.c (just
+copied  over the stanza from ReadEnz.c), so that when it tried to take in more 
+than the initial size of RE, it just blew up (no more mem left).
+
+11.9.99 - Added support for XOR (represented as '^')  in the --rules checking
+to fill out the logic a  bit more.
+
+DONE: 11.4.99 - tacg should (and now does) support raw input directly,
+bypassing seqio (as it did originally) so that it can support direct raw
+sequence input as file fragments, or as editor buffers.
+
+10.27.99 Added Dick McCaman's suggestion to allow user to request that 
+only 1 strand be shown and that the tics can be eliminated as well.
+(--strands={1|2}, --notics)  Seems to work OK, even allows for protein 
+translation to move up and down as well to compensate.
+
+10.8.99 - tacg still bombs after several hundred sequences of doing the Hookey 
+routine with a strange(!) memory error.  dmalloc suggests that 2 structures are
+colliding, but in the debugger it runs fine!  So it's difficult to figure out..
+Seems to be a rare occurrance tho.  Probably down on the list of things to do.
+
+10.8.99 - tacg should detect when there are NO hits to generate a Hookey on and
+just skip the Hookey section. DONE.
+
+10.8.99 - tacg retains the info generated about each ORF until exit, so if you
+   run a large number of sequnces thru it, tacg will suck up lots of memory:
+   search all the yeast 500bp untranslated sequences (3.6MB, 6200 sequences)
+   for ORFs > 44 AAs in all 6 frames takes about 1.5 min and uses about 65 MB
+   of mem (more sequences takes more i/o, more very short ORFs to consider); 
+   searching the Ecoli genome (4.6 MB for all ORFs > 88 AAs in all frames, with
+   xtra info) takes ~50s (less i/o) and tops out at about 16MB
+   
+10.4.99 - compiles with cygwin on Win32 (!!!!), but crashes with the -xname=,name,name
+...........................................................................^
+for some reason...  Could re-do it with a more std flag like:
+-x nameA,=,name,name,name,c so that the '=' is a more std part of the string and it 
+gets parsed as part of the normal routine...?  Needs to tag the last name read in 
+so that the 
+
+on OSF:
+ReadEnzFile.c: In function `ReadEnz':
+ReadEnzFile.c:135: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:140: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:140: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:142: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:142: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:149: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:149: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:155: warning: assignment makes pointer from integer without a cast
+ReadEnzFile.c:155: warning: assignment makes pointer from integer without a cast
+
+the above complaints appear to be related to strsep routines and according to
+the function,  it is correct.  There may be an internal strsep() that is
+slightly different.  Hmm - try compiling OUR  strsep before ReadEnzFile.c to
+catch this...  OR make sure that it's included in the tacg.c fn definitions
+
+...
+gcc  -O2 -c getopt.c
+getopt.c: In function `_getopt_internal':
+getopt.c:656: warning: type mismatch in implicit declaration for built-in function `strlen'
+gcc  -O2 -c getopt1.c
+gcc  -O2 -c seqio.c
+seqio.c:163: warning: `toupper' redefined
+/usr/include/ctype.h:125: warning: this is the location of the previous definition
+seqio.c:152: conflicting types for `sys_errlist'
+/usr/include/errno.h:288: previous declaration of `sys_errlist'
+
+
+OSF doesn;t know how to link in -lm, 
+and -lnsl is defined to be linked in and it doesn;t need to be..
+
+on alpha: FIXED
+gcc  -O2   -c SetFlags.c -o SetFlags.o
+SetFlags.c: In function `SetFlags':
+SetFlags.c:105: warning: cast from pointer to integer of different size
+SetFlags.c:821: warning: cast from pointer to integer of different size
+
+Oct 1.99  YES!!!! It's really fixed - the sliding window code.  the right way..
+I think.  Problem was that I was  incr Lo and THEN decr the Counts[] of the
+incremented number, not the pre-incremented #
+
+9.29.99 - Sliding Windows have been FIXED! I think.  more testing is required,
+but I think it's well on the way to being solid.
+
+9.27.99 - slight bug(?) - if have a cutter with a large overlap which has its
+recognition site at the end of the sequence, but has its cut site PAST the end
+of the sequence, it will show up as a hit.  This might be considered a feature
+bc that piece of DNA cloned into something else WILL generate such a site when
+it goes in.  Leave as is but make a note about it.
+
+9.26.99 ALL FIXED!! problem with dam showing up in Linear Map fixed, but should
+also remove the RE names that are masked by methylation be shown as well or
+indicate them in some way.  Probably should leave them in place but also mark
+them in some way.... Could detect them by checking the entry against the
+RE[].Sites entry - if they're there, then print them, but if not, ignore them. 
+This could be a fn() and just check whether it returns 1 or 0 based on the
+args. 
+-returns 1 if not blocked (OK to print) 0 if blocked and shouldn't print
+-can get info from F.dam/F.dcm and then check whether it's ok 
+-needs to know which site to check tho and should be able to keep track of
+where it is, based on a pointer.  DD.Dat gives the offset, but not the offset
+into the Sites array.  Maybe use the el just beyond the end of the used space:
+RE[].Sites[RE[].Sites[0]] as RE[].Sites[0] points to the end of the array.
+Could easily(?) parasitize seqio's ability to reformat to confer reformatting
+ability on tacg.  Only reason NOT to have done this is that since it does 
+autoconversion on input, there's not much reason to reformat anyway...  But it's 
+somethingto consider.  May as well use all that code that gets included anyway.
+
+9.24.99 --rules broken again... in some way...no - seems to be a problem with a
+space between the '--rules' and the rulestring.  More error checking needed..
+Also, for --rules, if a name is misspelled or isn;t in the pattern DB, it will cause a
+paren mismatch - this should be reported as a 'name not found error'instead of a paren
+mismatch.
+
+Also, there's an end-point problem.  If there's a long (> window gap between a
+the last hit and the end of the sequence, then the window won't detect the last
+few hits.  Might have to add a routine to detect whether we're within the window
+of the end and see whether the last window's worth is a positive.  Tomorrow....
+
+have to add a check so that if the bracketing cuts describe a win thats < the
+slwin, but there's not a hit in the preceding or succeeding sequence (or the seq 
+ends) then the window is marked OK.  THIS IS FIXED
+
+9.22.99 Have to add error checking that detects when a longopt is prefixed by a
+'-' instead of a '--'.  Otherwise it's unclear what fails when it does.
+
+9.22.99 - dam/dcm routines for sites resulted in a lot of '0's being added into 
+the Sites output.  Fixed, I think, but his has to be checked carefully for some 
+large output.
+
+9.22.99 The Dam Dcm masking still results in the affected sites being displayed 
+on the Linear Map (which uses DD->Dat, rather than RE[].Sites data).  If you 
+wanted to only display those that STILL cut, would need to compare the DD.Dat
+data vs the Sites data - possible but yet another step..
+
+9.20.99 Sliding window part works fine as well.  
+
+BUT while adding and mod'ing the dam/dcm, I managed to mess up some the
+de-jittering routines in tacg.c.  Have to fix that - DONE.  Also, have to add the
+cost filtering to the main filtering test.
+
+9.18.99 The rules stuff works down to the level of a window the size of a 
+whole sequence.  Tomorrow, the whole sequence.
+
+Also...Set up a list for tacg discussion - DONE.
+
+9.18.99 Got the rules string parsing to work...FINALLY.  Still have to add
+considerable error detection and handling to deal with:
+	adjacent, misplaced ()
+   adjacent, misplaced logicals
+   broken names
+   etc
+   
+8.30.99 Added the pI calculation and output as well as gathering the data
+needed  for putting out the absolute and percentage AA composition.
+
+8.26.99 Set the Linear Map option (-L)  when ask for the -T flag, instead of
+just  kvetching about it.
+
+8.24.99 Weird translation bug (in both linear map and in ORF) fixed!!  Just a
+little offset problem.  Nasty little hack required, but nothing serious.  Now
+it correctly translates the reverse frames properly (instead of just reversing
+the same string that the forward frame translates, it goes from the end of the
+string in the right frame.  The translations also agree with the ORF numbers.
+
+8.22.99 fixed MatchSelREs() to work correctly even if words were passed to it
+NOT downcased.  also made it a bit more efficient by removing one half of the 
+Downcase() calls.
+
+8.22.99 BUT noticed a little bug in the Combined Sites code -x ,,,C which
+results in  outputting the code NOT in order of sites.  Looks like the final
+buffer needs  quicksorted again. FIXED.- qsort was using compare() instead of
+abscompare().
+
+8.19.99 FIXED - use of parens in --rules confused the parsing code.  At least
+fixed better.
+
+FIXED: 8.3.99 -  if use -g# instead of new version -g'lo,hi', coredumps ALso
+note in docs that if the sequence is < the length of the upper limit, it will
+only print out to the length of the sequence; it won't waste space by printing
+'whitespace' to the end.  Since it only increases by logs, any higher number will be truncated to the lower
+decade (70,000 -> 10,000).
+
+-b, -e still work
+-c still works
+-C sill works
+-i / --idonly works OK (some spacing irregularities, but fine in the main
+-f still works
+-F still works
+-S still works
+-s still works
+-G still works
+-h OK 
+-mM OK (overall, not tested on per-pattern)
+-p OK (multiples too), error rate seems to be working, but Nicholas Joly
+   suggested more error-checking to check for NULL strings, as in case of a 
+   malformed '-p' option.
+-r looks like regex code is broken - NO, just doc'ed incorrectly - corrected 
+   the token separator code to disallow anything but ':'.
+-R ok
+--silent is sort of ok now, but should really have the 
+   ORIGINAL TRANSLATION ALONG WITH THE REVTRANS PROTEIN AS WELL
+-x (plus the ',c' option )seems to be ok as well
+-X ok
+-# ok 
+--rules finds the names and sets the min/Max but doesn't do the filtering on 
+   output yet (needs a commmon fn() to handle this.  Has to also handle the 
+   SlidWin() as well.  After Cutting(), have to eval the rules and make a 
+   decision for it overall, so that for any function, just have to check the state of 
+   this var.   Make up a ruleset and the fn() has to pass all of them, so that
+   all the logical 
+
+High Priority  
+-------------  
+HE - update man page and HTML man page!
+
+HE - add methylation options by cross-checking the patterns for dam and dcm and
+figuring out if they are close enough to block sensitive REs.  Sensitive REs
+are indicated by another entry in RE.  RE.dcm, RE.dam as shorts with 
+0 - no sensitivity to methylation, 
+1 - sensitive to methylation
+2 - contextually sensitive (only if the methylation happens in a particular 
+      sequence of nnnnnn's inside the recognition sequence)
+This info can be inserted in a standard formatted GCG REBASE file as additional
+variables beyond the standard, but before the '!' comment indicator.
+;Name     top cut offset     bottom cut offset
+           | Pattern         | . error rate
+           |                 | . |  dam sensitivity(0-2)
+           |                 | . |  |  dcm sensitivity(0-2)
+           |                 | . |  |  |  units 
+           |                 | . |  |  |  |  total cost   
+           |                 | . |  |  |  |  |  (M NaCl)     
+           |                 | . |  |  |  |  |  |     +(M KCl)
+FauI       9 CCCGCnnnn'nn_   2 . 0  0  0  $  #  #.#   #.#  ! Comments                          >IN
+
+So include all methylation stuff behind a single 'if' test so it doesn't get
+executed for each RE each time.  After Cutting, and dejittering, test if want
+meth tests.  if so, do them on all REs in RE[]. and then proceed.  For each RE,
+have to test whether it's sensitive at all.  if RE.dcm|dam == 0, can ignore it,
+and if 1, then more or less inore it as well - that RE doesn;t cut at all.  BUT
+if it's 2 (contextually sensitive) then have to test each hit for the right
+context.  Hard-code the dam/dcm patterns into the system.  Use RE[1] and RE[2]
+to store them and the start the RE index to start at 'RE_st'.  this will take
+some editing to find all the bits where RE is supposed to start at the beginning
+and go on... done.  Now have to mod ReadEnzFile.c to allow taking all the
+characters and parsing them out. DONE, apparently: 9.13.99
+
+
+MM - For the Web version, what about color-coding the bases in the linear map
+to  represent either Tics (green every 5, red every 10, etc) and also color
+code the  AAs in any grouping that you want - basedon Hydrophobicity, Charge,
+size,  polarity, etc - this could use the same groupings that the output in the
+ORFs  have to use to reorder the output.
+
+MM - What about Protein?  seqio detects protein; tacg could recognize it as
+well.  What things scould immediately be provided?  explicit and regex
+searches, including specialized searches.  profiles, hmms (but not
+immediately), 
+
+MH - Nice feature would be to be able to DB the strings used in --rules and
+refer to  them by those names so we don't have to keep typing int the whole
+strings, especially for very complex strings and associated -W flags -> builds
+up a DB of complex patterns.  This would be done as:  once the string has been
+validated as seeing all the names in the pattern, it gets written as that
+string, with the associated F.SlidWin value:
+promoter "tataa:1:1&caat:1:1&(pit1:1:5|ere:2:7) -W1000" date/timestamp:signature
+then you'd have to write the code to read that kind of a file - ignore ^#s
+blank lines, read in a line, capture the name, then everything else is the
+rulestring+slidwin value... And ideally, it would have to recognize when a new
+string was the same as the old string and wouldn't append duplicates, etc...
+   
+ME - int DamDcmOK() - also makes a good template for a general filter to decide
+if  a pattern should be printed or otherwise filtered in or out.
+
+Comment - If you want the program to calculate the greatest possible spread
+give only the lower limit and the program will calculate the greatest possible
+spacing to the top.  BUT this should be possible to give it an arbitrary upper
+limit as well as an arbitrary lower limit and have it do all the spacing so
+that it gives exactly the spcing you want...  Put it on the to-do list...
+
+HE - still have to add the cost stuff tho. Done - 9.13.99
+      
+HE - add the original translated sequence with the Rev-trans seq in the 
+   --silent option so that they can be compared.
+   
+MM - allow Sites and Frags output to be ganged together so that the Sites and 
+   Frags for each pattern get output together, instead of with all the patterns
+
+HH - Add an API or at least a Web API so that other apps can connect to a tacg
+   service and make it do what needs to be done.  This would allow, for
+   instance, the Bioperl stuff or java to connect to a tacg service and cause
+   the analsis to be done semi-transparently.  See TESS for details or hints.
+
+HH - add LOTS of color-coding and other visual clues, image maps, links to tacg
+   Web output so that it makes it very easy to decipher.
+
+HH - make tacg functions into a lib and wrap the lib for perl.
+
+HH - use postscript for output
+
+HH - Add code to change start codons depending Codon Usage, and to calculate
+   ORFs depending on this info. Already noted? 
+
+ME - should change all the function names to begin with 'tacg_', so they can be
+   incorp'ed into other programs without name-space pollution.  Make up a sed
+   file and zing 'em all at the same time.
+
+HM - should REALLY modify seqio to allow binary-mode input for Strider and
+   Lasergene files so that users from Macs, WinPCs can use data files from 
+   their standard Molbio Apps.  InforMax as well? Naah - Informax uses wacko 
+   internal database format.  Also for GFF, BSML, 
+
+MH - Add standard markers to the gel option so people can run  their stuff vs 
+   lambda/HIndII, pBR322/hpaII, pBR/HinfI, etc, etc or enter their own marker 
+   sets by editing a file of markers where:
+   Nickname   FormalName     Fragment_lengths
+   LH3        Lambda/HindIII  # # # # # # # 
+   pBRHpa     pBR322/HpaII    # # # # # # # # # #
+   pBRHf      pbR322/HinfI    # # # # # # # #
+   p19h2      pUC19/HpaII     # # # # # # # # #
+
+M? - Add DSC compatibility to it, as well as plotting the predictions, 
+   especially on the plasmid maps.
+
+DONE HE - add in the calc for pI as well as MolWt..now that I have references..
+
+HE - those flags which have been set as 'shorts' need to be cast as 'shorts'
+   in SetFlags.
+    
+DONE HE - should probably bust up SetFlags into subfunctions to make it more 
+compartmentalized
+
+DONE (but it wasn't of M difficulty! 
+HM - add the sliding window option --slidwin [#bases] which works in 
+conjuction with new version of -x which tests that the names with min/Max
+limits occur within the sliding  window.  If no sliding window has been
+defined, then the window is the  whole seq.  way to do it is to follow DD->Dat
+then trigger on one of the  names.  Keep counters as *counters so they can
+incremented dynamically, to see if all the names match crits in the window.  If
+it fails, re-use the counters so that you can keep track of a number of 
+possible positives at once.  Needs to be inserted into tacg AFTER all the sites 
+have been found, so that it can skip up and down DD->Dat, finding all the 
+windows that match the criteria, most probably specified with the '-x' flag.
+DEFINITELY write as a function!
+
+
+DONE (finally) 9.10.00 HM - move the LinearMap bits into its own fn(), to simplify/shorten tacg.c
+
+Done HM - HAVE to fix the HTML stuff (-H) so that it generates valid HTML.
+
+HM - add --helden opt,opt,opt to generate the van helden distributions across 
+the sequence(s).
+
+DONE (mostly) HE - check for correct # of option parts in -p -x -r -X, etc so
+that can emit an error message rather than segfaulting.
+
+HE - .tacgrc Add functionality of using a rc file using the same kind of
+searching that the datafiles use - ie using SearchPaths(), so the .tacgrc file
+is searched for in the current dir, the home dir and the tacglib dir in order. 
+Can also define other paths within those files so that if OTHERPATHS is
+defined, '-R' will also search those path as well.
+If this was done correctly, could set almost ALL the things that tacg uses as
+defaults using this file.  HOWEVER, would also have to write a parser or
+something similar to be able to read them in.
+Something like:
+#Default for reporting 0 for no reporting; 1 -> OK to send back the few bytes..
+23 1
+#Default for Max number of Patterns to allow for searching
+24 3000
+#Max Overlap at borders
+25 30
+
+so all that would need to be done is to read the numbers which would set that
+var to the correct value - or map them right into an array of such things.
+
+H? - include the code for GDE and GCG menu insertions so that tacg can be 
+   added to these codes without too much problem...
+
+Some RE selection suggestions by ruurd:
+- only symmetric/non-symetric sites (why?)
+- an upper limit on the size of the recognition sequence (why?)
+- pointing to enzymes that produce the same overhang (good one)
+   as well as the still-to-be-delivered selection by price and salt sensitivity
+   altho these can be supplied by alternative files in the web interface.  Can
+   also provide a link to Multicut: http://users.mis.net/~colinw/buffer.html
+
+
+For Web version: Add button that gives the choice of having results in the same
+window vs another window.
+
+Medium Priority
+---------------
+
+MM - for web interface, add section that maps the requested motifs onto a color 
+pic of the various genomes to show where the motifs are located.  Can use colors 
+to show high density.. Add this feature to the plasmid layout tool
+
+MM - Change those flag entries which act as 'message-boards' to a messages 
+struct so that 'flags' itself can be simplified.
+
+MM - adding in the '-$ #' flag would be be both fun and useful, but wait until 
+next release, when can combine it with '--salt' and other filters.
+
+MH - ? For the new Web version - add a stats page that shows how many people have
+used the various versions, how much seq has been passed thru it, what are the
+popular options, etc, which are the sites using it the most, etc.
+
+ME -$ 'units/$'  filter by price (but then needs the cost to be added to the
+rebase format)  BUT - it requires that this information is available from the
+REBASE data somewhere..
+
+MH --meth simulates methylation of the DNA so that dcm/dam sensitive REs are
+blocked from cutting
+
+ME- convert BadMem to CheckMem to incoporate the 'if' and error message in  one
+shot.
+
+ME- add more error-checking to ReadEnz so if it doesn't hit the '..' it  tells
+you so or if it hits an unexpected sep character, it also complains
+appropriately.
+
+MH - automated regression tests to test as many combos of flags as possible
+
+
+Next Version / Patches ------------------------------------- ??
+
+- add VERY COOL ability to grab sequences straight from Genbank via the network
+   entrez code as described in getseq.c in the ncbi toolkit tree.
+
+- for Web site, include a set of links to USEFUL sites, another to 
+   'ones-to-watch', broken down by area of interest.
+
+- For WWWtacg, add mouseover tags so that the RE labels popup the restriction
+   site and other info.  This allows all the info to be described without the
+   overhead of parsing and generating a new page.  ALSO: what about
+   mouse-down+hold - is this a valid event that can be acted on?
+
+- can incorporate gnuplot via gnuplot_pipes and can punt datasets into gnuplot 
+windows for those things that need it.
+
+Add a '--jumble # ' or randomization feature so that input sequences are analyzed 1st 
+in their input state and then randomized # times so that you can get a profile
+of how significant a feature is.  I think the Doolittle apps have a jumble
+feature, but I'm not sure if it's PD.  Re-get that DNA stats book..
+
+Add a database interface to MySQL.  What to use to put everything togetrher...?
+Python, perl, tcl/tk...?
+
+for --silent. Could also do 2 translations in the linear map so that you can
+see the RT/FT as well as the FT to see where they differ (OR just put in the FT
+sequence anyway, but that would mean carrying the 2 sequences along until the
+end. (or carry a cutoff of 1 MB so that it wouldn't get outta control.  This
+would be the easiest, as with an 'if', you could translate the either sequence
+or both, as they would be exactly parallel.  Could specify --silent {1|2|3} for
+the RT/FT, FT or both lines of translation.
+
+LE- low priority, but COULD add a word equiv to every flag, like 'tar' has.
+
+= -ps 'PS options' calls for postscript output for graphics (should graphics
+   ever appear)
+
+= -png 'PNG options' calls for Portable Network Graphics output (should
+   graphics ever appear)
+
+= --graphics 'graphics options' calls for graphical output for maps, etc.
+
+= --protease 'protease_file' reads in a file containing proteases and handles
+   them in much the same way that tacg handles RE and other patterns, except 
+   that it will have to handle them via the regex routines instead of a hashing
+   (probably..?).  This also implies robust handling of protein sequences
+
+= --dsc 'dsc_native_options' when protein handling becomes robust enough, add
+   this in
+
+LE - (but it'll take some time) - it would make sense to make flags[] into a
+struct so that the individual  flags could be alloc'ed space on the basis of
+their needs rather on the  greatest common denominator.  Would also make it
+easier to remember the  values.  In the short term it could be converted simply
+by changing the  typedefs of the vars and keeping the names so that flags[n]
+becomes flags.n This is highish priority - makes code MUCh more readable, makes
+the structure more compact (if it packs efficiently)., etc.  BUT, it's 
+only 60x8bytes = 480 bytes, so it's not like it's going to save a huge 
+amount of mem...  Delay for a while
+
+LH- Add a 'Cutting'-like function that searches for and collects stats on Nmers, 
+as in the van Helden '98 paper.  Using a shift-add hashing,
+coupled to a DD->Dat collection mechanism, it should be able collect stats as
+fast as it can step thru the sequence, for ANY sized N - altho it may take a
+double pass to find out how many of a particular Nmer there is and then do the
+stats.  Code would go: collect hits in the -lag+lead way, writing hits/offsets
+to DD->Dat, REGARDLESS of hexamer hashtable.  then copy only the Nmer indices
+to another array, SORT that array (ao now all equal indices end up lumped
+together, count the number of occurences of each one, malloc arrays for each
+of those multiples, write the offsets to the arrays, then depending on the
+cutoffs of what number might be significant, based on nucleotide compo, write
+the hits to output in some easily parsed format (because will have to process
+further outside of tacg.
+
+- Biz Plan!!
+
+LH - try to see if the alternative start stuff can be incorp'ed without too
+much trouble.  Would be nice to be able to use as much info as possible.
+
+
+In Progress 
+----------- 
+
+- more code cleanup, especially removing stale comments,  commented lines, move
+variable descriptions to another file.
+
+- add the changed bits to the man page, HTML man page, -h/--help output,
+documentation.
+
+- run code thru lint to pick off unused variables
+
+
+
+DONE: 
+- changed the '-x' (ne -r) flags to accept min and Max options:
+   '-x name1:m:M,name2:m,name3::M,name4='
+   using strsep() to tokenize the parts.  If there's no tokens after the name, 
+   it decays to the old verion of -x.  If there's not 3 parts, the one 
+   numeric is the min flag (name:3).  If there's 3 parts but the middle is NULL, 
+   the last is Max (name::45), and if there's no extra parts but there IS a '=',
+   (name4), it behaves like a Hookey request (except that a real hookey request 
+   almost certainly wouldn't have such restrictions on the patterns.
+
+- converted "char SelEnz[MAX_SEL_ENZ][11]" to a struct for transmitting all the
+   nec values from SetFlags to the rest of the app.
+   Like a mini-RE, as it's going to be used to update RE when there's a request
+   for extra restrictions on the patterns being read in from REBASE.
+
+   defining it in tacg.h as:   
+   struct SE_struct {
+      char Name[11];
+      short hookey;   /* not needed really - handled via F.AllInc  */
+      short combined; /* not needed really - handled via F.AllInc  */
+      int min;
+      int Max;
+   };
+   and declaring it in tacg.c as: 
+   struct SE_struct *SelEnz;
+   calloc it to whatever size you want:
+
+
+- may live to regret it, but switched the flags for --regex to '-r' 
+   and eXplicit picks to '-x'.  Was NOT done lightly, but seemed to make sense 
+   long-term.
+
+- added autoconf to find and insert the libs required for all the different
+   functions like the math functions, internet functions, under the right OSs? 
+   Done.. I think.
+
+- Changed the fooking flags array to a struct (F.) that has some descriptive
+   names, ferchissakes.  Spend more fooking time chasing down what the fooking
+   flags are than anything else, it seems.
+
+- added --id (-i) to request only the names of the sequences that exceed 
+   whatever flags are entered on the cli (mainly referring to -m -M)
+
+- fixed CalcEstSites() to calculate estimated probablilities CORRECTLY (was
+   doing it correctly before, but only with the top strand.  But there are 2
+   strands..
+
+- Solaris' strlen() has trouble with nulls (!??!?), so re-wrote the sequence 
+   header stuff to skip printing that info if it was NULL.
+   
+- now distribute with the getopt source/header files so that it won't fail to 
+   build just because some OS's haven't kept kosher posix.  This is supposed to 
+   be in the Std libc dist now, so it should be covered under LGPL.
+
+- tacg is now distributed both in binary and source code form with the 
+   reporting code (udping.c) that was ON in previous versions now OFF by default. 
+   It remains in the code distribution and I'd be happy to accept code packets 
+   from anyone that wants send them, but I now have enough data to profile 
+   its use.  -q keeps it quiet as before, -Q turns ON reporting for current
+   use.  NOT reporting doesn't whine about it anymore either.
+
+- replaced all strtok() calls with Gray Watson's thread-safe and more intuitive
+   strsep() function, allowing commas, periods and colons as separators (,.:).
+
+- Finally added John Hookey's request to be able to specify which 'log stanza'
+   to view in the gel simulation.  now -g LowCutOff,HighCutOff instead of 
+   -g LowCutOff.  Also using Gray Watson's strsep() instead of strtok() in 
+   SetFlags() -g section.  This is simpler to use and more robust.
+
+- quite a bit of code cleanup.  Things now look more or less like code instead of 
+	chicken scratchings.  Still a lot more to do tho, obviously.
+
+- nasty little bug fixed which would segfault if the sequence STARTED with 6 n's;
+	logic fault in testing which hexamer to test for exactly this problem.
+	Cutting.c ~line 85.
+	
+- added --silent to introduce RE sites without changing translation, using -n 
+to set the magnitude of the sites you want to consider.  You can weed them down by applying the other filters ('-M', '-o', etc). 
+
+- changed the inappropriate fopen() calls in SearchPaths to stat().  thanks to 
+Drake Diedrich for the advice.  Later fixed memory allocation bugs that the previous 
+code hid - ugh!  Thank God and Gray for dmalloc.
+ 
+NB: Thanks to Brian Genge for suggesting another use of tacg - to use search-
+with-errors to look for mutational sites that could be introduced CHANGING the 
+translated sequence.  Was going to write it, then realized I already had - 
+it's just searching for RE sites allowing 1 error (although COULD set a flag 
+that overrides all matching to force N errors on all patterns, if I really
+wanted to...
+
+- Also finally functionized PadEndForEnd() and wrote ReverseTranslate() to in
+support of --silent.
+
+- Also fixed Translate() so that it now translates degenerate sequences as
+entirely as possible, no longer giving up when it hits a degeneracy, unless
+it's formally impossible to decide.
+
+- for all approaches that generate site data, can now mark each such that you
+can tell which orientation they're in, only really shows in the linear map
+output, but I could add this output to other stanzas as well.  First
+functionality that uses the BitArray approach to data.
+
+- Added --regex 'RxName:regex_pattern' (aka -r 'RxName:regex_pattern') searches
+   for the regular expression 'regex_pattern'.  Multiple regex patterns are
+   searchable at the same time, if stored in a file of the format shown below. 
+   Multiple regexs can be entered on the commandline by adding multiple -x
+   'pattern' entries like: 
+
+   -x 'name1:pattern1' -x 'name2:pattern2' -x 'name3:pattern3' 
+
+   and these names would be entered into RE like any other Label.  Regex
+   patterns entered from the commandline are logged like the patterns entered
+   via the '-p' flag to 'tacg.patterns'.  Also added the tweak so that -x
+   'FILE:FileName' is parsed and passed back as RebFile so that only need to
+   use the --regex||-r flag to pass either the pattern(s) or the input file
+   specs.  I was going to use -r -R FileName, but there was some funny biz
+   about whether the ' ' or the '=' was required/nec..  This just keeps it more
+   concise, if admittedly a bit more confusing.  If the opt string is 'FILE'
+   alone, it assumes the file name 'regex.data'. ie: --regex FILE The option
+   string REQUIRES the enclosing single quotes to shield the regex characters
+   from the shell.
+
+   --regex also works identically with '-r' so you can enter:
+   "--regex 'FILE:regex.data'  -r Rx1,Rxn,Regex22,rx79 " and it'll search for 
+   all the regex's mentioned (Rx1,Rxn,Regex22,rx79)
+
+   The regex file format is:
+
+   comments
+   comments
+   blah blah blah
+   ..
+   Name     gwtcg{2,4}ta(aa|tg)tayng    ! After the '!' various other fields
+   ;Name1    gaan{5,7}ttyy(am|ma)tggtyk !
+   ; the semicolon still comments out lines
+
+
+   Also added DNA_IUPACtoRegex() which converts the input string which might 
+   contain IUPAC characters (this being a DNA world) as it SHOULD be:
+   ie:
+   gy{2,3}w.w(ga|tt)cc    -->   g[ct]\{2,3\}[at].[at]\(ga\|tt\)cc
+
+   expanding the IUPACs and adding the backslashes so that even tho the regex
+   routines require the emacs style of escaping odd characters, you can still
+   enter the regex as a normal human might (as if a normal human might ever use
+   regex's).. and sure enough ... it works, finding :
+
+   gttatattcc
+   gtcattgacc
+
+   Calling Anti_Par() on the sequence allows searching on the bottom strand and
+   comparison of the numbers indicates that it's finding the right number of
+   hits. The search is relatively slow (as fast as the regex routine runs) and
+   the tacg routine for handling multiples runs thru all the regex's
+   individually, then inverts the sequence, and does it all again, so for
+   genome-sized sequences, it's slow. Will try to add Wu+Manbers's agrep-like
+   code, which should speed things up by >10X. agrep does not suport all regex
+   features, so including a 'standard' regex routine is still useful.
+
+
+- Moved Hookey() to Output section and added the automatic sort to it so that
+   it spits output both sorted and unsorted.  (Copied the 3 vars to a calloc'ed
+   array and then use qsort with a size_t of 3*long).
+
+- added --take b,e,revcomp (=X) to Xtract the sequence surrounding a hit so
+   that you can look at the sequences (and align them, examinine them for other
+   motifs, etc).  In the process, fixed a missing bit of BitArray().  Can use
+   BitArray for quite a few ops now to make long arrays more probably fit into
+   local caches. 
+
+- added code to track orientation of sites to aid in finding the matches in the
+   sequence (without this, it's hard to find some patterns that have been
+   allowed even 1 error.
+
+- adjusted the matrix Matching to use the same 'middle of the pattern' offset
+   as the -p flag, so that the 'match site' hits about in the middle of the
+   pattern, not at the extreme end.
+
+- Fixed Sites output to test whether its a Matrix match or straight degenerate
+   match and change output header info appropriately (removed Err and Expected
+   # sites for Matrix; ahowed not only TFC (Transfac consensus, but also my
+   calculated consensis both forward and backward.
+
+- FIXED the stats: when subsequences are taken, the stats calc'n was apparently
+   using the numbers collected from the whole sequence.  This would be WRONG. 
+   HAS BEEN FIXED, and added a tested line to output when the total # bases >
+   A+C+G+T  due to not counting degens for %ACGT, and in doing so, also looked
+   at and confirmed that probabilities for patterns were being matched
+   correctly.
+
+- changed the -V (verbose) lines to adjust for different levels of verbosity
+   this is org'ed so that 2,3 include everything that 1 does plus the
+   verbosity that is appropriate for the increased levels.
+
+- fixed - RE-included the codon table stuff so that it reads from the
+   NCBI-formatted file (long version) file, so that other codon stuff can be
+   written in by others and tacg can keep up with NCBI's new versions.  
+
+- verified that -C flag will correctly use other Codon tables.
+
+- fixed; the last ORF in the sequence had '0' for ending bp and AA indices:
+
+- changed the name of the default 'codons.prefs' to 'codons.data'
+
+- made the default matrix data file 'matrix.data', like 'rebase.data'.
+
+- fixed little, but annoying bug which would miscalculate the cut site
+   displayed on the top strand if the pattern was a non-palindrome, with a
+   non-blunt cut.  thanks (again) to Peter Thumfort for catching it.
+
+- Yes! the Hookey() supports more than 2 REs!  So "-rbamhi,hinfi=,msei"
+   DOES give the correct results
+
+- Added ',c' tag to '-r' flag to ask for Combined results.  Otherwise it
+   doesn't give Combined results (if you were looking for TF binding site, you
+   typically wouldn't want Combined results.
+
+- fixed error on matching with errors that caused some patterns to be matched 
+   that were not correct - they had higher rates of error due to my
+   too-clever-by-half technique of trimming the end 'n's and then
+   RE-introducing X number of errors which resulted in a far higher effective
+   error rate.  Removed all that code and things work again.  Also added -V
+   code to allow people to look at the degenerates generated with the sites
+   they match if they so want to verify future questions about this.
+
+- ADDED Matrix Matching!!  Including compatibility with '-r' flag.
+
+- fixed ordering problem in GetSequence2() that counted all the bases for the
+   stats even before the 'beginning' of the sequence.  Assumes that all the
+   sequence being passed in by Seqio is valid sequence.  HAVE TO CHECK IF THIS
+   IS TRUE.
+
+- fixed little bug that forced the Hookey function even if it wasn't called
+   for - not fatal but a bug nevertheless.
+
+- UNchanged Anti_Par() and Rev_Compl() to RETURN a char *, not have it in the
+   args to make it more C std and usable (don't have to use an intermediate
+   buffer anymore 
+
+   char *Anti_Par(char *ori, int len) 
+   char *Rev_Compl(char *orig, int len)
+
+   NOW they're back to the way they were, as it turns out if you pass in a 
+   pointer to pre-allocated mem, you don't have to mess with things quite so 
+   much.
+
+- mostly fixed the Hookey().  It now spits out data from the function itself
+rather than writing the data to the RE[].Frags and RE[].Sites[] and then
+doing output at end.  The problem is that it now needs to be placed later in
+the program so that it writes output at the right stage.  It now DOES output
+fragment size as well as the sites and it appends a '=' to each tagged site
+so that you can tell which site IS the tagged site (or both are) without
+checking with the Sites stanza, which is nice.  It does NOT allow for
+resorting based on flags tho - I figure if someone wants to re-sort, he can cut
+out that part of the output and use the shell 'sort' to resort it.
+
+- added the ability to deal with long options (--thisoption=88) via the
+getopt_long() function, so can start getting a bit more creative and
+nmemonic with the options/flags.
+
+- Changed the output format for the -L (Linear Map) to only display those REs
+that match the filter criteria, rather than show them all as previously (Thanks
+to Peter Thumfort for the argument)
+
+- also changed Linear Map output so that it DOES NOT put out any translation 
+unless asked for by the '-T' flag.  ALso added some error checkng to tell users 
+that specify '-T' without '-L' that it won't work, instead of just letting them 
+figure it out for themselves.
+
+- changed the translation flags from -t/-T to -T[136],[13], much like the 
+ORF flag (-O135,25): ie.
+'-T3,3' would print frames 1,2,3 in 3 letter code.  
+also saves '-t' for something else
+
+- multiple digests so that now all REs requested with the '-r' flag are now 
+'pooled' and all sites, frags, gel simulations now include the combined 
+output.  There are probably still oddments of incompatibility, but it seems 
+to work as advertised.  It does not require any other changes in output 
+format, nor any more flags[] elements.
+The Linear output map seems to be working OK as well (it does not include the
+'Combined' RE entry.
+However, have not implemented MULTIPLE multiple digests.  Don't think it'll be
+used that much - if it's requested a lot, I'll consider it, but there are a lot
+of other things that need to be fixed 1st.
+
+- force one line output -in '-w' flag, if specify -w 1, will set flags[22]to
+10,000,000 so easier to post-process output by later apps/scripts; 
+added checking so that arrays that use MAX_BASES_PER_LINE or flags[22] to 
+set [x] of large arrays WON'T use 10,000,000, but rather MAX_BASES_PER_LINE 
+which should still be set to 210 (or at least something reasonable).
+This affects -L -l -g -P - added a tiny Errw1() to be referenced on an error 
+to spit an error and die.
+Yup - it looks like they all use 'reps' which is calculated based on 
+flags[22](==basesPerLine), and O_txt is set with [MAX_BASES_PER_LINE], 
+which will continue to be set to 210 (or something reasonable), so we wn't 
+go exhausting system memory just to output the linear map..
+
+- Added Hookey() function - allows 'tagging' a single RE in a combination 
+of REs (typically a 6 or 8 cutter, paired with a 4 cutter so that you can 
+identify those fragments that have only an end cut by the tagged RE. John 
+Hookey suggested this as an assist for some genome mapping work he was 
+doing.  Remains to be seen if all this work will lead to anything..but I've 
+taken it this far..
+
+Functionized Hookey() and DumpDataForPlot(); try to do as many more as 
+possible to clean up the code.
+
+- Added check on ORF output so that user can select (via -w flag,
+whether the ORF is sent out in a single line (for easier checking with an
+external regex function) or wrapped neatly for easier inclusion into other
+packages.  this follows  the fiddling that allows the '-w 1' special flag to
+force 1 line output already  added for -S, -F, etc as above. (Thanks to 
+Stephane Roy for the feedback)
+
+- incorporate SEQIO to handle sequence conversion and database scanning. 
+This restructures the way sequence is handled in tacg.  Before, tacg asked 
+stdin for sequence and assumed that eveything was either sequence or 
+characters to be ignored.  Now that SEQIO is handling the conversion, etc, 
+every sequence array that SEQIO passes back will have to be run thru a 
+munged GetSequence() and PadEndForEnd() to copy the sequence char by char 
+(to get the base composition - this should really be included in the SEQIO 
+routines) to another array, offset for OVERLAP and then passed back to tacg 
+for regular processing. Actually this whole set of things should be included 
+in SEQIO..., but that'll take a while, I suspect, so in the meantime, I'll 
+just do it the slow way.
+SHOULD be able to use 'stdin' as a substitute FILE pointer, instead of 'sfp' 
+and therefore the interface to tacg won't have to change.  AND would also 
+eliminate the strange and unsettling loop structure that I came up with 
+otherwise.
+SEQIO seems to be working OK!  Verified with raw, Genbank, GCG, FASTA so far.
+
+The only change would be for whole databases, as spec'ed in the SEQIO docs, 
+which would be specified as '-d DatabaseName' (and would require the user to 
+set up the BIOSEQ environment.
+
+- added some tweaks to the Makefile to add dmalloc flags or not.  Can 
+probably add more #defines to set a bunch of stuff so that it doesn't have to 
+be set thru the actual files.
+
+- removed lots of stale comments and and debugging statements; need to 
+re-write the descriptions of the variables and flags in an external file so 
+it's more available/readable.
+
+Need to add URLs to docs for SEQIO and dmalloc.
+
+DeBugged:
+
+- In implementing multiple multiple digest, I also caught a little bug in 
+the calculatiion of the fragments.  The fragments were entered in the 
+reverse order (if used '-F1') and therefore altho they were the correct 
+fragments, they were NOT in the correct order.  (if used -F2 for sorted-by 
+size, they WERE, of course correct, because they were sorted.  Anyway, now 
+corrected.
+
+- In adding the re-entrant code, there were numerous memory allocation bugs
+(mostly unfreed buffers) that are now being caught and debugged with the very
+nice dmalloc lib.  
+=ORFs now seems to be mostly clean.
+=tacg.c is cleaned up considerably
+=Cuting.c seem to be pretty clean.
+=The RE struct is processed once at the beginning of the app and remains till
+	the end; I don't free it as it gets freed as tacg ends, although if it
+	is made re-entrant in a GUI app, it will have to be freed and
+	re-alloc'ed.  There are about 2k-4k UN-NEEDED callocs in setting the
+	hashtable array, but for now will leave them alone, since thems
+	individually results in coredumping.
+
+Bugs NOTED but not fixed yet:
+
+- In the Summary page, if '-c' specified, should alphabetize the listing like
+'-c' implies.
+- also in '-c', shouuld also make the listings compatible - in the 'NoHits', it
+lists across, then down; in the # of hits, it lists down, then across.
+
+- have to catch the '-w 1' flag when applied to -g, -l, -L, maybe others to 
+prevent segfaults when calc'g huge widths

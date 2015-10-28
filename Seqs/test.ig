@@ -1,0 +1,7 @@
+;nucleic/amino test, 228 bases, E1B587E8 checksum.
+nucleic/amino
+ABCDEFGHIKLMNPQRSTVWXYZACGTU_.-?<>{}[]()!@#$%^&=+;
+:'|`~"\ABCDEFGHIKLMNPQRSTVWXYZACGTU_.-?<>{}[]()!@#
+$%^&=+;:'|`~"\ABCDEFGHIKLMNPQRSTVWXYZACGTU_.-?<>{}
+[]()!@#$%^&=+;:'|`~"\ABCDEFGHIKLMNPQRSTVWXYZACGTU_
+.-?<>{}[]()!@#$%^&=+;:'|`~"\1

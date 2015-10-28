@@ -1,0 +1,1074 @@
+.TH tacg 1 "tacg (v4.3.x) - a command line tool for DNA and Protein Analysis" 
+.IX $Id: tacg.1,v 1.5 2005/01/26 20:16:26 mangalam Exp $
+.SH NAME
+
+.B tacg 
+- finds short patterns and specific combinations of patterns in nucleic acids, translates DNA <-> protein.
+.SH SYNOPSIS
+.B tacg -flag [option] -flag [option] ... <input.file  >output.file
+tacg takes input from a file (--infile) or via stdin (| or <); spits output 
+to screen (default), >file, | next command
+.PP
+[-chHlLsv] 
+[-b #] 
+[-e #] 
+[-C {0-16}] 
+[--clone '#_#,#x#...']
+[--cost #] 
+[-D 0-4] 
+[--dam] 
+[--dcm] 
+[--example]
+[-f {0|1}] 
+[-F {0-3}] 
+[-g #,#] 
+[-G #,{X|Y|L}]
+[-H (--HTML) 0|1]
+[-i (--idonly) 0-2] 
+[--infile 'input/data/file']
+[-m #] 
+[-M #] 
+[-n {3-8}] 
+[--numstart]
+[--notics] 
+[-o {0|1|3|5,#}] 
+[-O {1-6,#}] 
+[--orfmap]
+[-p Name,pattern,Err] 
+[-P NameA,(+|-)(l|g)Dist_Lo(-Dist_Hi),NameB] 
+[--ps] [--pdf] [--logdegens]
+[-r (--regex) {'Label:RegexPat' | 'FILE:FileOfRegexPats'}] 
+[--rule 'Name,(LabA:m:M&LabB:m:M),Win']
+[--rulefile '/path/to/rulefile']
+[-R 'alterative Pattern/Matrix file'] 
+[--raw]
+[-S (1*|2)] 
+[--silent] 
+[--strands {1|2}] 
+[-T {0|1|3|6},{1|3}] 
+[-V {1-3}] 
+[-w {1|#}] 
+[-W (--slidwin) #] 
+[-x NameA(=),NameB..(,C)] 
+[-X (--extract) {b,e,[0|1]}] 
+[-# %] 
+[--rev] 
+[--comp] 
+[--revcomp] 
+
+.SH DESCRIPTION
+
+tacg takes input from stdin (or a file specified via the --infile option),
+automagically translates most standard ASCII
+formats of Nucleic Acid (NA) sequence, then analyses that sequence for
+restriction enzyme (RE) sites and other NA motifs such as Transcription Factor
+(TF) binding sites (w/ or w/o mismatch errors), matrix matches, and regular expressions,
+finally writing  analyses to stdout.  It also can translate the NA input to
+protein in any frame, using any of a number of Codon translations tables, and
+search for Open Reading Frames (ORFs), as well as perform many other
+analyses.  Most of the internals use dynamic memory so there are few limits
+on sequence input size and pattern number.  It's ~ 5-50x faster than the comparable
+routines in GCG or EMBOSS and as it's writ in ANSI C, portable to all unix
+variants, and even Microsoft Win32 with the Cygwin and the ming32 toolkits.
+.PP
+tacg searches the sequence read from stdin for
+matches based on descriptions stored in a database of patterns, either
+explicit sequences, possibly containing IUPAC degeneracies (default  
+.IR rebase.data,
+in GCG format or extended format), or
+matrix descriptions (default  
+.IR matrix.data,
+in TRANSFAC format), regular expressions (default 
+.IR regex.data,
+in GCG-like format), or a rules file (default 
+.IR rules.data 
+in a simple format)
+based on matches and options entered on the command line, sends ALL output
+to stdout. (Unless requested, it no longer sends errors to stderr (except failure
+errors) and it no longer emits default output - you have to request all output,
+except for the simplest case: the '-p' flag will also set the -S flag to generate Sites.)
+
+.PP   
+tacg now automagically translates most ASCII formats (Genbank, FASTA, etc) via
+Jim Knight's SEQIO library and now handles multiple sequences at one time,
+internally converting 'u's to 't's.  It considers both strands at the same time
+so you don't  have to manually reverse complement the sequence (altho you can
+- see --rev, --comp, --revcomp, and will by default accept all IUPAC 
+degeneracies
+.B (yrmkwsbdhv), 
+performing all possible operations on that sequence.   It treats degeneracies
+in the input sequence in different ways depending  on the -D flag (see below). 
+It either strips all letters other than 'a','c','g', or 't' and analyzes the
+sequence as 'pure' using a fast incremental hashing algorithm or it treats it as
+degenerate and analyses it via a slower de novo hash.  By default, it treats sequence
+as 'pure' unless it detects an IUPAC degeneracy, in which case it will
+adaptively switch back and forth between the fast and slow hashing routines.
+
+.PP
+NB: tacg can produce 
+.B lots 
+of output, especially in the Linear map mode; while it's possible 
+to pipe direct to lp/lpr, you'll probably regret it. 
+      
+.SH REQUIREMENTS
+
+tacg 4.x requires an external Codon file 
+.IR codon.data 
+but does not absolutely require a pattern/REBASE file, allowing you to enter
+patterns  via the command line with the '-p' flag.  However, 
+most users will want to use a REBASE file in GCG format to supply the RE 
+definitions.  By default the name of this (supplied) file is:
+.IR rebase.data,
+altho other files in the same format can be specified 
+by the -R flag.  While you can use the default GCG-formatted file from NEB's 
+REBASE distribution (http://rebase.neb.com), additional information is required to 
+use the --dam, --dcm, or --cost options.  This info is included in the 
+distribution
+of tacg and can be added or modified with a text editor.  
+Searching for Matrices requires the use of a TRANSFAC-formatted file
+(also supplied in the default name of
+.IR matrix.data
+).
+
+.PP
+The codons/pattern/matrix data files may exist in any of 3 locations which are 
+searched in the order of: the current directory 
+.B $PWD,
+your home directory 
+.B $HOME,
+or tacg lib 
+.B  $TACGLIB.
+Many shells will automatically define the 1st two; the last must
+be specified either via command line or in your 
+.IR .cshrc 
+file.
+.PP
+ie. 'setenv TACGLIB /usr/local/lib/tacg'   [csh/tcsh]
+.PP
+or 'export TACGLIB=/usr/local/lib/tacg'    [bash]
+
+.SH FLAGS and OPTIONS  
+{} = required for flag; * = default (doesn't need to be entered); 
+# = an integer value; () = optional
+.PP
+ie. -f {0,1*} means that the flag must be entered 
+.B -f1 
+or 
+.B -f0.
+The flags 
+.B -f0 
+or 
+.B -f 0 
+are equally acceptable and flags without variables can be grouped together (-scl).  A 
+.B single 
+flag requiring an option can be appended to the end of a string of simple flags, but
+not more more than 1.
+.B -Ls 
+is OK, and 
+.B -Lsn6 
+is OK, but 
+.B -Lsn6F3
+is NOT - it must be entered 
+.B -Lsn6 -F3.
+Appending a flag that expects an option value without one will cause odd behavior,
+usually a cryptic error message and the program halting.  NOT entering the flag 
+will cause the default behavior.  
+.PP
+
+.ne 5
+.TP
+.B -b {#}
+select the 
+.B beginning 
+of a subsequence from a larger sequence file; 1* for 1st base of sequence.  
+In the 
+.B Linear Map 
+output, the 
+.B upper label
+indicates numbering from beginning of
+subsequence; the 
+.B lower label
+indicates numbering from the
+beginning of the entire sequence (see file 'tacg.main.html' 
+for more detail).  
+The 
+.B smallest sequence
+that tacg can handle is 4 bases, 10 for the ladder map (-l).  This allows 
+analysis of primers and linkers.
+
+.ne 3
+.TP
+.B -e {#}
+select the 
+.B end 
+of a subsequence from a larger sequence file; 0* for last base of 
+sequence.  The largest sequence that I've sent thru it is ~225MB.
+
+
+.ne 3
+.TP
+.B -c
+.B order the output 
+by # of cuts/fragments by each RE (Strider style) and thence 
+alphabetically; otherwise output is by order of appearance in the REBASE file.
+
+
+.ne 3
+
+.TP
+.B -C {0*-16}
+.B Codon Usage 
+table to use for translation:
+
+.IP
+ 0 Standard*       6 Echino_Mito        12 Blepharisma
+ 1 Vert_Mito       7 Euplotid_Nuclear   13 Chloro_mito
+ 2 Yeast_Mito      8 Bacterial          14 Trematode_mito
+ 3 Mold_Mito       9 Alt_Yeast          15 Scenedes_mito
+ 4 Invert_Mito    10 Ascidian_Mito      16 Thrausto_mito
+ 5 Ciliate_Mito   11 Alt_Flatworm_mito
+            
+The Codon Usage file used in versions 3 & 4
+.IR (codon.data)
+is a slightly modified  
+.B NCBI format, 
+which includes info (currently ignored) about multiple initiator codons and 
+references.  Please page through it for more info.
+
+.ne 1
+.TP
+.B --clone '#_#,#x#...'
+.B Clone
+finds sequence ranges which either MUST NOT be cut (#_#) or that MUST be cut
+(#x#), up to a maximum of 15 at once.  Ranges not specified can be either cut or not cut.
+The output first lists all REs (if any) which match ALL the rules, then all REs which match 
+SOME rules as long as all NO-CUT rules are respected.  The same filters that work in other RE 
+selections (-n, -o, -m, -M, --cost, --dam/dcm) can be applied here to fine-tune the selection.
+
+.ne 1
+.TP
+.B --cost {#}
+.B Cost
+controls which REs are chosen, based on the # units/$, where the higher the 
+number, the lower the cost (>100 U/$ is cheap; <10 U/$ is quite expensive, based 
+on the prices quoted in NEB's catalog for their high unit products.
+
+.ne 1
+.TP
+.B -D {0-4}
+.B Degeneracy 
+flag - controls input and analysis of degenerate sequence input where:
+.IP
+ 0  FORCES exclusion of degens in sequence; only 'acgtu' accepted
+ 1* cut as NONdegen unless degen's found; then cut as '-D3'
+ 2  degen's OK; ignore in KEY hexamer, but match outside of KEY
+ 3  degen's OK; expand in KEY hexamer, find only EXACT matches
+ 4  degen's OK; expand in KEY hexamer, find ALL POSSIBLE matches
+.IP
+The pattern matching is adaptive; given a small window of 
+nondegenerate sequence, the algorithm will match very fast; if 
+degenerate sequence is detected, it will switch to a slower,
+iterative approach.  This results in speed that is 
+proportional to degeneracy for most cases.  If you have long 
+sequences of 'n's (inserted as placekeepers, for instance), 
+-D2 may be a better choice.  In all cases, as soon as 
+degeneracy of the KEY hexamer exceeds a compiled-in limit
+(usually 256-fold degeneracy), the KEY is skipped.          
+
+.ne 3
+.TP
+.B --dam
+.B Dam sensitivity 
+simulation of Dam methylation of the DNA.  Dam methylase has a palindromic 
+recognition site (GmATC) which can interfere with the binding and  cutting of a
+number of Type II REs.  This flag simulates the effect of Dam methylation, but
+requires  
+.B extra data to be available in the rebase file.  
+If the RE is
+completely blocked,  it will be noted that it did not cut at all in the summary
+statement.  Otherwise, the effect is noted only by difference in the number of
+sites listed for the -S  and -F flags.  The sites are still listed in the Linear
+Map to indicate where they WOULD be if the DNA was not methylated.
+
+.ne 3
+.TP
+.B --dcm
+.B Dcm sensitivity 
+similar to '--dam' simulation above but with Dcm methylation of the DNA.  Dcm
+methylase also has a palindromic recognition site (CmCWGG) which can interfere
+with RE action.
+
+.ne 3
+.TP
+.B --example {1-10} 
+example code to show how to add your own flags and functions.
+Search for 'EXAMPLE' in 'SetFlags.c' and 'tacg.c' for the code. 
+  
+.ne 3
+.TP
+.B -f {0|1*}
+.B form (or topology) 
+of DNA - 0 (zero) for circular; 1 for linear.  This flag also operates on subsequences.  
+      
+.ne 3
+.TP
+.B -F {0*-3}  
+print/sort 
+.B Fragments, 
+based on the user-supplied selection criteria 
+('-n', '-m', '-M', '-o', etc).  See also '-c' above. 
+.IP
+ 0*-omit; 
+ 1-unsorted; fragments printed in order of generation.
+ 2-sorted; fragments sorted by size, smallest to largest.
+ 3-both.
+This flag has been left active for the matrix matching, even tho it doesn't 
+make much sense to use it in that way.
+   					
+.ne 3
+.TP
+.B -g {min#(,Max#)}  
+specify if you want a 
+.B pseudo-gel map graphic, 
+with a low end 
+cutoff of 
+.B min# 
+bases and a high end cutoff of 
+.B Max#.  
+If Max # is omitted, the length of the sequence is assumed, altho you can set 
+Max to be any number so as to constrain the output for comparisons between
+sequences.  These numbers can
+be any any integer exponent of 10 (10, 100, 1000, etc). See examples below.
+
+.ne 3
+.TP
+.B -G {binsize,X|Y|L}
+.B Graphic data 
+output, so (mis)named for its original use, where:
+.IP
+.B binsize
+= # bases for which hits should be pooled
+.B X|Y|L
+indicates whether the BaseBins should be on the X or Y axis
+ X: BaseBins 1000 2000 3000 4000  ..
+    NameA      0    4    0    7   ..   
+    NameB     22   57   98   29   ..     (#s = matches per bin)
+    NameC      1    0    0    3   ..
+    .
+ Y: BaseBins  NameA   NameB   NameC   ..
+      1000      0      22       1     ..
+      2000      4      57       0     .. 
+      3000      0      98       0     ..
+      4000      7      29       3     ..
+     .
+ L: Basebins  NameA
+      1000      0    
+      2000      4    
+        .      .
+    Basebins  NameB
+      1000     22
+      2000     57
+        .      .
+ 
+This addresses some missing features - allows the export of match data for 
+the selected Names to allow external analysis of the raw data.
+Like other output, it is streamed to stdout, so it's 
+not wise to mix -G with other analyses; the lines generated (esp.  w/ the X 
+option), can be quite long and are NOT governed by the -w flag).
+
+.ne 3
+.TP
+.B -h 
+brief 
+.B help 
+page (condensed man page).
+   
+.ne 3
+.TP
+.B -H (--HTML) {0*|1}
+generates complete or partial 
+.B HTML 
+tags for viewing with a Web browser. 
+0 - (default) makes standalone HTML page, with Table of Contents (TOC).
+1 - no page headers, only TOC, to embed in other HTML pages.
+
+Not useful in a functional sense in the command line version.  Always more HTML 
+markup can be done as eye candy.
+
+.ne 3
+.TP
+.B -i (--idonly) {0*-2}
+controls the output for sequences (in a collection) that have no hits for the 
+options selected.  
+0 - (default) ID line and normal output regardless of hits
+1 - BOTH ID line and normal output are printed ONLY IF there are hits.
+2 - ONLY ID line is printed if there are hits (to identify sequences of interest in
+a scan for further analysis).
+
+.ne 3
+.TP
+.B -infile {input_sequence_file} 
+provides an alternative method for specifying the input file, useful for some scripting frameworks and web pages.  The filename specified is passed to SearchPaths() and so it will be found if it is in the current directory, your home directory, or the TACGLIB directory, in that order.  A full pathname will identify only that file, of course.
+
+                  
+.ne 3
+.TP
+.B -l
+specify if you want a 
+.B ladder map 
+of selected enzymes, much like the GCG MAPPLOT output. Also appends a summary of
+those enzymes that match a few times.  The number of matches that is included in
+the summary is length-sensitive in the distributed source code, but it can be
+overrriden by changing the value assigned to '#define SUMMARY_CUTS' in 'tacg.h'
+
+
+.ne 3
+.TP
+.B -L
+specify if you WANT a 
+.B Linear map.  
+This spews the most output (about 10x the # of input characters) and depending 
+on what other options are specified, can be of moderate to
+very  little use.  This option no longer generates the
+co-translation by default as it did in prior versions.  If you want the
+co-translation, you'll have to specify it via the -T flag below.  The Linear map 
+also no longer shows ALL the patterns that match from the pattern file.  
+It now obeys the same filtering rules that the Sites, Fragments, Ladder Map 
+and other analyses do.  This behavior was requested by several people,
+and I have to admit it makes sense.  tacg 4 also labels non-palindromic patterns as to
+orientation if they are reversed relative to the way they were enterered, by appending a 
+.B ~
+character to the end of the pattern label in the linear map.
+
+
+.ne 3
+.TP
+.B --strands {1|2*}
+in Linear Map, print 1 or 2 strands.  Along with '--notics', can be used to 
+compact the output by 2 lines per stanza.
+1 - only the top strand is printed.
+2 - both top and bottom strands are printed
+
+
+.ne 3
+.TP
+.B --notics
+in Linear Map, DON'T print the tics -  can be used to compact the output by up
+to 2 lines per stanza.
+
+.ne 3
+.TP
+.B --numstart {#}
+the value given with this flag is the beginning number in the Linear Map (-L)
+output.  This can be used to force a particular numbering scheme on the output
+or to force upstream (negative) numbering for promoters sequences.
+
+
+.ne 3
+.TP
+.B -m/M {#}
+select enzyme by 
+.B minimum (-m) 
+and/or 
+.B Maximum (-M) 
+# cuts in 
+sequence; 0* for all. Affects the number of enzymes displayed
+by the sites (-s), fragments (-F), gel (-g), ladder (-l), 
+and linear map (-L) flags.
+   
+.ne 3
+.TP
+.B -n {3*-10}
+select enzymes by 
+.B magnitude 
+of recognition site; 
+3 = all, 5 = 5,6,7,8...
+n's don't count, other degeneracies are summed ie:
+tgca=4, tgyrca=5, tgcnnngca=6, tannnnnnnnnnta=4
+
+.ne 3
+.TP
+.B -o {0|1*|3|5,#}
+select enzymes by 
+.B overhang 
+generated; 5 = 5', 3 = 3', 0 for blunt, 1 for all. If you append an integer 
+between 1 and 6 inclusive, you can additionally filter on the LENGTH of the 
+overhang: ie -o5,4 will produce output only for those REs that leave 5' 
+overhangs that are exactly 4 bases long.
+                  
+.ne 3
+.TP
+.B -O {1-6(x),MinSiz}
+crude 
+.B ORF 
+analysis producing either a line or a block (depends on -w) for each ORF including:
+.IP
+ = Frame of the Current ORF
+ = Sequence # of the Current ORF
+ = Offset from the start in both bases and AAs
+ = Size of the ORF in AAs and KDa 
+ = ORF itself in 1 letter code
+ = if 'x' is appended to frames, extended info is included (# & % of total AAs)
+ 
+.IP    
+NB: If -w is set to 1, the output is written in a 2 line, FASTA-like stanza for each 
+ORF (the header prefixed by '>', and the ORF itself), so that line-oriented
+pattern-matching tools (grep, egrep, awk) can examine the ORF for matching regular
+expressions (see the GNU grep man page for an explanation of regular expressions). 
+In this way you can search all 6 frames of >MinSize AAs for whatever pattern
+interests you.  If -w is set to one of the regular widths, the ORF will be wrapped at
+that length to form a FASTA formatted block for analysis by other apps, more
+biologically aware tools like FASTA, BLAST, etc.
+.IP
+.B Examples:
+ -O 145,25  frames 1,4,5 with a min ORF size of 25 AAs
+ -O 35x,200  frames 3 & 5 with a min ORF size of 200 AAs, with extended info.
+ -O 2,66    frame 2 with a min ORF size of 66 AAs
+
+.ne 3
+.TP
+.B --orfmap
+requests a pseudographic ORF map and a MET & STOP map of those Frames requested with 
+the -O flag (see above), and so requires the -O flag to be specified with it.  
+You can expand the scale with the -w flag (see below) to increase accuracy somewhat, 
+but it will still be limited due to the character based mapping. The map does match 
+the one produced by the -l flag, so you can use them together to get a relative sense 
+of where patterns and ORFs map, and then use the -b and -e flags to zoom into the 
+sequence of interest.
+ 
+.ne 3
+.TP
+.B -p {Name,Pattern[,Err]} 
+allows entry of search 
+.B patterns 
+from the command line; 
+.IP
+   Name = Pattern name (1-10 chars)
+   Pattern = <30 IUPAC characters (ie. gryttcnnngt)
+   Err = (optional) max # of errors that are tolerated 
+         (<6). If omitted, Err is set to 0
+.IP
+This flag also logs the patterns you've entered into the file 
+.IR tacg.patterns 
+in the correct format for later copying to  a REBASE file.  Can enter
+up to 10 of these at a time. Patterns should consist of < 30 IUPAC bases.  This uses
+a brute force approach, so long patterns with high #s of errors (>3) will cause
+SUBSTANTIAL cpu usage (ie. minutes) in validating the patterns. But actual the search will go
+very fast. 
+
+.ne 3
+.TP
+.B -P	{NameA,[+-][lg]Dist_Lo[-Dist_Hi],NameB} 
+.B Proximity 
+matching.  Use this option to search for spacial relationships between 
+factors, 2 at a time (up to a total of 10). 
+.IP
+NameA and NameB must be in a REBASE-formatted file, either the default 
+.IR rebase.data
+or another specified by the -R flag and are case INsensitive.
+NameA/B patterns can be composed of any IUPAC bases and ERRORs
+can be specified in the REBASE entry ie: 
+.IP 
+ Pit1  5  WWTATNCATW  0  2 ! a Pit1 site with 2 error
+ Tataa 4  TATAAWWWW   0  1 ! a Tataa site with 1 error
+.IP
+ +  NameA is DOWNSTREAM of NameB (default is either)
+ -  NameA is UPSTREAM of NameB	(ditto)    
+ l  NameA is LESS THAN Dist_Lo from NameB (default)
+ g  NameA is GREATER THAN Dist_Lo from NameB
+ Dist_Hi - if used, implies a RANGE, obviates l or g  
+.IP
+.B Example I
+   -PHindIII,350,bamhi     Match all HindIII sites within 350 bases of BamHI sites
+.IP
+.B Example II  
+   -PPit1,-30-2500,Tataa   Match all Pit1 sites that are 30 to 2500 bases UPSTREAM of a
+Tataa site.
+
+.ne 3
+.TP
+.B --ps
+.B generates a postscript plasmid map 
+(and multiple pages with the same parameters 
+if fed a multi-sequence file).  The output file is named
+.IR tacg_Map.ps
+and additional plots will be 
+.B appended 
+to it if it exists in the same directory.
+REs to be plotted can be selected with the usual
+parameters:
+.B (-m -M --cost --n -x -p) 
+but you'll usually want to use 
+.B -M1
+or
+.B -M2.
+Degeneracies are plotted along the rim as grayscale arcs (remember tacg can tolerate degeneracies in
+sequence, so you can compose accurate plasmid maps by connecting known sequences with N's.)
+ORFs from any and all frames can be plotted internal to the sequence ring by using the 
+.B -O 
+flag.
+
+.ne 3
+.TP
+.B --pdf
+Invokes --ps above and automatically converts the Postscript putput to Adobe's Portable Document Format, which is
+considerably more compact.
+
+.ne 3
+.TP
+.B --logdegens
+(off by default)
+Using this flag forces the logging of every degeneracy in the sequence, trivial
+if a short sequence (<1Mb), but of concern for chromosome-sized chunks.  This 
+info will be used for drawing graphic maps of the sequence and shading 
+degeneracies differently.  It is quite memory intensive as it marks the beginning 
+and end of every degeneracy run.   No external data is produced, but could be as it's just
+a simple 2-step array.
+
+
+   
+.ne 3
+.TP
+.B -R {REBASE|Matrix file}
+specifies an 
+.B alternative database, 
+(RE or Matrix) use.  The RE database must be in the same 
+.B GCG format
+as
+.IR rebase.data .
+There are some example alternative
+REBASE files shipped with the tacg distribution named '*.RB'.
+
+The latest 
+.B REBASE 
+files are available via FTP:
+
+.B ftp://ftp.neb.com/pub/rebase/
+ 
+or via WWW:
+
+.B http://www.neb.com/rebase/rebase.html
+
+and the latest
+.B TRANSFAC 
+database is available at:
+
+.B http://transfac.gbf.de/TRANSFAC/index.html
+
+The file specified with the -R flag is searched for in the same order as the other 
+data files: 
+.B
+$PWD
+, 
+.B
+$HOME
+, 
+.B
+$TACGLIB.
+
+.ne 3
+.TP
+.B --raw
+makes tacg consider ALL input as raw, unformatted sequence.  This allows 
+it to process unstructured data such as fragments of files and editor buffers.
+It ignores everything NOT an IUPAC degeneracy, but will consider all possible 
+IUPAC degeneracies, so will produce odd output if fed a regularly formatted
+sequence file (it will process headers and comments  as sequence.)  This is the
+behavior of the version 2 tacg (before SEQIO).
+
+
+.ne 3
+.TP
+.B -r (--regex) {'Label:RegexPat'} | {'FILE:FileOfRegexPats'}
+searches for regular expressions entered from the commandline using the 1st approach above or
+searches for the regular expressions read from a file using the 2nd approach.
+The regular expression syntax can be formal regex patterns or the IUPAC'ed version thereof;
+the translation from one to the other is handled automatically.
+Because regex's typically have many characters that shells are happy to misinterpret, 
+the single quotes (') surrounding the option string are almost always required.
+When trying to specify a file, the term 
+.B FILE 
+must be in CAPs (so don't go naming a regex pattern 'FILE').  Specific regex patterns 
+from the file can be specified by using the '-x' flag to name them explicitly.
+Regular expression searches 
+are 
+.B considerably 
+slower than other types of searches, but searches of 100Kb, with <10 regex patterns of even
+reasonably high complexity should be tolerable.  
+
+
+.ne 3
+.TP
+.B --rule {logic}
+(see also
+.B -P 
+above)
+--rule allows you to specify arbitrarily complex logical associations of 
+characteristics to detect the patterns that interest you.   
+Admittedly, that phrase is incomprehensible on its own, so let me give an example:
+
+Say you wanted to search for an enhancer that you suspected might be involved in the 
+transcriptional regulation of a pituitary-specific gene.  You knew that you were looking
+for a sequence about 1000 bp long in which there were at least 2 Pit1 sites and 
+3-5 Estrogen response elements, but NO TATAA boxes.  
+If you had defined these patterns in a file called
+.IR pit.specific
+as:
+
+ Pit1  0  WWTATNCATW    0 1 ! Pit1 site w/ 1 error
+ ERE   0  GGTCAGCCTGACC 0 1 ! ERE site w/ 1 error
+ TATAA 0  tataawwww     0 0 ! TATAA site, no errors allowed
+
+ you could specify this search by:
+ 
+.B tacg --rule '((Pit1:2:7&ERE:3:5)&(TATAA:0:0),1000)'  -R pit.specific < input_sequence >output
+
+.IP 
+This query searches a sliding window of 1000 bps (-W 1000) for 
+((2-7 Pit1 AND 3-5 ERE sites) AND (0 TATAA sites)).  These combinations can be as large 
+as your OS allows your command-line to be with arbitraily complex relations represented
+with logical AND (&), OR (|), and XOR (^) as conjunctions.  Parens enforce groupings; 
+otherwise it's evaluated left to right. 
+
+
+
+.ne 3
+.TP
+.B --rulefile '/path/to/the/rulefile'
+This option allows you to read in a complete file of the kind of complex rules described above and
+have them all evaluated.  The file format is described in the example data file supplied 
+.IR rules.data
+
+.ne 3
+.TP
+.B -s
+prints the 
+.B summary 
+of site information, describing how many  times	each pattern matches the sequence. 
+Those that match zero times are shown first.  In Ver >2, only those that match at 
+least once are shown in the second part (the 0 matchers are  not reiterated)
+
+.ne 3
+.TP
+.B -S (1*|2)
+prints the the actual matched 
+.B Sites 
+in tabular form, much like Strider's output. See also '-c', above. 
+.IP
+ 1* = sites noted as + offsets; fine for restriction mapping.
+ 2  = note nonpalindrome patterns on bottom strand with '-' offsets.
+.IP
+
+
+.ne 3
+.TP
+.B --silent
+requests that the nucleic sequence submitted be translated starting at the 1st base, 
+in frame 1 (use -b to shift the starting base), according to the Codon Translation 
+table specified with -C, then reverse translated, using the same table, using all the 
+possible degeneracies, then restrict that (quite) degenerate sequence and show all 
+the REs that will match it.  You should use the '-L' and '-T' flags to generate the 
+linear map which shows both the REs and the cotranslated sequence to verify that all 
+is as it should be.  
+.B NB:
+Depending on Codon Table, some AAs are not reversibly translatable.  Using the standard
+table, Arg (=mgn), Leu (=ytn), and Ser (=wsn) cannot be Forward translated from their
+Reverse translation.
+
+.ne 3
+.TP
+.B --tmppath /path/to/tmp/dir
+passes the path to tacg to cooperate with CGIs or other programs that need to tell tacg where 
+to place the ps/pdf files.
+                  
+.ne 3
+.TP
+.B -T {[0*|1|3|6],[1|3]}
+requests frames 1, 1-3, or 1-6 to be 
+.B cotranslated 
+with the Linear Map using 1 or 3 letter codes.  Requires '-L' to have any effect.  
+
+Ex: "-T3,3" translates Frames 1,2,3 with 3 letter labels.
+    "-T1,1" translates Frame 1 with 1 letter labels.
+        
+    
+.ne 3
+.TP
+.B -v
+asks for program 
+.B version 
+(there may be multiple versions 
+of the same functional program to track its migration).
+                  
+.ne 3
+.TP
+.B -V {1-3}
+.B Verbose 
+output- requests all kinds of ugly diagnostic info to be spat to the screen.  May be
+useful in diagnosing why tacg did not behave as expected..but maybe not.  The values
+1 - 3 ask for increasing amounts of detail.		
+
+.ne 3
+.TP
+.B -w {1|#}
+output 
+.B width 
+in bp's (the option number must be 
+.B exactly 1 
+or 
+.B between 60* and 210. 
+
+The number (if not 1) is truncated to a # exactly divisible by 15 ('-w 100' will be 
+interpreted as '-w 90') and actual printed output will be about 20 characters wider.  
+Also applies to output of the ladder and gel maps, so if you're trying to get more 
+accuracy and your output device can display small fonts, you may want to use this 
+flag to widen the output. In version 3, the option '-w 1' allows you to put as much 
+information as possible on one line for easier parsing by some external apps. 
+
+Ex: "-w 1" prints output in one line 
+    "-w 150" causes wrapping at about 170 characters (150 bp wide in
+the Linear map option).
+
+
+.ne 3
+.TP
+.B -x {Label(,=),Label..(,C)}
+used to 
+.B restrict 
+the patterns searched for by Name label (either from the 1st field of a REBASE format file 
+or the NA field from a TRANSFAC format file) up to a maximum of 15. 
+.B Case INsensitive
+(HindIII = hindiii = HinDiIi), but it HAS to be 
+.B spelled exactly
+like the entry in rebase.data with no spaces.
+(HindIII != Hind III != Hind3).  
+
+.ne 3
+The 
+.B '=' 
+tag invokes the Hookey function (named after its requestor, John Hookey), in which 
+the '=' tags the RE to which it is appended.  This is useful if you're trying to discern
+or predict a labelled fragment in a mixture of fragments.  The output shows the 
+fragments generated only if they have one or both ends generated by
+the tagged RE.  This option works even if there are a number of REs, but only one can
+be tagged. Ex: '-x HindIII,=,MseI,HinfI' causes the DNA to be cut by HindIII, MseI, 
+and HinfI, but only fragments that have a HindIII end will be shown.
+The output is shown both unsorted and sorted by fragment size.
+.ne 3
+If you want to cause the output to simulate a multiple digest with all the REs
+designated, append a 
+.B ',C' 
+to the list of RE names.
+Ex: 
+.B -xBamHI,EcorI,NruI,C
+
+NB: Don't assign the name 'C' to any patterns or REs.
+
+
+            
+.ne 3
+.TP
+.B -X (--extract) {b,e,[0|1]}
+causes the sequences bounding the match to be spat to stdout in FASTA format. 
+.B b
+and
+.B e
+are the beginning and ending offsets respectively for varying the window around the match.
+.B NB:
+both b and e are measured from the 
+.B start 
+of the match, so 
+.B e 
+must be corrected for the length of the pattern itself. 
+
+
+.ne 3
+.TP
+.B -# {#}
+calls for 
+.B matrix matching 
+of either ALL the patterns in the default Matrix file
+.IR matrix.data
+or that specified via the '-R' flag, or ONLY THOSE specified via  the '-x' flag,
+regardless of the input file.  The number indicates the 
+.B CUTOFF 
+as the  percentage of the maximum score possible (the sum of the highest score at
+each nucleotide across the matrix - see 
+.IR tacg3.main.html 
+for more info).  Example:  'tacg -# 95 -r GCN4 -S <yeastchromo4.genbank' will search 
+all of 'yeastchromo4.genbank' for the Matrix named in 
+.IR matrix.data
+as GCN4 at a cutoff of 95% (the pattern has to match the matrix at 95% or better).
+
+                  
+.ne 3
+.TP
+.B --rev
+causes the sequence(s) to be 
+.B reversed 
+before analysis: tacg -> gcat.  Useful for figuring out sequencing/entry errors.
+
+.ne 3
+.TP
+.B --comp
+causes the sequence(s) to be 
+.B complemented 
+before analysis: tacg -> atgc.  Useful for figuring out sequencing/entry errors.
+
+.ne 3
+.TP
+.B --revcomp
+causes the sequence(s) to be 
+.B reverse-complemented 
+before analysis: tacg -> cgta.  Useful for checking the translation in opposite 
+orientation without having to read translation backwards or convert with another 
+program.
+
+                  
+                  
+.SH RELATED PROGRAMS
+
+In Ver 3, tacg incorporated Jim Knight's 
+(jknight@guarneri.curagen.com) SEQIO library calls to provide automagic 
+format conversion of incoming sequences.  This also allows multiple sequences 
+to be run at the same time, allowing tacg to scan databases.
+
+Wu and Manber's 
+.B agrep 
+is an amazing piece of software for searching for multiple patterns with errors.  While not
+optimzed for molecular biology, it can be used to scan sequences.  Jim Knight distributes a
+variant of it called grepseq with his SEQIO pkg, which IS molbio-aware, but not as 
+generally useful (to me anyway) as tacg, as it only scans one strand and will only search up to 6
+matches for some reason. However, I've started to incorporate the grepseq core into tacg. 
+agrep is available via ftp://ftp.cs.arizona.edu/agrep/ or http://manber.com. 
+ The SEQIO pkg is distributed around the web.
+
+.PP
+You can also use the excellent paging utility 
+.B less
+to move thru your sequence 
+file and use its marking and piping facility to punt the sequence of 
+interest to 'tacg'.  In many terminal emulators it will also highlight matched
+search terms, and so makes an excellent way to scan the output for
+regions of interest.  Many editors also allow piping a selection of text 
+to an external program and inclusion of the result into another window 
+(
+.B nedit, crisp, joe,
+the indefatiguable 
+.B emacs/xemacs
+and others). 
+
+.PP
+Much of the output benefits from wider-than-normal printing.  The '-w#' flag
+allows output up to about 230 characters wide, however to print this without
+wrapping, you need to use small fonts.  A number of unix printing utilities
+allow you to do this, notably genscript: 
+.B http://www.hut.fi/%7Emtr/genscript/index.html
+
+   
+  
+.SH EXAMPLES
+Used alone:
+.IP   
+.B tacg -f0 -n5 -T3,1 -sL -F3 -g 100,1000 <NewFile.Genbank >output.file 
+.IP   
+Translation: read sequence from 
+.IR NewFile.Genbank
+and analyze it as circular
+(-f0), with 5+ cutters (-n5), returning both site info and linear map (-sL)
+as well as sorted and unsorted fragment data (-F3) and do 3 frame
+translation w/ 1 letter codes (-T3,1) on the linear map, and produce a pseudo
+gel diagram for those enzymes that pass the filtering, with a low cutoff
+of 100 bp and a high cutoff of 1000 b(-g100,1000), then write the output to 
+.IR output.file.
+
+.PP
+Matching matrices:
+.IP
+.B tacg -R yeast.matrices -# 85 -sSlc -w90 < yst_chr_4.seq >out
+.IP
+Translation: Search the sequence in 
+.IR yst_chr_4.seq
+for all the matrices described in
+the file 
+.IR yeast.matrices
+, applying a uniform cutoff of 85% (-# 85) to the maximum 
+possible score, writing the summary, Sites, ladder map, doubly-sorted (-sSlc) printed 
+90 characters wide (-w90) to the file 
+.IR out
+
+.PP
+Specifying patterns on the command-line
+.IP
+.B tacg -p Pit1,tatwcata,1 -p ap2,tgygcatw,1  -w90 -sSL < rprlPromo.seq  > promo.map
+.IP
+Translation: search for the patterns labeled Pit1 and ap2 with 1 error each
+and search the sequence from
+the file
+.IR rprlPromo.seq
+for them, printing the results (summary (-s), Sites (S), and the 
+Linear Map (L) 90 characters wide (-w90) to the file 
+.IR promo.map
+
+.PP
+Used to search the entire yeast 500bp Upstream Regulatory sequences (a database 
+of 6226 500 bp sequences) for matches to the MATa1 binding site 
+(from TRANSFAC) :
+.IP  
+.B tacg -R TRANSFAC.data -sScw1 -rMATa1 -#95 < utr5_sc_500.fasta > yeast.summary
+.IP
+Translation: translate each of the FASTA formatted entries in the input file 
+.IR utr5_sc_500.fasta
+into usable 
+sequence, and after finding the MATa1 (-r MATa1) matrix description from the database
+-R 
+.IR TRANSFAC.data 
+search the sequences for matches at 95% of the max 
+score that it has in the TRANSFAC database (-# 95), returning the summary (-s), the 
+sites (-S) sorted in Strider order (-c) with results printed on 1 line (w1), 
+directing the output into the file 
+.IR yeast.summary
+
+
+
+.SH BUGS and ODDITIES
+.B Major
+
+
+.IP
+the inclusion of the seqio functions has caused an enormous increase in the 
+compiled size of the executable to ~340kB (up from ~50kb before).  If I get a lot 
+of complaints about this, I'll look into stripping out the functions that I use from 
+the SEQIO library, but I'd rather not as it does include a lot of (hidden) functionality 
+that I plan to use later.
+      
+.IP
+.B tacg v2.0 
+will not currently cut sequence shorter than 5 bases; if you need to analyze
+sequences shorter than this, perhaps you're using the wrong program.
+
+.IP
+main() and functions were originally written as single pass code but with the help of 
+Gray Watson's excellent (!) 
+.B dmalloc 
+malloc debugging library, available at:
+.B http://www.dmalloc.com
+I've recently put some effort  into tracking memory leaks, especially since much of
+the code has to be re-entrant for doing analyses over many sequences.   However,
+it's not completely leak-free yet, so user beware.
+
+.IP
+The command line handling has been completely re-written, using the 
+getopt() and getopt_long() functions, so the flags are considerably less sensitive to 
+spacing and order.  
+
+.IP
+Translation in 6 frames assumes circular sequence regardless of '-f' 
+flag, so that the last amino acids in frames 5 and 6 in the 1st output 
+block are obviously incorrect if you are assuming linear sequence.
+
+.B See the manual for other bugs which the author
+.B thinks are less problematic.
+
+.IP 
+Harry Mangalam (hjm@tacgi.com)

@@ -1,0 +1,49 @@
+ 
+REBASE version 909                                                gcg.909
+ 
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    REBASE, The Restriction Enzyme Database   http://rebase.neb.com
+    Copyright (c)  Dr. Richard J. Roberts, 1999.   All rights reserved.
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+Rich Roberts                                                      Aug 31 99
+ 
+
+REBASE codes for commercial sources of enzymes
+
+                A        Amersham Pharmacia Biotech (11/98)
+                B        Life Technologies Inc. (1/98)
+                C        Minotech, Molecular Biology Products (3/99)
+                D        Angewandte Gentechnologie Systeme (10/97)
+                E        Stratagene (1/98)
+                F        Fermentas AB (8/99)
+                G        Appligene Oncor (10/97)
+                H        American Allied Biochemical, Inc. (10/98)
+                I        SibEnzyme Ltd. (8/99)
+                J        Nippon Gene Co., Ltd. (10/97)
+                K        Takara Shuzo Co. Ltd. (11/98)
+                L        Kramel Biotech (7/98)
+                M        Roche Molecular Biochemicals (3/99)
+                N        New England BioLabs (7/99)
+                O        Toyobo Biochemicals (11/98)
+                P        Megabase Research Products (5/99)
+                Q        CHIMERx (10/97)
+                R        Promega Corporation (6/99)
+                S        Sigma Chemical Corporation (11/98)
+                T        Advanced Biotechnologies Ltd. (3/98)
+
+..
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+BsaBI         5 GATnn'nnATC                       0  0   -5 100 10000   200    !  Bse8I,Bsh1365I,BsiBI,BsrBRI,MamI  >N
+BspDI         2 AT'CG_AT                          2  0    1 100  5000   200    !  ClaI,BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspXI,Bsu15I  >N
+BspEI         1 T'CCGG_A                          4  0    3 100  5000   200    !  AccIII,BseAI,BsiMI,Bsp13I,Kpn2I,MroI  >N
+BspHI         1 T'CATG_A                          4  0    3 100  2500   200    !  PagI,RcaI  >AN
+ClaI          2 AT'CG_AT                          2  0    1 100  5000   200    !  BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >ABHKMNRST
+DpnII         0 'GATC_                            4  0    0 100     0     0    !  MboI,BscFI,Bsp143I,Kzo9I,NdeII,Sau3AI  >N
+HphI         13 GGTGAnnnnnnn_n'                  -1  0  -10 100  2000   176    !  AsuHPI  >AFN
+MboI          0 'GATC_                            4  0    0 100  2500   220    !  BscFI,Bsp143I,DpnII,Kzo9I,NdeII,Sau3AI  >ABCEFGKLNQRT
+MboII        13 GAAGAnnnnnnn_n'                  -1  0  -10 100  1250   200    !  >ABDFGJKNOQR
+NruI          3 TCG'CGA                           0  0    1 100  5000   176    !  Bsp68I  >ABCDEGIJKLMNOQRST
+TaqI          1 T'CG_A                            2  0    1 100 20000   176    !  TthHB8I  >ABCDEFGIJLMNOQRST
+XbaI          1 T'CTAG_A                          4  0    3 100 15000   220    !  >ABCDEFGHIJKLMNOQRST

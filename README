@@ -1,0 +1,103 @@
+
+tacg: a program for doing DNA pattern matching analysis, Ver 4.6.x
+      by Harry Mangalam, tacg Informatics (hjm@tacgi.com; 949 285 4487)
+
+This file describes the installation and basic functionality of 'tacg', a 
+command line tool for the restriction enzyme analysis and pattern searching
+of DNA, Translation and ORF analysis for unix-like operating systems.
+
+There is a Web page describing it's capabilities more fully and providing
+links to the source code and related resources at:
+http://tacg.sourceforge.net
+
+
+tacg has been historically compiled on:
+- Linux (Intel, Alpha, PPC)
+- MacOSX
+- IRIX (5.3, 6.2)
+- Solaris (SunOS 5.5)
+- Compaq Tru64 (aka DEC Unix aka OSF/1) 
+- HP-UX/ExemplarOS
+- Win95/NT, using the cygwin tools
+
+If a system supports the glib libraries and gcc, it should be possible to
+coerce tacg to compile and run.  tacg version 4 requires Phil Hazel's pcre
+library to do the heavy lifting for the regex searching.  It can be gotten
+at: http://pcre.org or via the usual packages.
+
+See the file INSTALL for installation instructions.
+
+Briefly, tacg provides:
+
+- Circular Plasmid maps in postscript or PDF, with degeneracies marked and
+  	ORFs from any/all frames plotted as well.
+- cloning support (search for enz's that do/don't cut in specific ranges
+- searching arbitrarily large nucleic acid strings (dynamic memory allows
+     searching whole bacterial genomes, or eukaryotic chromosomes (or
+     genomes) in one sweep)
+- handles sequences as small as 5 bases for analysis of linkers, oligos
+- handles circular and linear DNA appropriately, correctly
+- allows subsequences to be extracted from larger sequences, generates both
+  		subsequence #ing and original sequence #ing
+- can also number the sequence arbitrarily, including negative start points
+- integrated with Jim Knight's Seqio to allow automatic sequence conversion
+  		on input, and scanning multiple sequence databases
+- quite fast (5-35X equiv routines in GCG) pattern matching of nucleic acids
+  		up to about 30 bases
+- simultaneous searching of thousands of patterns read from a database or a
+  		few explicit patterns read from the command-line
+- searching with errors
+- searching for patterns containing IUPAC degeneracies in strings which
+  		also contain IUPAC degeneracies
+- searching for regular expressions (in nucleic acid), with autoconversion of
+  		IUPAC degeneracies to the appro regex.
+- searching for TRANSFAC matrices, with user-specified cutoffs
+- GCG-style ladder maps
+- gel simulations with low and high end cutoffs for 'zoomable' views of the
+      gel
+- selection of Restriction Enzymes explicitly, by overhang generated,
+    	magnitude of recognition site, price, minimum, maximum number of cuts
+    	(overall or on a per-pattern basis)
+- supports Combination Cuts of up to 15 REs at a time
+- supports limited AFLP fragment matching / simulation
+- simulates Dam and/or Dcm methylation of DNA
+- generates summaries of # of patterns found, Sites, Fragments (sorted/unso
+- searches for silent sites, with reverse translation
+- Full Linear Maps with enzyme cuts marked AT THE POINT OF CUTTING, not
+      beginning of pattern, with 1/2 strands, optional tics for very compact
+      display
+- co-translation of DNA, based on a (user-expandable) number of Codon usage
+  		tables, in 1 2 or 6 frames, with 1 or 3 letter AA labels
+- ORF finding in any combination of frames with FASTA output, with offsets
+      in DNA, protein, Molecular Wt, pI, with optional additional info on
+      AA frequency in #s or %
+- pseudographic ORF maps and MET/STOP maps
+- dump of internal data for analysis / plotting with external plotting
+      programs in 3 formats, incl gnuplot.
+- conditional output based on matches, for scanning large numbers of
+  		sequences at a time
+- 2 types of Proximity matching:
+	- exact specification of the relationships of 2 patterns (upstream,
+    	downstream, by how much, within/outside of a range
+   - specify rules for arbitrarily complex relationships among many patterns
+     (in a sliding window or in the whole sequence) with logical AND, OR, XOR
+     conjunctions joining pattern specifications, for example:  
+              (((A AND B) OR (C XOR D) OR E) AND (F AND G)) 
+     (once typed, rules are logged to 'tacg.patterns' so they can be
+     incorporated into a file of rules (see below)
+
+- Now supports FILES of Rules, so you can make up a file of Rules that
+      you're  interested in & search for them all at once, without the
+      horrible typing each time.
+- sequence extraction surrounding pattern matches, with variable upstream,
+      downstream inclusion, optional reverse translation in FASTA format.
+- includes an explicit example function to show how to add your own funtionality
+- uses autoconf/configure to ease building on different platforms.
+- Open Source (licensed GPL)
+
+4.6.0 fixes.
+------------
+
+- fix term after help (-h). Used to bugger terminal, requiring 'reset'
+- fix regex searches. Used to prematurely terminate search, missing
+    regex patterns within BASE_OVERLAP bases of sequence end.

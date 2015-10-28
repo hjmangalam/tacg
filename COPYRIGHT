@@ -1,0 +1,76 @@
+ $Id: COPYRIGHT,v 1.2 2005/01/24 21:04:01 mangalam Exp $
+
+...And The Small Print Taketh Away...
+
+Copyright: 
+
+Copyright (c) 1994-2004 by Harry Mangalam, tacg Informatics
+ (hjm@tacgi.com, 949 856 2847) 
+
+
+    Permission to use, copy, modify, and distribute this software and its 
+    documentation is hereby granted, subject to the following restrictions
+    and understandings:
+
+      1) Any copy of this software or any copy of software derived
+         from it must include this copyright notice in full.
+
+      2) All materials or software developed as a consequence of the
+         use of this software or software derived from it must duly
+         acknowledge such use, in accordance with the usual standards
+         of acknowledging credit in academic research.
+         
+         The use of tacg may be cited as:
+         Mangalam, HJ. (2002) tacg, a grep for DNA. 
+         BMC Bioinformatics 2002, 3:8.
+         tacg Informatics. hjm@tacgi.com,  949 856 2847 
+         
+         The latest version of the software may be obtained at:
+         http://tacg.sf.net or by writing the author.
+         
+      3) The software may be used by anyone for any purpose, subject to the 
+      	Free Software Foundation's General Public License, a copy of which 
+         should have been included with this distribution (see the file
+         COPYING in the source distribution).
+         If it was not included with this distribution, a copy may be obtained 
+         from: http://www.gnu.org/copyleft/gpl.html .
+         
+         Those persons or organizations wanting to use code derived from tacg
+         in proprietary applications so as not to have their code 'infected'
+         by the FSF GPL have the option to license the code directly from from
+         the author under a separate license.  This option takes advantage of
+         the  so-called Dual Licensing policy, which is approved by the FSF.
+
+      4) This software is not meant to be used as a sole tool to design 
+         recombinant molecules for theraputic use.  While it is accurate to
+         the best of my knowledge about the results it gives, it has not  
+         been validated to this stringency yet.  Hence the release of the 
+         source code.
+
+      5) This software is provided AS IS with NO WARRANTIES OF ANY KIND.  The
+         author shall have no liability with respect to the infringement of
+         copyrights, trade secrets or any patents by this software or any part
+         thereof.  In no event will the author be liable for any lost revenue
+         or profits or other special, indirect and consequential damages.
+
+		Inclusion of other software
+      ===========================
+      
+      This software uses code from other authors and packages that are
+      copyright  of the individual authors.  Their release policies are not in
+      conflict with  those of the GPL, as far as I can tell.  The externally
+      developed code is described below.
+
+      The use of the included code does not imply an endorsement of the tacg
+      package by the individual authors.
+      
+      This software uses the SEQIO package for reading and writing sequences.
+      Copyright (c) 1996 by James Knight at Univ. of California, Davis.  See
+      the file 'seqio.c' for his release policy.
+
+      This software uses the 'strsep' routines, Copyright (c) 1998 by Gray
+      Watson. See the file 'strsep.c' for his release policy.  See also 
+      
+      This software links to the pcre (Perl-compatible Regular Expression) library,
+      written by Phil Hazel, Copyright (c) 1997-2003 University of Cambridge.  See 
+      also http://pcre.org.

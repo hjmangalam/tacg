@@ -1,0 +1,596 @@
+#!/usr/bin/perl
+
+# $Id: tacgi4-cgi.pl.in,v 1.1 2005/01/24 21:38:55 mangalam Exp $  
+
+# usage: this is a cgi that is supposed to respond to input provided by 
+# the tacg4x.form.html page.
+
+# the following vars are set automagically from the installation script 
+# or can be manually edited if you continue to have problems.
+##############################################################################
+$server =         "%%WWWHOST%%";             # What YOUR server is
+$htmlpathtoform = "%%HTML_LINK%%/form4.html"; # Where/what the form is
+$pathtotacgdata = "%%TACGLIB%%";             # Where the data is - can probably just use the environment now
+$webpathtodata =  "%%TACG_DIR%%";            # where your base httpd tacg4 dir is
+$tmppath =        "%%SYSTMP%%/%%TACG_DIR%%"; # Where you want to store your temp stuff
+$tacgapp =        "%%TACGBIN%%";             # The app name of the tacg3 exe
+$ENV{TACGLIB} =   "%%TACGLIB%%";             # the environment variable for TACGLIB
+##############################################################################
+# Version now taken care of by grabbing it out of the tacg executable itself
+
+use CGI qw/:standard :html3/ ;
+use Time::localtime;
+$tm = localtime;
+my $Bio_found = 0;
+my $gb;
+print STDERR "INC = @INC\n";
+BEGIN {eval "use Bio::SeqIO"; $Bio_found = $@ ? 0 : 1} 
+if ($Bio_found == 0) { 
+    print STDERR "\nOoops! BioPerl module not found - continuing without Genbank access\n\n" ;
+} else {
+    print STDERR "\nGOOD! BioPerl module found - continuing..\n";
+    # For automagically grabbing sequences by Genbank ID or Accession #
+    use Bio::DB::GenBank;
+    use Bio::SeqIO;
+    $gb = new Bio::DB::GenBank;
+}
+print header,
+   start_html('tacg 4 results');
+
+# Basically have to parse the input via param() calls, build the commandline
+# submit it, perhaps grab the results and munge it into a form to be sent back
+# to the user. 
+
+# get the PID of this process, make the directory, based on an identifiable root and the PID
+$suffix = $$ . time;  # cat time to PID to make it more fine-grained
+$dirname = "/tmp/tacg" . $suffix;
+mkdir $dirname, 666;  
+chmod 0777, $dirname; 
+
+# #Open the output file 
+# $outname = $dirname . "/input.data." . $suffix; # the output of this is the input to tacg
+# open(OUT, ">$outname") or die "Can't open the damn file: $outname!\n";
+
+#Open the tacgi4 error log file 
+$logname = $dirname . "/tacgi.errlog." . $suffix; # the output of this is the input to tacg
+open(LOG, ">$logname") or die "Can't open the damn error log file: $logname!\n";
+# What should be done here is that if the ERROR LOG button is clicked, it should write something
+# to the errror log at every logic step to show how far it gets when it dies
+
+#compose the header for the output files:
+
+# ================  And process the input - get params  =========================
+if (param) {
+   # ========================= Sequence loading params ==========================
+   if (!defined $PASTEDNAME) {
+      $PASTEDNAME = param('PASTEDNAME');     #Title for pasted sequence
+   } else {
+      $PASTEDNAME = 'Unlabeled';
+   }
+   $PASTEIN_SEQ = param('PASTEIN_SEQ');   #The pasted-in sequence itself
+   if ($PASTEIN_SEQ ne "") {
+      $TMPFILE = $dirname . "/temp.seq";
+      open (TMP, ">$TMPFILE") or die "Can't open the bloody file: $TMPFILE!\n";
+      
+      $PASTEIN_SEQ =~ s/\r/\n/g; # change all Mac eol to newlines
+      $PASTEIN_SEQ =~ s/\n+/\n/g; #then change all multiple newlines to a single
+      print TMP $PASTEIN_SEQ;
+      close TMP;  # actually, on open, this is closed automatically, no?   	
+   } elsif (($SEQFILE = param('FUPLOAD_SEQ')) ne "") {
+      # dump the data file to disk to make it available for tacg
+      # tacg has no way of processing data that's already in memory, unfortunatly
+#      print " <h3>SEQFILE = $SEQFILE </h3>\n";
+      $TMPFILE = $dirname . "/temp.seq";
+      open (TMP, ">$TMPFILE") or die "Can't open the damn file: $TMPFILE!\n";
+      while (<$SEQFILE>) {
+         $_ =~ s/\r/\n/g; # change all Mac eol to newlines
+         $_ =~ s/\n+/\n/g; #then change all multiple newlines to a single
+         print TMP $_;
+      }
+      close TMP;  # actually, on open, this is closed automatically, no?
+   } else {
+      if ($Bio_found) {
+         $GENBANK = param(GENBANK);
+         $NF = 0; $Seq_Retrieved = 0; 
+         if ($GENBANK ne "") {
+           # test if the entered words are Acc#s or IDs by going thru them all as
+           # 1st one then the other on those words that failed the 1st test.  List 
+           # sucesses and failures in results..
+           $TMPFILE = $dirname . "/temp.seq";
+           open (TMP, ">$TMPFILE") or die "Can't open the bloody file: $TMPFILE!\n";
+           # trim leading, lagging whitespace
+           $GENBANK =~ s/^\s+//; 
+           $GENBANK =~ s/\s+$//; 
+           $GENBANK =~ s/\n/\t/g; # subst tabs for eols
+           $NGBE = @GB_tokens = split (/\s+/, $GENBANK);
+       print STDERR "<b> @GB_tokens : $GENBANK : $NGBE </b>";  
+           foreach $token (@GB_tokens) {
+             my $seq; 
+             undef $@;
+             eval { $seq = $gb->get_Seq_by_id($token); };
+             if( $@ ) { 
+               print "<br>Failed to find <b>$token</b> as an ID. Trying for ACC #<br>\n"; 
+               undef $@;
+               eval { $seq = $gb->get_Seq_by_acc($token); }; 
+               if( $@ ) {
+                  print "<br>Failed on <b>$token</b> as ACC as well. Skipping - are you SURE these were Genbank Accession numbers or IDs? <br>\n " ;  
+                  $Not_Found[$NF++] = $token;
+                  next;
+               } else {
+                  print "<br> retrieved <b>$token</b> as an ID #<br>\n"; 
+               }
+             }  else { 
+               print "<br> retrieved <b>$token</b> as an ID<br>\n"; 
+             }
+
+             # $seqout->write_seq($seq);
+             my $seqout = new Bio::SeqIO(-fh => \*TMP, -format => 'fasta');
+             $seqout->write_seq($seq);         
+             $Seq_Retrieved++;
+
+           }
+     print "<b> $Seq_Retrieved of $NGBE sequences requested.  Results follows..</b> <br>";
+           if ($Seq_Retrieved == 0 ) {  # if NO seqs were retrieved, die
+             die "no point in continuing without any sequences\n";      
+           }
+         }
+        }  else {
+         print "<b>Sorry - no BioPerl installed - can't grab Genbank seqs direct.</b>\n";
+      }
+   }
+   close TMP; # this may have to be re-filtered to correct Mac/PC eols..depending on what comes from 
+              # NCBI
+   
+   
+   $FUPLOAD_SEQ = param('FUPLOAD_SEQ');   #The file name for the UPLOADED file
+   # how to get the file itself from the multipart form?
+   # Anything else that can be done here while it's being i/o'ed??
+   
+   $RAWREAD = param('RAWREAD'); # should the file be forced to be read as raw
+   if (!defined $RAWREAD) { $RAWREAD = 0; }
+
+   $BEGIN = param('BEGIN');   # Where the subseq should begin
+   if (!defined $BEGIN) {
+      $BEGIN = 1;
+   }
+   
+   $END = param('END');       # Where the subseq should end
+   if (!defined $END) {
+      $END = "END";
+   }
+   
+   $TOPOLOGY = param('TOPOLOGY'); # The topology (circular 0 or linear 1)
+   if (!defined $TOPOLOGY) {
+      $TOPOLOGY = 1;
+   }
+   
+   $NUMSTART = param('NUMSTART'); # should the file be forced to be read as raw
+#   print"<h3>NUMSTART = _ $NUMSTART _</h3>";
+      if (!defined $NUMSTART) { $NUMSTART = 1; }
+      
+   # ========================== RE selection params =============================
+   
+   # -----------------  Left side of Form - by characteristic  ------------------
+   $SILENTSITES = param('SILENTSITES'); # only defined if we want silent sites?
+   #if it's not defined, then we omit '--silent' from the commandline
+   
+   $OVERHANG = param('OVERHANG'); # Overhang
+   if (!defined $OVERHANG) { # dep on the form - will always be defined
+      $OVERHANG = 1; # if user doesn't care, we don't care
+   }
+   
+   $MINCUTS = param('MINCUTS'); # this will always be defined as something in the form
+   if (!defined $MINCUTS) { # dep on the form - should always be defined
+      $MINCUTS = 1; # define it in case user clears the form for some reason
+   }
+
+   $MAXCUTS = param('MAXCUTS'); # ditto
+   if (!defined $MAXCUTS) { # dep on the form - should always be defined
+      $MAXCUTS = 50; # define it in case user clears the form for some reason
+   }
+
+	# Select by Methylation sensitivity
+	$DAM = param('DAM');   
+   if (!defined $DAM) { $DAM = ""; }
+   else {  $DAM = " --dam";} 
+   print "<b> $DAM </b>";
+   
+	$DCM = param('DCM');
+   if (!defined $DCM) { $DCM = ""; }
+   else {  $DCM = " --dcm";} 
+
+   $MAGRECSITE = param('MAGRECSITE'); # Magnitude of Recognition
+   if (!defined $MAGRECSITE) { # dep on the form - should ALWAYS be defined
+      $MAGRECSITE = 6; # define it in case user clears the form for some reason
+   } # since it's a dropdown, it WILL have a value; but if it migrates to another form..
+
+   $COST = param('COST'); # Ditto for cost; dropdowns will always have a value, but JIC
+#   if (!defined $COST) { # dep on the form - should ALWAYS be defined
+#      $COST = 0; # define it in case user clears the form for some reason
+#   } 
+   
+   # if $REBASE_FILE, below, isn't defined, don't want it defined
+   # this requires extra processsing to dump the file, checking that all the 
+   # EOLs are OK, and generate a name for it so that it can be fed into the 
+   # commandline.  The uploaded file supercedes the drop-down selection
+   
+   $REBASE_FILE = param('REBASE_UPLOAD');  # This is always defined, but if nothing has been inserted, it's
+                                           # equal to ""
+   if ($REBASE_FILE ne "") { # Name of Uploaded rebase file
+         
+      # dump the data file to disk to make it available for tacg
+      # tacg has no way of processing data that's already in memory, unfortunatly
+      $tmprefile = $dirname . "/REtemp";  # This is the name of the file that needs to be read
+                                          # in as the user-supplied alt REBASE file
+      open (TMPRE, ">$tmprefile") or die "Can't open the damn file: $tmprefile!\n";
+      while (<$REBASE_FILE>) {
+         $_ =~ s/\r/\n/g; # change all Mac eol to newlines
+         $_ =~ s/\n+/\n/g; #then change all multiple newlines to a single
+         print TMPRE $_;
+      }
+      close TMPRE;  # actually, on open, this is closed automatically, no?
+   } else {
+      $REBASE = param('REBASE'); # Rebase file - should also always be defined
+      $tmprefile = $REBASE;
+   }
+
+   # -----------------  Right side of Form - by explicit pick  -----------------
+      
+   $COMBOCUT = param('COMBOCUT'); # Do the combo cut as well as individual cuts
+   # if $COMBOCUT isn't set, don't set it
+   
+   $NUMRES = @RE_SEL = param('RE_SEL'); # This one holds all the selected RE names
+#   print "<b>$NUMRES, @RE_SEL</b><P>\n";
+   #if $RE_SEL isn't set, don't set it
+   
+   # =========================== Output Format params ===========================
+   $WIDTH = param('WIDTH'); # The output print width - should be set from form.
+   if (!defined $WIDTH) {
+      $WIDTH = 60;  # [range is 60 - 210 in incr's of 15
+   }
+   
+   $WIDEORFS = param('WIDEORFS');
+   if ($WIDEORFS == 1) {
+      $WIDTH = 1;  # request for 1 line ORFS supercedes others..
+   }
+	
+   $ORFMAP = param('ORFMAP');
+   if ($ORFMAP == 1) {
+      $ORFMAP = 1;  # request for ORFMAP ..
+   }
+	
+   
+   $FONT = param('FONT'); # Font size for the output
+   if (!defined $FONT) {
+      $FONT = 0; # 0 = normal sized font [range is fr 0 - 2]
+   }
+   $SORTOUT = param('SORTOUT'); # Strider sort - defined or not
+
+   # ==================== Error / Debug options =================================
+   # All these are defined or not; if not, no defaults
+   $CLI = param('CLI'); # Show me the commandline
+   $TACGERR = param('TACGERR'); # Show me the errors from tacg
+   $TACGIERR = param('TACGIERR'); #Show me the errors from tacgi
+
+   # ==================== Selection of Analyses =================================
+   $SUMMARYTABLE = param('SUMMARYTABLE'); # defined or not
+   
+   $LADMAP = param('LADMAP'); # Ladder map - defined or not
+   
+   $GELMAP = param('GELMAP'); # gel map simulation - defined or not
+   if (defined $GELMAP) {  # only if defined
+      $GEL_LOCO = param('GEL_LOCO'); # gel lo cutoff - these are all form-defined
+      $GEL_HICO = param('GEL_HICO'); # gel hi cutoff - ditto
+   }
+   $SITETAB = param('SITETAB'); # Table of Site hits - defined or not
+   $FRAGTAB = param('FRAGTAB'); # Table of Fragments - defined or not
+   $FRAGSORT = param('FRAGSORT'); #What kind of sorting to apply to Fragment table
+   
+   $ORFDUMP = param('ORFDUMP'); # Should I dump orfs
+   if (defined $ORFDUMP) {  # only need these vars if defined
+      $MINORFLEN = param('MINORFLEN'); # Min ORF length for the dump 
+      if ((!defined $MINORFLEN) || ($MINORFLEN < 1)) {
+         $MINORFLEN = 100;
+      }
+      $NUMORFS = @ORFOUT = param('ORFOUT'); # How many frames should get translated
+      $X_ORF_INFO = param('X_ORF_INFO'); # Want the extended info
+   }
+   
+   $LINMAP = param('LINMAP'); # Want a linear map - defined or not
+   if (defined $LINMAP) {  # only needed if linear map is needed
+      $NUMSTRANDS = param('NUMSTRANDS'); # 1 or 2 strands to print
+      $NOTICS = param('NOTICS'); # tics or no tics
+      $LINMAPREGARDLESS = param('LINMAPREGARDLESS'); # print linear map even if no hits
+      $XLATION = param('XLATION'); # linear map translation?
+      if (defined $XLATION) {
+         $FRAMES = param('FRAMES'); # 1, 3 , or 6 frames
+         $LAB1_OR_3 = param('LAB1_OR_3'); # 1 or 3 letter labels 1 or 3
+         $CODONUSE = param('CODONUSE'); # Which codon table to use? 0-12
+      }
+   }
+   # no error checking just yet...
+   $GRAFMAP = param('GRAFMAP'); # want a postscript plasmid
+   $LOGDEGENS = param('LOGDEGENS'); # want to note degens on plasmid map
+   $PDF = param('PDF');  # want the PDF version rather than PS
+}   
+# So that's the end of getting all the params from the form.  NOW go do something
+# with them.  Process them into formal options.  If they aren't defined or 
+# otherwise required, the string can be declared as "".
+
+# ============================ End getting params ==============================
+
+
+# So now we have all the stuff needed for actually doing the analysis
+# Build the results header 1st
+# start off the commmandline with the full path of the app (set above) and the HTML flag
+
+#set up an error file to accept the errors from tacg, 
+$tacgErrFile = $dirname . "/tacgErr";
+
+# for the tacgi error log, can simply start a log output from here to be chatty as we want
+
+
+#  What do we need to have in the Results section (compare with V2)
+# Author, version number of tacgi, tacg, URL of home page, server URL, 
+# rebase file used, 
+# Keep Table of Contents format, with links into the results
+# Try color Coding alternative sections, 
+# Graphic ladder, gel maps (as GIFs, PNGs, etc), gif versions of the plasmid 
+#  maps, etc.
+# Code linear map using color, different fonts.
+
+#   print "<i>PASTEIN_SEQ</i><br>";
+
+print "<font size=5 color=\"red\">WWWtacg 4 Analysis</FONT><P>",
+"<SMALL> by <A HREF=\"mailto:mangalam\@home.com?Subject=tacg comment\">Harry Mangalam</A></SMALL>";
+
+print "<BR>&#187; Results from <A HREF=\"http://$server/$htmlpathtoform\"> <b>$server</b> </A> on ";
+
+printf "<b> %02d-%02d-%04d </b> (DD-MM-YYYY).\n", $tm->mday, ($tm->mon)+1, ($tm->year)+1900;
+
+if (!defined $SEQFILE) {
+   print "<BR>&#187; For pasted-in sequence, labelled $PASTEDNAME";
+} else {
+   print "<BR>&#187; For uploaded sequence file: <B>$SEQFILE</B>";
+}
+
+# the 2 stanzas below could be handled inline with building the cmdline but they really should go here.
+if ($BEGIN != 1) {
+   print "<BR>&#187; <B>SUBSEQUENCE:</B> BEGINS at $BEGIN";
+}
+if ($END ne "END") {
+   print "<BR>&#187; <B>SUBSEQUENCE:</B> ENDS at $END";
+}
+
+if ($REBASE_FILE eq "") {
+   print "<BR>&#187;Using the server-side Pattern database \n",
+   "<B><A HREF=\"http://$server/$webpathtodata/$REBASE\"> $REBASE </A></B>\n",
+   "<SMALL>(Click it to Download.)</SMALL>\n";
+} else {
+   print "<BR>&#187;Using the user-supplied Pattern database <B>$REBASE_FILE</B>\n";
+}
+
+#################  Build the tacg command line with all the options needed  ####################
+# So now we build the commmandine with the full path of the app (set above)
+$tacgcmdline = $tacgapp;  # /usr/local/bin/tacg (or whatever - where the app lives
+
+# the -H flag is not needed by this form anymore.  -H now either generates a full HTML
+# page by itself (-H0) or a partial one including the TOC (-H1)
+$tacgcmdline .= " -H 1 "; # add the HTML flag to tell tacg to include HTML flags in output
+#$tacgcmdline .= " "; # 
+
+# and go thru all the possibilities of options that have been set to something.  
+# !!! THIS TIME, DO THEM SEPARATELY, FOR REWORKABILITY!!!
+
+$tacgcmdline .= "$DAM $DCM";
+
+if ($BEGIN != 1) {
+   $tacgcmdline .= "-b $BEGIN "; # only add -b if it's other than the default
+}
+
+if ($END ne "END") {
+   $tacgcmdline .= "-e $END "; # only add -e if it's other than the default
+}
+
+if ($TOPOLOGY == 0) {
+   $tacgcmdline .= "-f 0 "; # only add -f if it's other than the default (linear)
+}
+
+if (defined $SILENTSITES) {
+   $tacgcmdline .= "--silent "; # only add if it's been defined/clicked
+}
+
+if ($OVERHANG != 1) {
+   $tacgcmdline .= "-o $OVERHANG "; # only add -o if it's other than the default
+}
+
+
+if ($NUMSTART != 1) {
+   $tacgcmdline .= "--numstart=$NUMSTART "; # start fr # other than 1
+}
+
+
+if (defined $MINCUTS) {
+   $tacgcmdline .= "-m $MINCUTS "; # only add -m  if it's other than the default
+}
+
+if (defined $MAXCUTS) {
+   $tacgcmdline .= "-M $MAXCUTS "; # only add  if it's other than the default
+}
+
+if (defined $MAGRECSITE) {
+   $tacgcmdline .= "-n $MAGRECSITE "; # only add  if it's other than the default
+}
+
+if ($COST > 0) {
+   $tacgcmdline .= "--cost $COST "; # only add  if it's other than the default
+}
+
+if ($PASTEIN_SEQ != "" || $RAWREAD eq 'on') {  # if this is nonNULL, then it's raw sequence.
+   $tacgcmdline .= "--raw "; # so tell it so..
+}
+
+if (defined $GRAFMAP) {
+   $tacgcmdline .= " --ps --tmppath $dirname "; # only add  if it's other than the default
+	# --ps sets topo (-f) to 0 (circular) and sets F.logdegens, so don;t have to 
+   # explicitly set here.
+   
+   # this should only be tested if the plasmid map is requested.
+   if (defined $PDF) {
+      $tacgcmdline .= "--pdf "; # only add  if it's other than the default
+      # --pdf also sets --ps, -f to 0, --logdegens, etc, so it's a bit redundant
+   }
+}
+
+
+
+
+# does this need reworking to have the names separarated by commas?
+if ($NUMRES != 0) {  # holds all the names of explicitly selected REs
+   $tacgcmdline .= "-x "; # only add  if it's other than the default
+   for ($i=0; $i<$NUMRES; $i++) {
+#      $tmp = substr $RE_SEL[$i],0,-1;
+      $tacgcmdline .= "$RE_SEL[$i],";
+   }
+   
+   if (defined $COMBOCUT) {
+      $tacgcmdline .= "C "; # add the 'C' to indicate a combocut
+   } else {
+      $tacgcmdline = substr($tacgcmdline,0,-1);   # knock off the extra comma
+      $tacgcmdline .= " "; # and then add a separator space
+   }  
+} else {
+   # process the alt REBASE
+   # this will require some special i/o to get the file dumped out and then read in
+#   $tacgcmdline .= "-R $tmprefile "; # only add  if it's other than the default
+
+#	print "<P>REBASE_FILE = $REBASE_FILE ; REBASE = $REBASE ; pathtotacgdata = $pathtotacgdata and the cl at this point = $tacgcmdline<br>\n";
+
+   if ($REBASE_FILE ne "") {
+      $tacgcmdline .= "-R $tmprefile "; # only add  if it's other than the default
+   } elsif (defined $REBASE) {
+      $tacgcmdline .= "-R $pathtotacgdata/$REBASE "; # only add  if it's other than the default
+   }
+}
+
+
+#	print "<P>REBASE_FILE = $REBASE_FILE ; REBASE = $REBASE ; pathtotacgdata = $pathtotacgdata and the cl at this point = $tacgcmdline<br>\n";
+
+if (defined $WIDTH) { # normally, this will always be defined
+      $tacgcmdline .= "-w $WIDTH "; # if want normally wide output
+}
+
+if (defined $ORFMAP) { # if want the orfmap
+      $tacgcmdline .= "--orfmap "; # 
+}
+
+
+if (defined $SORTOUT) { # StriderSort
+   $tacgcmdline .= "-c "; # only add  if it's other than the default
+}
+
+# $CLI, $TACGERR, $TACGIERR are all handled on output or at tacg invocation.
+
+#############################   Table of Results Header  ######################################
+# Now print out the Table of Contents like tacgi.c does it..depends on the
+# options selected. This is done AS THE OPTIONS ARE SELECTED, much like tacgi2.
+
+# Start the TOC and add the <UL> tag (make sure that the </UL> tag is also at the end)
+# print "<h3>Table Of Results</h3>\n<small><B>NB:</B> the order of the TOC entries does not always match the \n",
+#       "order in which they appear in the output.</small><br>\n<UL>\n";
+
+if (defined $SUMMARYTABLE) { # includes both the 'nocuts' as well as the 'allcuts' data
+   $tacgcmdline .= "-s "; # only add -s if it's other than the default
+# #    print "<LI><A HREF=\"#nocuts\">Enzymes that DO NOT MAP to this sequence</A>\n",
+# #          "<LI><A HREF=\"#allcuts\">Total Number of Hits per Enzyme</A>\n";
+}
+
+if (defined $LADMAP) {  # includes the 'ladder map' and the 'Infrequent Cutters' maps
+   $tacgcmdline .= "-l "; # only add -l if it's other than the default
+# #    print "<LI><A HREF=\"#ladmap\">Ladder Map of Pattern Matches</A>\n",
+# #          "<LI><A HREF=\"#summarycuts\">Summary Map of Infrequent Matches</A>\n";
+}
+
+if (defined $GELMAP) {  # only add -g if it's set; form ensures that LOCO/HICO will be set
+   $tacgcmdline .= "-g $GEL_LOCO,$GEL_HICO "; 
+# #    print "<LI><A HREF=\"#gelmap\">Pseudo Gel Map</A>\n";
+}
+
+if (defined $SITETAB) {
+   $tacgcmdline .= "-S "; # only add -S if it's other than the default
+# #    print "<LI><A HREF=\"#sitetab\">Cut Sites by Enzymes</A>\n";
+}
+
+if (defined $FRAGTAB) {
+   $tacgcmdline .= "-F $FRAGSORT "; # only add -F if it's other than the default
+   if ($FRAGSORT == 1 || $FRAGSORT == 3) {
+# #       print "<LI><A HREF=\"#fragunsort\">Fragment Sizes (Unsorted)</A>\n";
+   }
+   if ($FRAGSORT == 2 || $FRAGSORT == 3) {
+# #       print "<LI><A HREF=\"#fragsort\">Fragment Sizes (Sorted)</A>\n";
+   }            
+}
+
+
+# how did tacgi2 handle getting multiple values from one variable?  THey are concat'ed into 
+# an array so you ask for them as such; if (defined @ORFOUT)
+if (defined $ORFDUMP) {
+   $tacgcmdline .= "-O "; # only add - if it's other than the default
+   for ($i=0; $i < $NUMORFS; $i++) {
+      $tacgcmdline .= $ORFOUT[$i];   # this should concat all the frames in a row '145'
+   }  #and leave the string ready for the 'x' if nec.
+   if (defined $X_ORF_INFO) {
+      $tacgcmdline .= "x";
+   }
+   $tacgcmdline .= ",$MINORFLEN ";
+# #    print "<LI><A HREF=\"#orfs\">Open Reading Frame Analysis</A>\n";
+}
+
+if ((defined $LINMAP)|| (defined $SILENTSITES)) {
+   $tacgcmdline .= "-L "; # only add - if it's other than the default
+   if (defined $NUMSTRANDS) {
+       $tacgcmdline .= "--strands 1 ";
+   }
+   if (defined $NOTICS) {
+      $tacgcmdline .= "--notics ";
+   }
+   
+      if (defined $LINMAPREGARDLESS) {
+      $tacgcmdline .= "-i0 ";
+   }
+
+   if (defined $XLATION) {
+      $tacgcmdline .= "-T $FRAMES,$LAB1_OR_3 -C $CODONUSE "; 
+   } elsif (defined $SILENTSITES) {
+      $tacgcmdline .= "-T 1,1 -C $CODONUSE "; 
+   }
+# #    print "<LI><A HREF=\"#linmap\">Linear Map</A>\n";
+   
+}
+
+# # print "</UL>\n\n<HR noshade size=5>";  # print the END OF THE LIST tag
+
+#$tacgcmdline .= " &lt; $dirname/temp.seq &gt; $dirname/output";
+$tacgcmdline .= " < $dirname/temp.seq 2> $tacgErrFile";
+
+if (defined $CLI) {
+   print "<h3>The Command Line used to generate these results was:</h3><pre> $tacgcmdline </pre><HR noshade size=5><P>\n";
+}
+
+# so at this point. the commandline is finsished and merely has to be executed, 
+# sucking in the alt rebase file, if any, the fixed-up sequence file, and spit the output 
+# back to the client browser.
+
+# and this is how I punt that file back to the user just using backtics to execute it....
+
+for ($r=0; $r < $FONT; $r++) { print "<small>"; }
+print "<pre>", `$tacgcmdline`, "</pre>";
+if (defined $TACGERR){
+   print "<hr noshade size=5> <h3>Errors from tacg</h3><pre>", `cat $tacgErrFile;`, "</pre>";
+}
+for ($r=0; $r < $FONT; $r++) { print "</small>"; }
+
+#and delete all the files that are no longer needed
+#unlink "$tmpfile", "$cmdfile", "$outname", "$ErrFile";
+
+print "</BODY>\n</HTML>\n"; #end of form, body, html

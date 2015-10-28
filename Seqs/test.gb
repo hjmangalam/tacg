@@ -1,0 +1,9 @@
+LOCUS       nucleic/amino       228 bp
+DEFINITION  nucleic/amino, 228 bases, E1B587E8 checksum.
+ORIGIN      
+       1  ABCDEFGHIK LMNPQRSTVW XYZACGTU_. -?<>{}[]() !@#$%^&=+;
+      51  :'|`~"\ABC DEFGHIKLMN PQRSTVWXYZ ACGTU_.-?< >{}[]()!@#
+     101  $%^&=+;:'| `~"\ABCDEF GHIKLMNPQR STVWXYZACG TU_.-?<>{}
+     151  []()!@#$%^ &=+;:'|`~" \ABCDEFGHI KLMNPQRSTV WXYZACGTU_
+     201  .-?<>{}[]( )!@#$%^&=+ ;:'|`~"\
+//

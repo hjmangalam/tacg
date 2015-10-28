@@ -1,0 +1,212 @@
+$Id: INSTALL,v 1.2 2005/01/24 21:04:03 mangalam Exp $
+
+INSTALLATION:
+If you've obtained this file separately from the distribution pkg 
+(a gzipped tar file, called "tacg-<version>-src.tar.gz"), 
+please move the distribution to a writable-by-you directory, and unpack it:
+
+    gunzip tacg-<version>-src.tar.gz
+      and then
+    tar -tvf tacg-<version>-src.tar (to see what it contains)
+      or
+    tar -xvf tacg-<version>-src.tar (to unpack it)
+
+tacg is also available as a Debian .deb package for x86 platforms (see
+ http://sourceforge.net/projects/tacg 
+and check at the bottom for the deb package.)
+
+=====                     
+
+Compiling tacg:
+   The instructions below are for linux/unix systems.  If you have installed
+   the CYGNUS cygwin tools on a win32 system (setting the appro paths and
+   environment variables, the procedure is amazingly similar. [The few
+   differences will be noted in square brackets].
+
+o NB: for version 4 of tacg, you'll need Phil Hazel's Perl Compatible 
+   Regular Expression library from www.pcre.org.  If you're perceptive 
+   enough to be using a Debian system, you can install it  by typing:
+   apt-get install libpcre3-dev
+
+o  in the tacg directory, type:
+   ./configure; 
+   A bunch of things that configure has determined about your system will 
+   scroll past. [not in win32; it makes the makefile silently].  If the list 
+   ends with: 'creating Makefile', you should have a decent makefile that 
+   should direct a successful compilation on unix/linux/win32 systems.
+      
+o  Type `make -j2` (or make -j4 for a dual CPU system) .  
+   A bunch of lines should scroll up the page indicating  successful
+   compilation of the source code and if you were successful in  directing
+   the compiler/linker to the correct libraries, it should link,  resulting
+   in an app called 'tacg'.
+   [type 'make' on win32 systems; it will remain mute until it has finished, 
+   except for notifying you of success (hopefully) or may warn about some 
+   type mismatches.  You should end up with an executable (tacg.exe) that 
+   behaves very much like the unix version and a lot of intemediate object
+   files which can be deleted.
+   
+o  If it's not successful, it's almost sure to be a result of not finding  the
+   correct libraries.  (It's been built sucessfully on over 10  architectures
+   and 5 different compilers - the code may not be beautiful,  but it is pretty
+   standard).  
+
+o  Modify the Makefile to point to the right libraries and re-make.
+   If you've tried and tried, and still can't build it or it builds and 
+   immediately crashes, email me with what you've done and I'll try to 
+   suggest a solution.
+   
+o  on win32 systems, if it doesn't compile as above, please let me know what 
+	error messages it emits.  I'm not very experienced with win32 programming 
+   and it's a continual source of wonder to me that cygwin works at all.
+   Note that I haven't tested tacg on windows for a year or so, so it may 
+   fail in a variety of bewildering ways now.
+
+o  on Solaris, there are some unresolved issues with the --silent flag and
+   optimization.  tacg will coredump if it's compiled with -O2, but will be
+   happy (if fractionally slower) if you just compile with no optimization
+   flags.
+
+o also on Solaris: compiling seqio.c will lead to zillions of:
+    warning: subscript has type `char' warnings.  According to 
+  Alex Rousskov <rousskov@dont-contact.us> via google:
+  
+  "All these warnings come when we call isspace(character). Apparently, 
+  on your machines isspace() is a macro that uses its argument as an 
+  index to an array.  Not much we can do here. I bet casting the argument 
+  to (int) would cause warnings on other platforms. :( "
+  
+  so ignore them.
+ 
+    
+   
+=====
+Test the build:
+
+type 'make test'
+
+This will run your newly built executable thru a number of tests to see how it
+complies with my results.  I've noticed that different compilers on differnt
+platforms and even different versions of the same compiler on the same platform
+can generate slightly different output (generally differing in floating point
+accuracy and some final bytes).  If you're not compiling on the same platform
+with the same compiler, you should expect some failures in the MD5 hashes, but
+the accuracy of the output will generally be good unless the the wc check
+differs by more than 1 line.  If you have concerns about the output, please
+compress and send your output back to me along with the error log and I'll
+check it exactly against my output.
+
+=====
+        
+Put the components in the right places.
+
+	- if you're installing as root, type 'make install'; this will copy the
+   	executable to the directory you specified in the configure script
+      (/usr/local/bin
+
+   - If you can't do a 'make install' as root, simply put the binary 'tacg' 
+      in with your local binaries and make sure that it's executable:
+      `chmod a+rx /where/you/put/it/tacg`
+      [win32 typically cares not a bit about exucutability and little about
+      ownership, so you can put it anywhere you like it.]
+
+   - Put the data files (rebase.data, etc) somewhere usable:
+      either:
+         (as root) in a tacg library directory (perhaps /usr/local/lib/tacg) 
+        and set the environment variable TACGLIB to point to them ie:
+   
+         setenv TACGLIB /usr/local/lib/tacg  (for csh, tcsh, etc)
+         TACGLIB=/usr/local/lib/tacg         (for sh, bash, etc)
+      
+      or:
+         make copies of them and keep them in your home directory, in a 
+         'private' TACGLIB directory, or in the same directory where you keep 
+         all your sequences.  tacg will search for these files in the order: 
+         current directory ($PWD), home directory ($HOME), TACGLIB directory 
+         $TACGLIB).
+      [under win32, the data files should in the directory 
+
+   - Put the man page (tacg.1) in your local man (1) directory (often 
+   /usr/local/man/man1 or /usr/catman/local/man1 or something similar).
+   
+   That's it.  You may have to open a new window or telnet session so that 
+   your shell picks up the existance of tacg (or type `rehash` in tcsh to 
+   re-index).
+
+   - type:
+   `tacg -h`
+   to get a minimal description of how to use the program.  If you need more 
+   help, read the file 'tacg3.main.html', using your favorite Web browser 
+   (verified with Netscape).
+  
+   - please feel free to email me (hjm@tacgi.com with any questions, 
+   criticisms, problems, etc.  If you don't kvetch, it probably won't get 
+   fixed.
+
+=====
+
+Installing the local Web service.
+
+cd into the tacg14 directory and edit the file 'tacg_webinstall.pl' and change 
+the #! line to point to your perl executable and edit the variables starting at
+about line 52 to correspond to your local machine.  
+Finally, change the variable
+$CONFIGURED = 1; 
+to indicate that you've edited the file.
+
+Then run the script (as root):
+
+root#  ./tacg_webinstall.pl
+
+If it runs successfully, it will present the URL of the page to the go to 
+to get to the tacg analysis page.
+
+NB:  You do have to have FollowSymlinks enabled (in Suse, this is DISabled by
+default) and if you want the 'retrieve sequences from NCBI' option, you'll also
+have to install and configure BioPerl as well.
+
+=====
+
+         
+USING tacg:
+
+For the impatient: Here's an example of how to use it:
+
+`tacg -h` will always dump a short, but growing description of usage.
+
+'tacg -b 2500 -e 135000 -n6 -o5 -F2 -g100 -csSlL -T3,1 -w90 <seq.file | less
+
+Translation: Pass seq.file to tacg and analyze the sequence from bases 2500
+(-b 2500) to 135000 (-e 135000), returning info on all 6+ cutters (-n6) that
+generate 5' overlaps (-o5), giving the doubly sorted (-c) fragment sizes
+(-F2), a ladder map (-l) and a gel output in the range of 100bp - 1000bp
+(-g100,1000) of those enz's that match, along with the default linear
+restriction map (-L) w/ 3 frame/1 letter translation (-T3,1) and write the
+output 90 characters wide (-w90) to the 'less' pager.   
+
+tacg's output has different sections prefixed  with "==", so you can skip to
+them by searching for those characters (/==,  in 'less').
+
+=====
+
+The source code is made freely available under the GPL.  I would warn 
+those who want to try to use it that the source is still (and probably will
+continue) to be less than poetry.  
+
+The documentation has recently been converted to HTML and a copy of that file
+is included in this distribution (tacg4.main.html).  Point your favorite 
+Web Browser at it.
+The most recent information about tacg is, of course, available online:
+http://tacg.sf.net.
+
+Check the documentation version number at the top - that will tell you 
+which is the most recent.  Typos and formatting don't get a version 
+increment; content does, usually by centipoints.
+
+Let me know what you think.
+
+Cheers
+Harry 
+hjm@tacgi.com
+949 856 2847
+

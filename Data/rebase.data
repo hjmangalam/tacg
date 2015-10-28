@@ -1,0 +1,665 @@
+HJM: DO NOT modify this file while in the tacg/Data directory 
+     Please copy and modify elsewhere!
+ 
+REBASE version 909                                                gcg.909
+ 
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    REBASE, The Restriction Enzyme Database   http://rebase.neb.com
+    Copyright (c)  Dr. Richard J. Roberts, 1999.   All rights reserved.
+    =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+Rich Roberts                                                      Aug 31 99
+ 
+
+REBASE codes for commercial sources of enzymes
+
+                A        Amersham Pharmacia Biotech (11/98)
+                B        Life Technologies Inc. (1/98)
+                C        Minotech, Molecular Biology Products (3/99)
+                D        Angewandte Gentechnologie Systeme (10/97)
+                E        Stratagene (1/98)
+                F        Fermentas AB (8/99)
+                G        Appligene Oncor (10/97)
+                H        American Allied Biochemical, Inc. (10/98)
+                I        SibEnzyme Ltd. (8/99)
+                J        Nippon Gene Co., Ltd. (10/97)
+                K        Takara Shuzo Co. Ltd. (11/98)
+                L        Kramel Biotech (7/98)
+                M        Roche Molecular Biochemicals (3/99)
+                N        New England BioLabs (7/99)
+                O        Toyobo Biochemicals (11/98)
+                P        Megabase Research Products (5/99)
+                Q        CHIMERx (10/97)
+                R        Promega Corporation (6/99)
+                S        Sigma Chemical Corporation (11/98)
+                T        Advanced Biotechnologies Ltd. (3/98)
+..
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;AarI         3 CACCTGC                           0  0  100 100     0     0    ?  !  >
+;AatI         3 AGG'CCT                           0  0  100 100     0     0    !  StuI,Eco147I,Pme55I,SseBI  >O
+AatII         5 G_ACGT'C                         -4  0  100 100  2500   176    !  >ADEFIKLMNOR
+;AauI         1 T'GTAC_A                          4  0  100 100     0     0    !  Bsp1407I,BsrGI,SspBI  >I
+AccI          2 GT'mk_AC                          2  0  100 100  2500   220    !  FblI,XmiI  >ABDEGJKLMNOQRS
+AccII         2 CG'CG                             0  0  100 100   444    99    !  Bsh1236I,BstFNI,BstUI,MvnI,ThaI >KQR
+;AccIII       1 T'CCGG_A                          4  0  100 100     0     0    !  BseAI,BsiMI,Bsp13I,BspEI,Kpn2I,MroI  >EJKQR
+;Acc16I       3 TGC'GCA                           0  0  100 100     0     0    !  AviII,FspI,NsbI  >DI
+;Acc36I      10 ACCTGCnnnn'nnnn_                  4  0  100 100     0     0    !  BspMI  >I
+Acc65I        1 G'GTAC_C                          4  0  100   3  5000   200    !  KpnI,Asp718I  >DFINR
+;Acc113I      3 AGT'ACT                           0  0  100 100     0     0    !  ScaI  >I
+;AccB1I       1 G'GyrC_C                          4  0  100 100     0     0    !  BanI,BshNI,Eco64I  >I
+;AccB7I       7 CCAn_nnn'nTGG                    -3  0  100 100     0     0    !  PflMI,Van91I  >IR
+;AccBSI       3 CCG'CTC                           0  0  100 100     0     0    !  BsrBI,MbiI  >DI
+;AceII        5 G_CTAG'C                         -4  0  100 100     0     0    !  NheI,AsuNHI  >
+;AceIII      13 CAGCTCnnnnnnn'nnnn_               4  0  100 100     0     0    !  >
+AciI          1 C'CG_C                            2  0  100 100  1000   200    !  >N
+AclI          2 AA'CG_TT                          2  0  100 100  1500   200    !  Psp1406I  >IN
+;AclNI        1 A'CTAG_T                          4  0  100 100     0     0    !  SpeI,BcuI  >I
+;AclWI        9 GGATCnnnn'n_                      1  0  100 100     0     0    !  AlwI,BspPI  >I
+;AcsI         1 r'AATT_y                          4  0  100 100     0     0    !  ApoI,XapI  >DIM
+;AcyI         2 Gr'CG_yC                          2  0  100 100     0     0    !  BsaHI,BstACI,Hin1I,Hsp92I,Msp17I  >JM
+;AdeI         6 CAC_nnn'GTG                      -3  0  100 100     0     0    !  DraIII  >F
+;AfaI         2 GT'AC                             0  0  100 100     0     0    !  RsaI,Csp6I  >K
+AfeI          3 AGC'GCT                           0  0  100 100  1000   400    !  Eco47III,Aor51HI  >IN
+AflII         1 C'TTAA_G                          4  0  100 100 10000   176    !  BfrI,BspTI,Bst98I,MspCI,Vha464I  >ABJKNO
+AflIII        1 A'CryG_T                          4  0  100 100  1250   200    !  >ABMNS
+AgeI          1 A'CCGG_T                          4  0  100 100   500   200    !  AsiAI,BshTI,PinAI  >JNR
+;AhaIII       3 TTT'AAA                           0  0  100 100     0     0    !  DraI  >
+AhdI          6 GACnn_n'nnGTC                    -1  0  100 100  5000   220    !  Eam1105I,AspEI,EclHKI,NruGI  >N
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;AloI         6 GAACnnnnnnTCC                     0  0  100 100     0     0    ?  !  >
+AluI          2 AG'CT                             0  0  100 100  2000   200    !  >ABCDEFGHIJKLMNOQRST
+AlwI          9 GGATCnnnn'n_                      1  0   -8 100   500   200    !  AclWI,BspPI  >N
+;Alw21I       5 G_wGCw'C                         -4  0  100 100     0     0    !  AspHI,Bbv12I,BsiHKAI  >DF
+;Alw26I       6 GTCTCn'nnnn_                      4  0  100 100     0     0    !  BsmAI,BsoMAI  >DFR
+;Alw44I       1 G'TGCA_C                          4  0  100 100     0     0    !  ApaLI,VneI  >FJMORS
+AlwNI         6 CAG_nnn'CTG                      -3  0  100  -1  2500   200    !  CaiI  >ABN
+;Ama87I       1 C'yCGr_G                          4  0  100 100     0     0    !  AvaI,BcoI,BsoBI,Eco88I  >DI
+;AocI         2 CC'TnA_GG                         3  0  100 100     0     0    !  AxyI,Bse21I,Bsu36I,CvnI,Eco81I  >M
+;Aor51HI      3 AGC'GCT                           0  0  100 100     0     0    !  Eco47III,AfeI  >AK
+ApaI          5 G_GGCC'C                         -4  0  100  -1 10000   220    !  Bsp120I,PspOMI  >ABEFGIJKLMNOQRS
+;ApaBI        8 GCA_nnnnn'TGC                    -5  0  100 100     0     0    !  BstAPI  >
+ApaLI         1 G'TGCA_C                          4  0  100 100  5000   200    !  Alw44I,VneI  >ADEKN
+ApoI          1 r'AATT_y                          4  0  100 100  2500   220    !  AcsI,XapI  >N
+AscI          2 GG'CGCG_CC                        4  0  100 100  2500   200    !  >N
+AseI          2 AT'TA_AT                          2  0  100 100 10000   200    !  VspI,AsnI,PshBI  >AJNO
+;AsiAI        1 A'CCGG_T                          4  0  100 100     0     0    !  AgeI,BshTI,PinAI  >I
+;AsnI         2 AT'TA_AT                          2  0  100 100     0     0    !  VspI,AseI,PshBI  >MS
+;AspI         4 GACn'n_nGTC                       1  0  100 100     0     0    !  Tth111I,PflFI,PsyI  >M
+;Asp700I      5 GAAnn'nnTTC                       0  0  100 100     0     0    !  XmnI,MroXI  >M
+;Asp718I      1 G'GTAC_C                          4  0  100 100     0     0    !  KpnI,Acc65I  >M
+;AspEI        6 GACnn_n'nnGTC                    -1  0  100 100     0     0    !  Eam1105I,AhdI,EclHKI,NruGI  >M
+;AspHI        5 G_wGCw'C                         -4  0  100 100     0     0    !  Alw21I,Bbv12I,BsiHKAI  >M
+;AspLEI       3 G_CG'C                           -2  0  100 100     0     0    !  HhaI,CfoI,Hin6I,HinP1I,HspAI  >I
+;AspS9I       1 G'GnC_C                           3  0  100 100     0     0    !  BsiZI,Cfr13I,Sau96I  >I
+;AsuI         1 G'GnC_C                           3  0  100 100     0     0    !  AspS9I,BsiZI,Cfr13I,Sau96I  >
+;AsuII        2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,CbiI,Csp45I,LspI,NspV,SfuI  >
+;AsuC2I       2 CC's_GG                           1  0  100 100     0     0    !  BcnI,NciI  >I
+;AsuHPI      13 GGTGAnnnnnnn_n'                  -1  0  100 100     0     0    !  HphI  >I
+;AsuNHI       1 G'CTAG_C                          4  0  100 100     0     0    !  NheI  >I
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+AvaI          1 C'yCGr_G                          4  0  100 100 10000   176    !  Ama87I,BcoI,BsoBI,Eco88I  >ABEGJKLMNOQRS
+AvaII         1 G'GwC_C                           3  0  100   2 10000   176    !  Bme18I,Eco47I,HgiEI,SinI  >ABEGJKMNQRS
+;AvaIII       3 ATGCAT                            0  0  100 100     0     0    ?  !  EcoT22I,Mph1103I,NsiI,Ppu10I,Zsp2I  >
+;AviII        3 TGC'GCA                           0  0  100 100     0     0    !  Acc16I,FspI,NsbI  >KM
+AvrII         1 C'CTAG_G                          4  0  100 100   500   220    !  BlnI,BspA2I  >N
+;AxyI         2 CC'TnA_GG                         3  0  100 100     0     0    !  AocI,Bse21I,Bsu36I,CvnI,Eco81I  >J
+BaeI         23 ACnnnnGTAyCnnnnnnn_nnnnn'        -5  0  100 100  1250   200    !  >N
+BaeI         26 GrTACnnnnGTnnnnnnnnnn_nnnnn'     -5  0  100 100  1250   200    !  >N
+;BalI         3 TGG'CCA                           0  0  100   0     0     0    !  MlsI,MluNI,MscI  >AJKR
+BamHI         1 G'GATC_C                          4  0  100 100 50000   176    !  >ABCDEFGHIJKLMNOQRST
+BanI          1 G'GyrC_C                          4  0  100 100 25000   200    !  AccB1I,BshNI,Eco64I  >AEMNOR
+BanII         5 G_rGCy'C                         -4  0  100 100  5000   200    !  Eco24I,EcoT38I,FriOI  >ABKLMNOQRS
+;BanIII       2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >O
+BbeI          5 G_GCGC'C                         -4  0  100 100     0     0    !  NarI,EgeI,EheI,KasI,Mly113I,SfoI  >K
+;Bbr7I       13 GAAGACnnnnnnn'nnnn_               4  0  100 100     0     0    !  BbsI,BpiI,BpuAI  >
+;BbrPI        3 CAC'GTG                           0  0  100 100     0     0    !  PmaCI,Eco72I,PmlI  >MO
+BbsI          8 GAAGACnn'nnnn_                    4  0  100 100  1000   200    !  BpiI,BpuAI  >N
+;BbuI         5 G_CATG'C                         -4  0  100 100     0     0    !  SphI,PaeI  >R
+BbvI         13 GCAGCnnnnnnnn'nnnn_               4  0  100 100   750   200    !  BseXI,Bst71I  >N
+;BbvII        8 GAAGACnn'nnnn_                    4  0  100 100     0     0    !  BbsI,BpiI,BpuAI  >
+;Bbv12I       5 G_wGCw'C                         -4  0  100 100     0     0    !  Alw21I,AspHI,BsiHKAI  >I
+BbvCI         2 CC'TCA_GC                         3  0  100 100   500   200    !  >N
+;BccI         2 CCATC                             0  0  100 100     0     0    ?  !  >
+;Bce83I      22 CTTGAGnnnnnnnnnnnnnn_nn'         -2  0  100 100     0     0    !  >
+;BcefI       17 ACGGCnnnnnnnnnnnn'n_              1  0  100 100     0     0    !  >
+BcgI         24 CGAnnnnnnTGCnnnnnnnnnn_nn'       -2  0  100 100  1250   200    !  >N
+BcgI         24 GCAnnnnnnTCGnnnnnnnnnn_nn'       -2  0  100 100  1250   200    !  >N
+BciVI        12 GTATCCnnnnn_n'                   -1  0  100 100  1000   200    !  >N
+BclI          1 T'GATC_A                          4  0    0 100 10000   176    !  BsiQI,FbaI,Ksp22I  >BCDEFGJLMNORS
+;BcnI         2 CC's_GG                           1  0  100 100     0     0    !  AsuC2I,NciI  >ADFK
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;BcoI         1 C'yCGr_G                          4  0  100 100     0     0    !  AvaI,Ama87I,BsoBI,Eco88I  >T
+;BcuI         1 A'CTAG_T                          4  0  100 100     0     0    !  SpeI,AclNI  >F
+;BetI         1 w'CCGG_w                          4  0  100 100     0     0    !  BsaWI  >
+BfaI          1 C'TA_G                            2  0  100 100  2500   220    !  MaeI  >N
+;BfiI        11 ACTGGGnnnn_n'                    -1  0  100 100     0     0    !  BmrI  >
+;BfmI         1 C'TryA_G                          4  0  100 100     0     0    !  BstSFI,SfcI  >F
+;BfrI         1 C'TTAA_G                          4  0  100 100     0     0    !  AflII,BspTI,Bst98I,MspCI,Vha464I  >MO
+;BfrBI        3 ATG'CAT                           0  0  100 100     0     0    !  EcoT22I,Mph1103I,NsiI,Ppu10I,Zsp2I  >
+BglI          7 GCCn_nnn'nGGC                    -3  0  100 100 10000   176    !  >ABCDEFGHIJKLMNOQRST
+BglII         1 A'GATC_T                          4  0  100 100 10000   176    !  >ABCDEFGHIJKLMNOQRST
+;BinI         9 GGATCnnnn'n_                      1  0  100 100     0     0    !  AclWI,AlwI,BspPI  >
+;BlnI         1 C'CTAG_G                          4  0  100 100     0     0    !  AvrII,BspA2I  >AKMS
+BlpI          2 GC'TnA_GC                         3  0  100 100  2500   220    !  Bpu1102I,Bsp1720I,CelII  >N
+;Bme18I       1 G'GwC_C                           3  0  100 100     0     0    !  AvaII,Eco47I,HgiEI,SinI  >I
+;Bme1390I     2 CC'n_GG                           1  0  100 100     0     0    !  ScrFI,BssKI,MspR9I  >F
+;BmgI         3 GkGCCC                            0  0  100 100     0     0    ?  !  >
+BmrI          3 ACTGGG                            0  0  100 100   125   200    ?  !  >N
+;BmyI         5 G_dGCh'C                         -4  0  100 100     0     0    !  SduI,Bsp1286I  >M
+;BoxI         5 GACnn'nnGTC                       0  0  100 100     0     0    !  PshAI  >F
+;BpiI         8 GAAGACnn'nnnn_                    4  0  100 100     0     0    !  BbsI,BpuAI  >DF
+BplI         24 GAGnnnnnCTCnnnnnnnn_nnnnn'       -5  0  100 100     0     0    !  >F
+BpmI         22 CTGGAGnnnnnnnnnnnnnn_nn'         -2  0  100 -23     0     0    !  GsuI  >N
+Bpu10I        2 CC'TnA_GC                         3  0  100 100     0     0    !  >F
+;Bpu14I       2 TT'CG_AA                          2  0  100 100     0     0    !  BsiCI,Bsp119I,BstBI,CbiI,Csp45I,LspI,NspV,SfuI  >I
+;Bpu1102I     2 GC'TnA_GC                         3  0  100 100     0     0    !  BlpI,Bsp1720I,CelII  >BDEFK
+;BpuAI        8 GAAGACnn'nnnn_                    4  0  100 100     0     0    !  BbsI,BpiI  >M
+BsaI          7 GGTCTCn'nnnn_                     4  0  100 100     0     0    !  Eco31I,Bso31I  >N
+;Bsa29I       2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,BscI,BseCI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >I
+BsaAI         3 yAC'GTr                           0  0  100 100  2500   200    !  BstBAI  >N
+BsaBI         5 GATnn'nnATC                       0  0   -5 100 10000   200    !  Bse8I,Bsh1365I,BsiBI,BsrBRI,MamI  >N
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+BsaHI         2 Gr'CG_yC                          2  0  100 100  5000   200    !  AcyI,BstACI,Hin1I,Hsp92I,Msp17I  >N
+BsaJI         1 C'CnnG_G                          4  0  100 100  1250   200    !  BseDI,BssECI  >N
+;BsaMI        7 GAATG_Cn'                        -2  0  100 100     0     0    !  BsmI,BscCI,Mva1269I  >R
+;BsaOI        4 CG_ry'CG                         -2  0  100 100     0     0    !  Bsh1285I,BsiEI,BstMCI  >R
+BsaWI         1 w'CCGG_w                          4  0  100 100   500   220    !  >N
+;BsaXI        5 ACnnnnnCTCC                       0  0  100 100     0     0    ?  !  >
+;BsbI         3 CAACAC                            0  0  100 100     0     0    ?  !  >
+;BscI         2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BseCI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >L
+;Bsc4I        7 CCnn_nnn'nnGG                    -3  0  100 100     0     0    !  BsiYI,BseLI,BslI  >I
+;BscAI        9 GCATCnnnn'nn_                     2  0  100 100     0     0    !  SfaNI  >
+;BscBI        3 GGn'nCC                           0  0  100 100     0     0    !  NlaIV,BspLI,PspN4I  >T
+;BscCI        7 GAATG_Cn'                        -2  0  100 100     0     0    !  BsmI,BsaMI,Mva1269I  >T
+;BscFI        0 'GATC_                            4  0  100 100     0     0    !  MboI,Bsp143I,DpnII,Kzo9I,NdeII,Sau3AI  >T
+;BscGI        2 CCCGT                             0  0  100 100     0     0    ?  !  >
+;Bse1I        6 ACTG_Gn'                         -2  0  100 100     0     0    !  BsrI,BseNI,BsrSI  >I
+;Bse8I        5 GATnn'nnATC                       0  0  100 100     0     0    !  BsaBI,Bsh1365I,BsiBI,BsrBRI,MamI  >I
+;Bse21I       2 CC'TnA_GG                         3  0  100 100     0     0    !  AocI,AxyI,Bsu36I,CvnI,Eco81I  >I
+;Bse118I      1 r'CCGG_y                          4  0  100 100     0     0    !  Cfr10I,BsrFI,BssAI  >I
+;BseAI        1 T'CCGG_A                          4  0  100 100     0     0    !  AccIII,BsiMI,Bsp13I,BspEI,Kpn2I,MroI  >CM
+;BseCI        2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BscI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >C
+;BseDI        1 C'CnnG_G                          4  0  100 100     0     0    !  BsaJI,BssECI  >DF
+;Bse3DI       8 GCAATG_nn'                       -2  0  100 100     0     0    !  BsrDI,BseMI  >I
+;BseGI        7 GGATG_nn'                        -2  0  100 100     0     0    !  FokI,BstF5I  >F
+;BseLI        7 CCnn_nnn'nnGG                    -3  0  100 100     0     0    !  BsiYI,Bsc4I,BslI  >F
+;BseMI        8 GCAATG_nn'                       -2  0  100 100     0     0    !  BsrDI,Bse3DI  >F
+BseMII       15 CTCAGnnnnnnnn_nn'                -2  0  100 100     0     0    !  >F
+;BseNI        6 ACTG_Gn'                         -2  0  100 100     0     0    !  BsrI,Bse1I,BsrSI  >DF
+;BsePI        1 G'CGCG_C                          4  0  100 100     0     0    !  BssHII,PauI  >I
+BseRI        16 GAGGAGnnnnnnnn_nn'               -2  0  100 100   200    55    !  >N
+BseSI         5 G_kGCm'C                         -4  0  100 100     0     0    !  >F
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;BseXI       13 GCAGCnnnnnnnn'nnnn_               4  0  100 100     0     0    !  BbvI,Bst71I  >F
+;BseX3I       1 C'GGCC_G                          4  0  100 100     0     0    !  XmaIII,BstZI,EagI,EclXI,Eco52I  >I
+BsgI         22 GTGCAGnnnnnnnnnnnnnn_nn'         -2  0  100 100   250   200    !  >N
+;BshI         2 GG'CC                             0  0  100 100     0     0    !  HaeIII,BsuRI,PalI  >T
+;Bsh1236I     2 CG'CG                             0  0  100 100     0     0    !  AccII,BstFNI,BstUI,MvnI,ThaI  >DEF
+;Bsh1285I     4 CG_ry'CG                         -2  0  100 100     0     0    !  BsaOI,BsiEI,BstMCI  >DF
+;Bsh1365I     5 GATnn'nnATC                       0  0  100 100     0     0    !  BsaBI,Bse8I,BsiBI,BsrBRI,MamI  >DF
+;BshNI        1 G'GyrC_C                          4  0  100 100     0     0    !  AccB1I,BanI,Eco64I  >F
+;BshTI        1 A'CCGG_T                          4  0  100 100     0     0    !  AgeI,AsiAI,PinAI  >F
+;BsiI         1 C'ACGA_G                          4  0  100 100     0     0    !  BssSI,Bst2BI  >
+;BsiBI        5 GATnn'nnATC                       0  0  100 100     0     0    !  BsaBI,Bse8I,Bsh1365I,BsrBRI,MamI  >T
+;BsiCI        2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,Bsp119I,BstBI,CbiI,Csp45I,LspI,NspV,SfuI  >T
+BsiEI         4 CG_ry'CG                         -2  0  100 100  5000   200    !  BsaOI,Bsh1285I,BstMCI  >N
+BsiHKAI       5 G_wGCw'C                         -4  0  100 100  5000   200    !  Alw21I,AspHI,Bbv12I  >N
+;BsiLI        2 CC'w_GG                           1  0  100 100     0     0    !  EcoRII,BstNI,BstOI,Bst2UI,MvaI,PspGI  >T
+;BsiMI        1 T'CCGG_A                          4  0  100 100     0     0    !  AccIII,BseAI,Bsp13I,BspEI,Kpn2I,MroI  >AT
+;BsiQI        1 T'GATC_A                          4  0  100 100     0     0    !  BclI,FbaI,Ksp22I  >T
+;BsiSI        1 C'CG_G                            2  0  100 100     0     0    !  HpaII,HapII,MspI  >C
+BsiWI         1 C'GTAC_G                          4  0  100 100  1500   200    !  Pfl23II,PspLI,SunI  >MNO
+;BsiXI        2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BscI,BseCI,Bsp106I,BspDI,BspXI,Bsu15I  >T
+;BsiYI        7 CCnn_nnn'nnGG                    -3  0  100 100     0     0    !  Bsc4I,BseLI,BslI  >MT
+;BsiZI        1 G'GnC_C                           3  0  100 100     0     0    !  AspS9I,Cfr13I,Sau96I  >T
+BslI          7 CCnn_nnn'nnGG                    -3  0  100  -7  5000   200    !  BsiYI,Bsc4I,BseLI  >N
+BsmI          7 GAATG_Cn'                        -2  0  100 100     0     0    !  BsaMI,BscCI,Mva1269I  >ABDEJLMNOS
+BsmAI         6 GTCTCn'nnnn_                      4  0  100 100  5000   200    !  Alw26I,BsoMAI  >N
+BsmBI         7 CGTCTCn'nnnn_                     4  0  100 100  1000   220    !  Esp3I  >N
+BsmFI        15 GGGACnnnnnnnnnn'nnnn_             4  0  100 100   500   220    !  >N
+;Bso31I       7 GGTCTCn'nnnn_                     4  0  100 100     0     0    !  Eco31I,BsaI  >I
+;BsoBI        1 C'yCGr_G                          4  0  100 100     0     0    !  AvaI,Ama87I,BcoI,Eco88I  >N
+;BsoMAI       6 GTCTCn'nnnn_                      4  0  100 100     0     0    !  BsmAI,Alw26I  >I
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;Bsp13I       1 T'CCGG_A                          4  0  100 100     0     0    !  AccIII,BseAI,BsiMI,BspEI,Kpn2I,MroI  >I
+;Bsp19I       1 C'CATG_G                          4  0  100 100     0     0    !  NcoI  >I
+;Bsp24I      24 GACnnnnnnTGGnnnnnnn_nnnnn'       -5  0  100 100     0     0    !  >
+;Bsp24I      25 CCAnnnnnnGTCnnnnnnnn_nnnnn'      -5  0  100 100     0     0    !  >
+;Bsp68I       3 TCG'CGA                           0  0  100 100     0     0    !  NruI  >F
+;Bsp106I      2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BscI,BseCI,BsiXI,BspDI,BspXI,Bsu15I  >E
+;Bsp119I      2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,BstBI,CbiI,Csp45I,LspI,NspV,SfuI  >DF
+;Bsp120I      1 G'GGCC_C                          4  0  100   3     0     0    !  ApaI,PspOMI  >DF
+;Bsp143I      0 'GATC_                            4  0  100 100     0     0    !  MboI,BscFI,DpnII,Kzo9I,NdeII,Sau3AI  >DF
+;Bsp143II     5 r_GCGC'y                         -4  0  100 100     0     0    !  HaeII,BstH2I  >F
+Bsp1286I      5 G_dGCh'C                         -4  0  100 100  2500   200    !  SduI,BmyI  >ADJKNR
+;Bsp1407I     1 T'GTAC_A                          4  0  100 100     0     0    !  AauI,BsrGI,SspBI  >DFK
+;Bsp1720I     2 GC'TnA_GC                         3  0  100 100     0     0    !  BlpI,Bpu1102I,CelII  >I
+;BspA2I       1 C'CTAG_G                          4  0  100 100     0     0    !  AvrII,BlnI  >I
+;BspCI        4 CG_AT'CG                         -2  0  100 100     0     0    !  PvuI,Ple19I  >E
+;BspDI        2 AT'CG_AT                          2  0    1 100  5000   200    !  ClaI,BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspXI,Bsu15I  >N
+BspEI         1 T'CCGG_A                          4  0    3 100  5000   200    !  AccIII,BseAI,BsiMI,Bsp13I,Kpn2I,MroI  >N
+;BspGI        3 CTGGAC                            0  0  100 100     0     0    ?  !  >
+BspHI         1 T'CATG_A                          4  0    3 100  2500   200    !  PagI,RcaI  >AN
+;BspKT6I      3 G_AT'C                           -2  0  100 100     0     0    !  MboI,BscFI,Bsp143I,DpnII,Kzo9I,NdeII,Sau3AI  >
+;BspLI        3 GGn'nCC                           0  0  100 100     0     0    !  NlaIV,BscBI,PspN4I  >F
+;BspLU11I     1 A'CATG_T                          4  0  100 100     0     0    !  PciI  >M
+BspMI        10 ACCTGCnnnn'nnnn_                  4  0  100 100   500   200    !  Acc36I  >N
+;BspMII       1 T'CCGG_A                          4  0  100 100     0     0    !  AccIII,BseAI,BsiMI,Bsp13I,BspEI,Kpn2I,MroI  >
+;BspPI        9 GGATCnnnn'n_                      1  0  100 100     0     0    !  AclWI,AlwI  >F
+;BspTI        1 C'TTAA_G                          4  0  100 100     0     0    !  AflII,BfrI,Bst98I,MspCI,Vha464I  >DF
+;BspXI        2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspDI,Bsu15I  >G
+BsrI          6 ACTG_Gn'                         -2  0  100 100  2500   200    !  Bse1I,BseNI,BsrSI  >N
+BsrBI         3 CCG'CTC                           0  0  100 100     0     0    !  AccBSI,MbiI  >N
+;BsrBRI       5 GATnn'nnATC                       0  0  100 100     0     0    !  BsaBI,Bse8I,Bsh1365I,BsiBI,MamI  >R
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+BsrDI         8 GCAATG_nn'                       -2  0  100 100   500   200    !  Bse3DI,BseMI  >N
+BsrFI         1 r'CCGG_y                          4  0  100 100   750   200    !  Cfr10I,Bse118I,BssAI  >N
+BsrGI         1 T'GTAC_A                          4  0  100 100  5000   200    !  Bsp1407I,AauI,SspBI  >N
+;BsrSI        6 ACTG_Gn'                         -2  0  100 100     0     0    !  BsrI,Bse1I,BseNI  >R
+;BssAI        1 r'CCGG_y                          4  0  100 100     0     0    !  Cfr10I,Bse118I,BsrFI  >C
+;BssECI       1 C'CnnG_G                          4  0  100 100     0     0    !  BsaJI,BseDI  >I
+BssHII        1 G'CGCG_C                          4  0  100 100  1000   200    !  BsePI,PauI  >ABDEJKLMNOQRS
+BssKI         0 'CCnGG_                           5  0  100   0  1250   200    !  ScrFI,Bme1390I,MspR9I  >N
+;BssNAI       3 GTA'TAC                           0  0  100 100     0     0    !  Bst1107I,BstZ17I  >I
+BssSI         1 C'ACGA_G                          4  0  100 100  1000   220    !  Bst2BI  >N
+;BssT1I       1 C'CwwG_G                          4  0  100 100     0     0    !  StyI,Eco130I,EcoT14I,ErhI  >I
+;Bst71I      13 GCAGCnnnnnnnn'nnnn_               4  0  100 100     0     0    !  BbvI,BseXI  >R
+;Bst98I       1 C'TTAA_G                          4  0  100 100     0     0    !  AflII,BfrI,BspTI,MspCI,Vha464I  >R
+;Bst1107I     3 GTA'TAC                           0  0  100 100     0     0    !  BssNAI,BstZ17I  >DFKM
+;BstACI       2 Gr'CG_yC                          2  0  100 100     0     0    !  AcyI,BsaHI,Hin1I,Hsp92I,Msp17I  >I
+BstAPI        7 GCAn_nnn'nTGC                    -3  0  100 100  1000   300    !  >IN
+BstBI         2 TT'CG_AA                          2  0  100 100 12500   176    !  Bpu14I,BsiCI,Bsp119I,CbiI,Csp45I,LspI,NspV,SfuI  >N
+;Bst2BI       1 C'ACGA_G                          4  0  100 100     0     0    !  BssSI  >DI
+;BstBAI       3 yAC'GTr                           0  0  100 100     0     0    !  BsaAI  >I
+Bst4CI        3 AC_n'GT                          -1  0  100 100  1000   300    !  TaaI  >IN
+;BstDEI       1 C'TnA_G                           3  0  100 100     0     0    !  DdeI  >DI
+BstDSI        1 C'CryG_G                          4  0  100 100     0     0    !  DsaI,BtgI  >DI
+BstEII        1 G'GTnAC_C                         5  0  100 100 10000   176    !  BstPI,Eco91I,EcoO65I,PspEI  >BDGHJLMNORS
+BstF5I        7 GGATG_nn'                        -2  0  100 100   500   300    !  FokI,BseGI  >IN
+;BstFNI       2 CG'CG                             0  0  100 100     0     0    !  AccII,Bsh1236I,BstUI,MvnI,ThaI  >I
+;BstH2I       5 r_GCGC'y                         -4  0  100 100     0     0    !  HaeII,Bsp143II  >I
+;BstHPI       3 GTT'AAC                           0  0  100 100     0     0    !  HpaI,KspAI  >I
+;BstMCI       4 CG_ry'CG                         -2  0  100 100     0     0    !  BsaOI,Bsh1285I,BsiEI  >I
+BstNI         2 CC'w_GG                           1  0  100 100 10000   176    !  EcoRII,BsiLI,BstOI,Bst2UI,MvaI,PspGI  >CEN
+;BstNSI       5 r_CATG'y                         -4  0  100 100     0     0    !  NspI,XceI  >DI
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;BstOI        2 CC'w_GG                           1  0  100 100     0     0    !  EcoRII,BsiLI,BstNI,Bst2UI,MvaI,PspGI  >R
+;BstPI        1 G'GTnAC_C                         5  0  100 100     0     0    !  BstEII,Eco91I,EcoO65I,PspEI  >K
+;BstSFI       1 C'TryA_G                          4  0  100 100     0     0    !  BfmI,SfcI  >DI
+;BstSNI       3 TAC'GTA                           0  0  100 100     0     0    !  SnaBI,Eco105I  >DI
+BstUI         2 CG'CG                             0  0  100 100     0     0    !  AccII,Bsh1236I,BstFNI,MvnI,ThaI  >N
+;Bst2UI       2 CC'w_GG                           1  0  100 100     0     0    !  EcoRII,BsiLI,BstNI,BstOI,MvaI,PspGI  >I
+BstXI         8 CCAn_nnnn'nTGG                   -4  0  100 100  5000   200    !  >ABDEFGHJKLMNOQR
+;BstX2I       1 r'GATC_y                          4  0  100 100     0     0    !  XhoII,BstYI,MflI  >DI
+BstYI         1 r'GATC_y                          4  0  100 100  2500   176    !  XhoII,BstX2I,MflI  >BN
+;BstZI        1 C'GGCC_G                          4  0  100 100     0     0    !  XmaIII,BseX3I,EagI,EclXI,Eco52I  >R
+BstZ17I       3 GTA'TAC                           0  0  100 100  5000   200    !  BssNAI,Bst1107I  >N
+;Bsu6I        7 CTCTTCn'nnn_                      3  0  100 100     0     0    !  Ksp632I,Eam1104I,EarI  >I
+;Bsu15I       2 AT'CG_AT                          2  0  100 100     0     0    !  ClaI,BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspDI,BspXI  >DF
+Bsu36I        2 CC'TnA_GG                         3  0  100 100  2500   200    !  AocI,AxyI,Bse21I,CvnI,Eco81I  >ENR
+;BsuRI        2 GG'CC                             0  0  100 100     0     0    !  HaeIII,BshI,PalI  >FI
+BtgI          3 CCryGG                            0  0  100 100  5000   200    ?  !  DsaI,BstDSI  >N
+BtrI          3 CAC'GTC                           0  0  100 100   250   300    !  >IN
+;BtsI         8 GCAGTG_nn'                       -2  0  100 100     0     0    !  >
+Cac8I         3 GCn'nGC                           0  0  100 100   500   220    !  >N
+;CaiI         6 CAG_nnn'CTG                      -3  0  100 100     0     0    !  AlwNI  >F
+;CauII        2 CC's_GG                           1  0  100 100     0     0    !  AsuC2I,BcnI,NciI  >
+;CbiI         2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,Csp45I,LspI,NspV,SfuI  >J
+;CciNI        2 GC'GGCC_GC                        4  0  100 100     0     0    !  NotI  >I
+;CelII        2 GC'TnA_GC                         3  0  100 100     0     0    !  BlpI,Bpu1102I,Bsp1720I  >ALM
+;CfoI         3 G_CG'C                           -2  0  100 100     0     0    !  HhaI,AspLEI,Hin6I,HinP1I,HspAI  >BLMRS
+;CfrI         1 y'GGCC_r                          4  0  100 100     0     0    !  EaeI  >F
+;Cfr9I        1 C'CCGG_G                          4  0  100 100     0     0    !  SmaI,PspAI,XmaI,XmaCI  >FO
+;Cfr10I       1 r'CCGG_y                          4  0  100 100     0     0    !  Bse118I,BsrFI,BssAI  >ADFKMO
+;Cfr13I       1 G'GnC_C                           3  0  100 100     0     0    !  AspS9I,BsiZI,Sau96I  >DFKO
+;Cfr42I       4 CC_GC'GG                         -2  0  100 100     0     0    !  SacII,KspI,Sfr303I,SstII  >DF
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;ChaI         4 _GATC'                           -4  0  100 100     0     0    !  MboI,BscFI,Bsp143I,DpnII,Kzo9I,NdeII,Sau3AI  >
+;CjeI        26 CCAnnnnnnGTnnnnnnnnn_nnnnnn'     -6  0  100 100     0     0    !  >
+;CjeI        25 ACnnnnnnTGGnnnnnnnn_nnnnnn'      -6  0  100 100     0     0    !  >
+;CjePI       26 CCAnnnnnnnTCnnnnnnnn_nnnnnn'     -6  0  100 100     0     0    !  >
+;CjePI       25 GAnnnnnnnTGGnnnnnnn_nnnnnn'      -6  0  100 100     0     0    !  >
+ClaI          2 AT'CG_AT                          2  0    1 100  5000   200    !  BanIII,Bsa29I,BscI,BseCI,BsiXI,Bsp106I,BspDI,BspXI,Bsu15I  >ABHKMNRST
+;CpoI         2 CG'GwC_CG                         3  0  100 100     0     0    !  RsrII,CspI,Rsr2I  >ADFK
+;CspI         2 CG'GwC_CG                         3  0  100 100     0     0    !  RsrII,CpoI,Rsr2I  >EOR
+Csp6I         1 G'TA_C                            2  0  100 100     0     0    !  RsaI,AfaI  >DF
+;Csp45I       2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,CbiI,LspI,NspV,SfuI  >OR
+;CviAII       1 C'AT_G                            2  0  100 100     0     0    !  NlaIII,Hsp92II  >
+CviJI         2 rG'Cy                             0  0  100 100     0     0    !  CviTI  >Q
+CviRI         2 TG'CA                             0  0  100 100     0     0    !  >P
+;CviTI        2 rG'Cy                             0  0  100 100     0     0    !  CviJI  >P
+;CvnI         2 CC'TnA_GG                         3  0  100 100     0     0    !  AocI,AxyI,Bse21I,Bsu36I,Eco81I  >B
+DdeI          1 C'TnA_G                           3  0  100 100  2500   176    !  BstDEI  >ABEGLMNORS
+DpnI          2 GA'TC                             0  0  100 100  5000   200    !  >ABELMNRS
+;DpnII        0 'GATC_                            4  0    0 100     0     0    !  MboI,BscFI,Bsp143I,Kzo9I,NdeII,Sau3AI  >N
+DraI          3 TTT'AAA                           0  0  100 100 10000   200    !  >ABDEFGIJKLMNOQRS
+;DraII        2 rG'GnC_Cy                         3  0  100 100     0     0    !  EcoO109I  >AGM
+DraIII        6 CAC_nnn'GTG                      -3  0  100 100  5000   200    !  AdeI  >AEGMN
+DrdI          7 GACnn_nn'nnGTC                   -2  0  100 100  1500   200    !  DseDI  >N
+;DrdII        3 GAACCA                            0  0  100 100     0     0    ?  !  >
+;DsaI         1 C'CryG_G                          4  0  100 100     0     0    !  BstDSI,BtgI  >M
+;DseDI        7 GACnn_nn'nnGTC                   -2  0  100 100     0     0    !  DrdI  >I
+EaeI          1 y'GGCC_r                          4  0  100   2   500   200    !  CfrI  >ADKLMN
+EagI          1 C'GGCC_G                          4  0  100 100  2500   200    !  XmaIII,BseX3I,BstZI,EclXI,Eco52I  >N
+;Eam1104I     7 CTCTTCn'nnn_                      3  0  100 100     0     0    !  Ksp632I,Bsu6I,EarI  >DEF
+;Eam1105I     6 GACnn_n'nnGTC                    -1  0  100 100     0     0    !  AhdI,AspEI,EclHKI,NruGI  >DFK
+EarI          7 CTCTTCn'nnn_                      3  0  100 100  2500   200    !  Ksp632I,Bsu6I,Eam1104I  >N
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+EciI         17 GGCGGAnnnnnnnnn_nn'              -2  0  100 100   250   200    !  >N
+Ecl136II      3 GAG'CTC                           0  0  100 100     0     0    !  SacI,EcoICRI,Psp124BI,SstI  >DF
+;EclHKI       6 GACnn_n'nnGTC                    -1  0  100 100     0     0    !  Eam1105I,AhdI,AspEI,NruGI  >R
+;EclXI        1 C'GGCC_G                          4  0  100 100     0     0    !  XmaIII,BseX3I,BstZI,EagI,Eco52I  >MS
+;Eco24I       5 G_rGCy'C                         -4  0  100 100     0     0    !  BanII,EcoT38I,FriOI  >DF
+;Eco31I       7 GGTCTCn'nnnn_                     4  0  100 100     0     0    !  BsaI,Bso31I  >DF
+;Eco32I       3 GAT'ATC                           0  0  100 100     0     0    !  EcoRV  >F
+;Eco47I       1 G'GwC_C                           3  0  100 100     0     0    !  AvaII,Bme18I,HgiEI,SinI  >FO
+;Eco47III     3 AGC'GCT                           0  0  100 100     0     0    !  AfeI,Aor51HI  >BDEFLMOR
+;Eco52I       1 C'GGCC_G                          4  0  100 100     0     0    !  XmaIII,BseX3I,BstZI,EagI,EclXI  >ADFKOR
+Eco57I       22 CTGAAGnnnnnnnnnnnnnn_nn'         -2  0  100 100     0     0    !  >DF
+;Eco64I       1 G'GyrC_C                          4  0  100 100     0     0    !  AccB1I,BanI,BshNI  >D
+;Eco72I       3 CAC'GTG                           0  0  100 100     0     0    !  PmaCI,BbrPI,PmlI  >DEF
+;Eco81I       2 CC'TnA_GG                         3  0  100 100     0     0    !  AocI,AxyI,Bse21I,Bsu36I,CvnI  >ADFKO
+;Eco88I       1 C'yCGr_G                          4  0  100 100     0     0    !  AvaI,Ama87I,BcoI,BsoBI  >F
+;Eco91I       1 G'GTnAC_C                         5  0  100 100     0     0    !  BstEII,BstPI,EcoO65I,PspEI  >F
+;Eco105I      3 TAC'GTA                           0  0  100 100     0     0    !  SnaBI,BstSNI  >FO
+;Eco130I      1 C'CwwG_G                          4  0  100 100     0     0    !  StyI,BssT1I,EcoT14I,ErhI  >DF
+;Eco147I      3 AGG'CCT                           0  0  100 100     0     0    !  StuI,AatI,Pme55I,SseBI  >DF
+;EcoHI        0 'CCsGG_                           5  0  100 100     0     0    !  AsuC2I,BcnI,NciI  >
+;EcoICRI      3 GAG'CTC                           0  0  100 100     0     0    !  SacI,Ecl136II,Psp124BI,SstI  >R
+EcoNI         5 CCTnn'n_nnAGG                     1  0  100 100  5000   200    !  XagI  >AN
+;EcoO65I      1 G'GTnAC_C                         5  0  100 100     0     0    !  BstEII,BstPI,Eco91I,PspEI  >AK
+EcoO109I      2 rG'GnC_Cy                         3  0  100   2 10000   200    !  DraII  >ABDEFJKLN
+EcoRI         1 G'AATT_C                          4  0  100 100 50000   176    !  >ABCDEFGHIJKLMNOQRST
+;EcoRII       0 'CCwGG_                           5  0  100   0     0     0    !  BsiLI,BstNI,BstOI,Bst2UI,MvaI,PspGI  >BEJMOS
+EcoRV         3 GAT'ATC                           0  0  100 100 20000   176    !  Eco32I  >ABCDEGHIJKLMNOQRST
+;EcoT14I      1 C'CwwG_G                          4  0  100 100     0     0    !  StyI,BssT1I,Eco130I,ErhI  >AK
+;EcoT22I      5 A_TGCA'T                         -4  0  100 100     0     0    !  Mph1103I,NsiI,Ppu10I,Zsp2I  >AKO
+;EcoT38I      5 G_rGCy'C                         -4  0  100 100     0     0    !  BanII,Eco24I,FriOI  >J
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;EgeI         3 GGC'GCC                           0  0  100 100     0     0    !  NarI,BbeI,EheI,KasI,Mly113I,SfoI  >I
+;EheI         3 GGC'GCC                           0  0  100 100     0     0    !  NarI,BbeI,EgeI,KasI,Mly113I,SfoI  >ADFO
+;ErhI         1 C'CwwG_G                          4  0  100 100     0     0    !  StyI,BssT1I,Eco130I,EcoT14I  >I
+;EspI         2 GC'TnA_GC                         3  0  100 100     0     0    !  BlpI,Bpu1102I,Bsp1720I,CelII  >
+;Esp3I        7 CGTCTCn'nnnn_                     4  0  100 100     0     0    !  BsmBI  >DF
+FauI          9 CCCGCnnnn'nn_                     2  0  100 100   250   300    !  >IN
+;FauNDI       2 CA'TA_TG                          2  0  100 100     0     0    !  NdeI  >DI
+;FbaI         1 T'GATC_A                          4  0  100 100     0     0    !  BclI,BsiQI,Ksp22I  >AK
+;FblI         2 GT'mk_AC                          2  0  100 100     0     0    !  AccI,XmiI  >I
+;FinI         2 GGGAC                             0  0  100 100     0     0    ?  !  BsmFI  >
+;FmuI         4 G_GnC'C                          -3  0  100 100     0     0    !  AspS9I,BsiZI,Cfr13I,Sau96I  >
+;FnuDII       2 CG'CG                             0  0  100 100     0     0    !  AccII,Bsh1236I,BstFNI,BstUI,MvnI,ThaI  >
+Fnu4HI        2 GC'n_GC                           1  0  100 100  1000   200    !  Fsp4HI,ItaI  >N
+FokI         14 GGATGnnnnnnnnn'nnnn_              4  0  100 100  5000   200    !  BseGI,BstF5I  >ADGIJKLMNR
+;FriOI        5 G_rGCy'C                         -4  0  100 100     0     0    !  BanII,Eco24I,EcoT38I  >I
+FseI          6 GG_CCGG'CC                       -4  0  100 100   500   220    !  >AKN
+FspI          3 TGC'GCA                           0  0  100 100  2500   200    !  Acc16I,AviII,NsbI  >ABJNO
+;Fsp4HI       2 GC'n_GC                           1  0  100 100     0     0    !  Fnu4HI,ItaI  >I
+;GdiII        1 C'GGCC_r                          4  0  100 100     0     0    !  >
+;GsuI        22 CTGGAGnnnnnnnnnnnnnn_nn'         -2  0  100 100     0     0    !  BpmI  >DF
+;HaeI         3 wGG'CCw                           0  0  100 100     0     0    !  >
+HaeII         5 r_GCGC'y                         -4  0  100 100 10000   176    !  Bsp143II,BstH2I  >ABDEGJKLMNORS
+HaeIII        2 GG'CC                             0  0  100 100 15000   176    !  BshI,BsuRI,PalI  >ABCDGHIJKLMNOQRST
+;HaeIV        5 GAynnnnnrTC                       0  0  100 100     0     0    ?  !  >
+;HapII        1 C'CG_G                            2  0  100 100     0     0    !  HpaII,BsiSI,MspI  >AK
+HgaI         10 GACGCnnnnn'nnnnn_                 5  0  100 100   500   200    !  >AN
+;HgiAI        5 G_wGCw'C                         -4  0  100 100     0     0    !  Alw21I,AspHI,Bbv12I,BsiHKAI  >
+;HgiCI        1 G'GyrC_C                          4  0  100 100     0     0    !  AccB1I,BanI,BshNI,Eco64I  >
+;HgiEI        1 G'GwC_C                           3  0  100 100     0     0    !  AvaII,Bme18I,Eco47I,SinI  >D
+;HgiEII       6 ACCnnnnnnGGT                      0  0  100 100     0     0    ?  !  >
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;HgiJII       5 G_rGCy'C                         -4  0  100 100     0     0    !  BanII,Eco24I,EcoT38I,FriOI  >
+HhaI          3 G_CG'C                           -2  0  100 100 10000   176    !  AspLEI,CfoI,Hin6I,HinP1I,HspAI  >ABGJKNOR
+;Hin1I        2 Gr'CG_yC                          2  0  100 100     0     0    !  AcyI,BsaHI,BstACI,Hsp92I,Msp17I  >EFKO
+;Hin4I        5 GAbnnnnnvTC                       0  0  100 100     0     0    ?  !  >
+;Hin6I        1 G'CG_C                            2  0  100 100     0     0    !  HhaI,AspLEI,CfoI,HinP1I,HspAI  >DF
+HinP1I        1 G'CG_C                            2  0  100 100     0     0    !  HhaI,AspLEI,CfoI,Hin6I,HspAI  >N
+HincII        3 GTy'rAC                           0  0  100 100  5000   176    !  HindII  >ABCDEFGHJKLNOQR
+;HindII       3 GTy'rAC                           0  0  100 100     0     0    !  HincII  >MS
+HindIII       1 A'AGCT_T                          4  0  100 100 50000   176    !  >ABCDEFGHIJKLMNOQRST
+HinfI         1 G'AnT_C                           3  0  100 100 25000   176    !  >ABDEFGHIJKLMNOQRST
+HpaI          3 GTT'AAC                           0  0  100 100  2500   176    !  BstHPI,KspAI  >ABDEGHJKLMNOQRST
+HpaII         1 C'CG_G                            2  0  100 100 10000   176    !  BsiSI,HapII,MspI  >BDEFGILMNOQRS
+HphI         13 GGTGAnnnnnnn_n'                  -1  0  -10 100  2000   176    !  AsuHPI  >AFN
+;Hpy178III    2 TC'nn_GA                          2  0  100 100     0     0    !  >
+;Hpy188I      3 TC_n'GA                          -1  0  100 100     0     0    !  >
+;Hsp92I       2 Gr'CG_yC                          2  0  100 100     0     0    !  AcyI,BsaHI,BstACI,Hin1I,Msp17I  >R
+;Hsp92II      4 _CATG'                           -4  0  100 100     0     0    !  NlaIII  >R
+;HspAI        1 G'CG_C                            2  0  100 100     0     0    !  HhaI,AspLEI,CfoI,Hin6I,HinP1I  >I
+;ItaI         2 GC'n_GC                           1  0  100 100     0     0    !  Fnu4HI,Fsp4HI  >M
+KasI          1 G'GCGC_C                          4  0  100 100     0     0    !  NarI,BbeI,EgeI,EheI,Mly113I,SfoI  >N
+KpnI          5 G_GTAC'C                         -4  0  100 100  1250   200    !  Acc65I,Asp718I  >ABCDEFGHIJKLMNOQRST
+;Kpn2I        1 T'CCGG_A                          4  0  100 100 15000   176    !  AccIII,BseAI,BsiMI,Bsp13I,BspEI,MroI  >BDF
+;KspI         4 CC_GC'GG                         -2  0  100 100     0     0    !  SacII,Cfr42I,Sfr303I,SstII  >MS
+;Ksp22I       1 T'GATC_A                          4  0  100 100     0     0    !  BclI,BsiQI,FbaI  >I
+;Ksp632I      7 CTCTTCn'nnn_                      3  0  100 100     0     0    !  Bsu6I,Eam1104I,EarI  >M
+;KspAI        3 GTT'AAC                           0  0  100 100     0     0    !  HpaI,BstHPI  >F
+;Kzo9I        0 'GATC_                            4  0  100 100     0     0    !  MboI,BscFI,Bsp143I,DpnII,NdeII,Sau3AI  >I
+;LpnI         3 rGC'GCy                           0  0  100 100     0     0    !  HaeII,Bsp143II,BstH2I  >
+;LspI         2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,CbiI,Csp45I,NspV,SfuI  >L
+;MaeI         1 C'TA_G                            2  0  100 100     0     0    !  BfaI  >M
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+MaeII         1 A'CG_T                            2  0  100 100     0     0    !  TaiI,TscI  >M
+MaeIII        0 'GTnAC_                           5  0  100 100     0     0    !  >M
+;MamI         5 GATnn'nnATC                       0  0  100 100     0     0    !  BsaBI,Bse8I,Bsh1365I,BsiBI,BsrBRI  >M
+;MbiI         3 CCG'CTC                           0  0  100 100     0     0    !  BsrBI,AccBSI  >F
+;MboI          0 'GATC_                            4  0    0 100  2500   220    !  BscFI,Bsp143I,DpnII,Kzo9I,NdeII,Sau3AI  >ABCEFGKLNQRT
+MboII        13 GAAGAnnnnnnn_n'                  -1  0  -10 100  1250   200    !  >ABDFGJKNOQR
+;McrI         4 CG_ry'CG                         -2  0  100 100     0     0    !  BsaOI,Bsh1285I,BsiEI,BstMCI  >
+MfeI          1 C'AATT_G                          4  0  100 100  2500   220    !  MunI  >N
+;MflI         1 r'GATC_y                          4  0  100 100     0     0    !  XhoII,BstX2I,BstYI  >AK
+;MjaIV        3 GTnnAC                            0  0  100 100     0     0    ?  !  >
+;MlsI         3 TGG'CCA                           0  0  100 100     0     0    !  BalI,MluNI,MscI  >F
+MluI          1 A'CGCG_T                          4  0  100 100  5000   200    !  >ABDEFGHIJKLMNOQRS
+;MluNI        3 TGG'CCA                           0  0  100 100     0     0    !  BalI,MlsI,MscI  >MS
+MlyI         10 GAGTCnnnnn'                       0  0  100 100   500   200    !  PleI,PpsI,SchI  >N
+;Mly113I      2 GG'CG_CC                          2  0  100 100     0     0    !  NarI,BbeI,EgeI,EheI,KasI,SfoI  >I
+;MmeI        26 TCCrACnnnnnnnnnnnnnnnnnn_nn'     -2  0  100 100     0     0    !  >
+MnlI         11 CCTCnnnnnn_n'                    -1  0  100 100  1250   200    !  >AEFNQ
+;Mph1103I     5 A_TGCA'T                         -4  0  100 100     0     0    !  EcoT22I,NsiI,Ppu10I,Zsp2I  >F
+;MroI         1 T'CCGG_A                          4  0  100 100     0     0    !  AccIII,BseAI,BsiMI,Bsp13I,BspEI,Kpn2I  >MO
+;MroNI        1 G'CCGG_C                          4  0  100 100     0     0    !  NaeI,NgoAIV,NgoMIV  >I
+;MroXI        5 GAAnn'nnTTC                       0  0  100 100     0     0    !  XmnI,Asp700I  >I
+MscI          3 TGG'CCA                           0  0  100   0   500   200    !  BalI,MlsI,MluNI  >BDNO
+MseI          1 T'TA_A                            2  0  100 100  1000   200    !  Tru1I,Tru9I  >BN
+MslI          5 CAynn'nnrTG                       0  0  100 100  1000   220    !  >N
+;MspI         1 C'CG_G                            2  0  100 100 25000   176    !  HpaII,BsiSI,HapII  >ABDEFGHIJKLMNOQRS
+;Msp17I       2 Gr'CG_yC                          2  0  100 100     0     0    !  AcyI,BsaHI,BstACI,Hin1I,Hsp92I  >D
+MspA1I        3 CmG'CkG                           0  0  100 100  2500   220    !  NspBII  >INR
+;MspCI        1 C'TTAA_G                          4  0  100 100     0     0    !  AflII,BfrI,BspTI,Bst98I,Vha464I  >C
+;MspR9I       2 CC'n_GG                           1  0  100 100     0     0    !  ScrFI,Bme1390I,BssKI  >I
+;MssI         4 GTTT'AAAC                         0  0  100 100     0     0    !  PmeI  >F
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;MstI         3 TGC'GCA                           0  0  100 100     0     0    !  Acc16I,AviII,FspI,NsbI  >
+;MunI         1 C'AATT_G                          4  0  100 100     0     0    !  MfeI  >BDEFKM
+;MvaI         2 CC'w_GG                           1  0  100 100     0     0    !  EcoRII,BsiLI,BstNI,BstOI,Bst2UI,PspGI  >ADFKMOS
+;Mva1269I     7 GAATG_Cn'                        -2  0  100 100     0     0    !  BsmI,BsaMI,BscCI  >F
+;MvnI         2 CG'CG                             0  0  100 100     0     0    !  AccII,Bsh1236I,BstFNI,BstUI,ThaI  >M
+MwoI          7 GCnn_nnn'nnGC                    -3  0  100 100  1250   220    !  >N
+NaeI          3 GCC'GGC                           0  0  100 100  2500   176    !  MroNI,NgoAIV,NgoMIV  >ADEKLMNOR
+NarI          2 GG'CG_CC                          2  0  100 100  1000   176    !  BbeI,EgeI,EheI,KasI,Mly113I,SfoI  >BEJMNORS
+NciI          2 CC's_GG                           1  0  100 100 10000   200    !  AsuC2I,BcnI  >BEJLMNORST
+NcoI          1 C'CATG_G                          4  0  100 100  5000   176    !  Bsp19I  >ABCDEFGHJKLMNOQRST
+NdeI          2 CA'TA_TG                          2  0  100 100 20000   200    !  FauNDI  >ABDEFGJKLMNRS
+;NdeII        0 'GATC_                            4  0  100 100     0     0    !  MboI,BscFI,Bsp143I,DpnII,Kzo9I,Sau3AI  >BDGJMRS
+;NgoAIV       1 G'CCGG_C                          4  0  100 100     0     0    !  NaeI,MroNI,NgoMIV  >B
+NgoMIV        1 G'CCGG_C                          4  0  100 100  5000   200    !  NaeI,MroNI,NgoAIV  >NR
+NheI          1 G'CTAG_C                          4  0  100 100  2500   200    !  AsuNHI  >ABDEFGJKLMNORS
+NlaIII        4 _CATG'                           -4  0  100 100  2500   200    !  Hsp92II  >AN
+NlaIV         3 GGn'nCC                           0  0  100 100  1000   200    !  BscBI,BspLI,PspN4I  >N
+;Nli3877I     5 C_yCGr'G                         -4  0  100 100     0     0    !  AvaI,Ama87I,BcoI,BsoBI,Eco88I  >
+NotI          2 GC'GGCC_GC                        4  0  100 100  2500   220    !  CciNI  >ABCDEFGHJKLMNOQRST
+NruI          3 TCG'CGA                           0  0    1 100  5000   176    !  Bsp68I  >ABCDEGIJKLMNOQRST
+;NruGI        6 GACnn_n'nnGTC                    -1  0  100 100     0     0    !  Eam1105I,AhdI,AspEI,EclHKI  >I
+;NsbI         3 TGC'GCA                           0  0  100 100     0     0    !  Acc16I,AviII,FspI  >F
+NsiI          5 A_TGCA'T                         -4  0  100 100  5000   200    !  EcoT22I,Mph1103I,Ppu10I,Zsp2I  >BDEHJLMNRS
+NspI          5 r_CATG'y                         -4  0  100 100  1250   200    !  BstNSI,XceI  >ABMN
+;NspV         2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,CbiI,Csp45I,LspI,SfuI  >ABJKO
+;NspBII       3 CmG'CkG                           0  0  100 100     0     0    !  MspA1I  >A
+PacI          5 TTA_AT'TAA                       -2  0  100 100   500   200    !  >NO
+;PaeI         5 G_CATG'C                         -4  0  100 100     0     0    !  SphI,BbuI  >F
+;PaeR7I       1 C'TCGA_G                          4  0  100 100 10000   176    !  XhoI,Sfr274I,TliI  >N
+;PagI         1 T'CATG_A                          4  0  100 100     0     0    !  BspHI,RcaI  >F
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;PalI         2 GG'CC                             0  0  100 100     0     0    !  HaeIII,BshI,BsuRI  >E
+;PauI         1 G'CGCG_C                          4  0  100 100     0     0    !  BsePI,BssHII  >F
+PciI          1 A'CATG_T                          4  0  100 100  1000   300    !  BspLU11I  >IN
+;Pfl23II      1 C'GTAC_G                          4  0  100 100     0     0    !  BsiWI,PspLI,SunI  >DF
+;Pfl1108I     3 TCGTAG                            0  0  100 100     0     0    ?  !  >
+;PflFI        4 GACn'n_nGTC                       1  0  100 100  5000   200    !  Tth111I,AspI,PsyI  >N
+PflMI         7 CCAn_nnn'nTGG                    -3  0  100  -7  5000   200    !  AccB7I,Van91I  >AN
+;PinAI        1 A'CCGG_T                          4  0  100 100     0     0    !  AgeI,AsiAI,BshTI  >BM
+PleI          9 GAGTCnnnn'n_                      1  0  100 100   125   320    !  MlyI,PpsI,SchI  >N
+;Ple19I       4 CG_AT'CG                         -2  0  100 100     0     0    !  PvuI,BspCI  >I
+;PmaCI        3 CAC'GTG                           0  0  100 100     0     0    !  BbrPI,Eco72I,PmlI  >AK
+PmeI          4 GTTT'AAAC                         0  0  100 100  2500   220    !  MssI  >N
+;Pme55I       3 AGG'CCT                           0  0  100 100     0     0    !  StuI,AatI,Eco147I,SseBI  >I
+PmlI          3 CAC'GTG                           0  0  100 100  5000   200    !  PmaCI,BbrPI,Eco72I  >N
+;PpiI         6 GAGnnnnnGTTC                      0  0  100 100     0     0    ?  !  >
+;PpsI         9 GAGTCnnnn'n_                      1  0  100 100     0     0    !  PleI,MlyI,SchI  >I
+Ppu10I        1 A'TGCA_T                          4  0  100 100     0     0    !  EcoT22I,Mph1103I,NsiI,Zsp2I  >D
+PpuMI         2 rG'GwC_Cy                         3  0  100   2   500   200    !  Psp5II,PspPPI  >ANO
+PshAI         5 GACnn'nnGTC                       0  0  100 100  5000   200    !  BoxI  >AKN
+;PshBI        2 AT'TA_AT                          2  0  100 100     0     0    !  VspI,AseI,AsnI  >K
+PsiI          3 TTA'TAA                           0  0  100 100   500   400    !  >IN
+;Psp5II       2 rG'GwC_Cy                         3  0  100 100     0     0    !  PpuMI,PspPPI  >BDF
+;Psp1406I     2 AA'CG_TT                          2  0  100 100     0     0    !  AclI  >DFKM
+;PspAI        1 C'CCGG_G                          4  0  100 100     0     0    !  SmaI,Cfr9I,XmaI,XmaCI  >E
+;Psp124BI     5 G_AGCT'C                         -4  0  100 100     0     0    !  SacI,Ecl136II,EcoICRI,SstI  >DI
+;PspEI        1 G'GTnAC_C                         5  0  100 100     0     0    !  BstEII,BstPI,Eco91I,EcoO65I  >I
+PspGI         0 'CCwGG_                           5  0  100 100   500   200    !  EcoRII,BsiLI,BstNI,BstOI,Bst2UI,MvaI  >N
+;PspLI        1 C'GTAC_G                          4  0  100 100     0     0    !  BsiWI,Pfl23II,SunI  >I
+;PspN4I       3 GGn'nCC                           0  0  100 100     0     0    !  NlaIV,BscBI,BspLI  >I
+PspOMI        1 G'GGCC_C                          4  0  100 100  5000   200    !  ApaI,Bsp120I  >IN
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;PspPPI       2 rG'GwC_Cy                         3  0  100 100     0     0    !  PpuMI,Psp5II  >I
+;PssI         5 rG_GnC'Cy                        -3  0  100 100     0     0    !  DraII,EcoO109I  >
+PstI          5 C_TGCA'G                         -4  0  100 100 50000   200    !  >ABCDEFGHIJKLMNOQRST
+;PsyI         4 GACn'n_nGTC                       1  0  100 100     0     0    !  Tth111I,AspI,PflFI  >F
+PvuI          4 CG_AT'CG                         -2  0  100 100   750   220    !  BspCI,Ple19I  >ABDEFGKLMNOQRS
+PvuII         3 CAG'CTG                           0  0  100 100 25000   176    !  >ABCDEFGHIJKLMNOQRST
+;RcaI         1 T'CATG_A                          4  0  100 100     0     0    !  BspHI,PagI  >BM
+;RleAI       18 CCCACAnnnnnnnnn_nnn'             -3  0  100 100     0     0    !  >
+RsaI          2 GT'AC                             0  0  100 100  5000   176    !  AfaI,Csp6I  >ABCDEFGHIJLMNOQRST
+RsrII         2 CG'GwC_CG                         3  0  100 100  1000   220    !  CpoI,CspI,Rsr2I  >BMN
+;Rsr2I        2 CG'GwC_CG                         3  0  100 100     0     0    !  RsrII,CpoI,CspI  >I
+SacI          5 G_AGCT'C                         -4  0  100 100 10000   176    !  Ecl136II,EcoICRI,Psp124BI,SstI  >ACEFGHJKLMNOQRST
+SacII         4 CC_GC'GG                         -2  0  100 100 10000   176    !  Cfr42I,KspI,Sfr303I,SstII  >ACEGHJKLNOQRT
+SalI          1 G'TCGA_C                          4  0  100 100 10000   176    !  >ABCDEFGHIJKLMNOQRST
+SanDI         2 GG'GwC_CC                         3  0  100 100     0     0    !  >E
+SapI          8 GCTCTTCn'nnn_                     3  0  100 100   250   200    !  >N
+;SauI         2 CC'TnA_GG                         3  0  100 100     0     0    !  AocI,AxyI,Bse21I,Bsu36I,CvnI,Eco81I  >
+Sau96I        1 G'GnC_C                           3  0  100   2  5000   176    !  AspS9I,BsiZI,Cfr13I  >AJLMNOR
+Sau3AI       0 'GATC_                            4  0  100 100  1000   176    !  MboI,BscFI,Bsp143I,DpnII,Kzo9I,NdeII  >ABEGHJKLMNOQRS
+SbfI          6 CC_TGCA'GG                       -4  0  100 100  1000   400    !  Sse8387I,SdaI  >DIN
+ScaI          3 AGT'ACT                           0  0  100 100  5000   200    !  Acc113I  >ABCDEFGJKLMNOQRS
+;SchI        10 GAGTCnnnnn'                       0  0  100 100     0     0    !  PleI,MlyI,PpsI  >F
+;SciI         3 CTC'GAG                           0  0  100 100     0     0    !  XhoI,PaeR7I,Sfr274I,TliI  >
+ScrFI         2 CC'n_GG                           1  0  100  -2  5000   200    !  Bme1390I,BssKI,MspR9I  >DJMNOS
+;SdaI         6 CC_TGCA'GG                       -4  0  100 100     0     0    !  Sse8387I,SbfI  >F
+;SduI         5 G_dGCh'C                         -4  0  100 100     0     0    !  BmyI,Bsp1286I  >F
+;SecI         1 C'CnnG_G                          4  0  100 100     0     0    !  BsaJI,BseDI,BssECI  >
+;SelI         0 'CGCG_                            4  0  100 100     0     0    !  AccII,Bsh1236I,BstFNI,BstUI,MvnI,ThaI  >
+SexAI         1 A'CCwGG_T                         5  0  100   0  1000   200    !  >MN
+SfaNI        10 GCATCnnnnn'nnnn_                  4  0  100 100   100   400    !  >IN
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+SfcI          1 C'TryA_G                          4  0  100 100   250   200    !  BfmI,BstSFI  >N
+;SfeI         1 C'TryA_G                          4  0  100 100     0     0    !  BfmI,BstSFI,SfcI  >
+SfiI          8 GGCCn_nnn'nGGCC                  -3  0  100  -6 10000   200    !  >ABCDEGIJKLMNOQRST
+SfoI          3 GGC'GCC                           0  0  100 100   500   200    !  NarI,BbeI,EgeI,EheI,KasI,Mly113I  >N
+;Sfr274I      1 C'TCGA_G                          4  0  100 100     0     0    !  XhoI,PaeR7I,TliI  >I
+;Sfr303I      4 CC_GC'GG                         -2  0  100 100     0     0    !  SacII,Cfr42I,KspI,SstII  >I
+;SfuI         2 TT'CG_AA                          2  0  100 100     0     0    !  Bpu14I,BsiCI,Bsp119I,BstBI,CbiI,Csp45I,LspI,NspV  >M
+SgfI          5 GCG_AT'CGC                       -2  0  100 100     0     0    !  >R
+SgrAI         2 Cr'CCGG_yG                        4  0  100 100  5000   200    !  >MN
+;SimI         2 GG'GTC_                           3  0  100 100     0     0    !  >
+;SinI         1 G'GwC_C                           3  0  100 100     0     0    !  AvaII,Bme18I,Eco47I,HgiEI  >LR
+SmaI          3 CCC'GGG                           0  0  100 100 10000   176    !  Cfr9I,PspAI,XmaI,XmaCI  >ABCDEFGHIJKLMNOQRST
+;SmiI         4 ATTT'AAAT                         0  0  100 100     0     0    !  SwaI  >DFI
+SmlI          1 C'TyrA_G                          4  0  100 100  1000   200    !  >N
+;SnaI         3 GTATAC                            0  0  100 100     0     0    ?  !  BssNAI,Bst1107I,BstZ17I  >
+SnaBI         3 TAC'GTA                           0  0  100 100  2500   176    !  BstSNI,Eco105I  >ACEKLMNR
+SpeI          1 A'CTAG_T                          4  0  100 100  2500   200    !  AclNI,BcuI  >ABDEHJKLMNOQRST
+SphI          5 G_CATG'C                         -4  0  100 100  1250   200    !  BbuI,PaeI  >ABCDEGHIJKLMNOQRST
+;SplI         1 C'GTAC_G                          4  0  100 100     0     0    !  BsiWI,Pfl23II,PspLI,SunI  >
+SrfI          4 GCCC'GGGC                         0  0  100 100     0     0    !  >EO
+;Sse9I        0 'AATT_                            4  0  100 100     0     0    !  TspEI,TasI,Tsp509I  >DI
+;Sse232I      2 CG'CCGG_CG                        4  0  100 100     0     0    !  >
+;Sse8387I     6 CC_TGCA'GG                       -4  0  100 100     0     0    !  SbfI,SdaI  >AK
+;Sse8647I     2 AG'GwC_CT                         3  0  100 100     0     0    !  >
+;SseBI        3 AGG'CCT                           0  0  100 100     0     0    !  StuI,AatI,Eco147I,Pme55I  >C
+SspI          3 AAT'ATT                           0  0  100 100  5000   200    !  >ABCDEFIJKLMNOQRS
+;SspBI        1 T'GTAC_A                          4  0  100 100     0     0    !  Bsp1407I,AauI,BsrGI  >M
+;SspD5I      13 GGTGAnnnnnnnn'                    0  0  100 100     0     0    !  HphI,AsuHPI  >
+;SstI         5 G_AGCT'C                         -4  0  100 100     0     0    !  SacI,Ecl136II,EcoICRI,Psp124BI  >BC
+;SstII        4 CC_GC'GG                         -2  0  100 100     0     0    !  SacII,Cfr42I,KspI,Sfr303I  >B
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;Sth132I      8 CCCGnnnn'nnnn_                    4  0  100 100     0     0    !  >
+;StsI        15 GGATGnnnnnnnnnn'nnnn_             4  0  100 100     0     0    !  FokI,BseGI,BstF5I  >
+StuI          3 AGG'CCT                           0  0  100   0  5000   176    !  AatI,Eco147I,Pme55I,SseBI  >ABEJKLMNQRST
+StyI          1 C'CwwG_G                          4  0  100 100 15000   220    !  BssT1I,Eco130I,EcoT14I,ErhI  >BCEJMNRS
+;SunI         1 C'GTAC_G                          4  0  100 100     0     0    !  BsiWI,Pfl23II,PspLI  >B
+SwaI          4 ATTT'AAAT                         0  0  100 100 10000   200    !  SmiI  >KMNS
+;TaaI         3 AC_n'GT                          -1  0  100 100     0     0    !  Bst4CI  >F
+TaiI          4 _ACGT'                           -4  0  100 100     0     0    !  MaeII,TscI  >F
+TaqI          1 T'CG_A                            2  0    1 100 20000   176    !  TthHB8I  >ABCDEFGIJLMNOQRST
+;TaqII       17 GACCGAnnnnnnnnn_nn'              -2  0  100 100     0     0    !  >
+;TaqII       17 CACCCAnnnnnnnnn_nn'              -2  0  100 100     0     0    !  >
+;TasI         0 'AATT_                            4  0  100 100     0     0    !  TspEI,Sse9I,Tsp509I  >F
+TatI          1 w'GTAC_w                          4  0  100 100     0     0    !  >F
+;TauI         2 GCsGC                             0  0  100 100     0     0    ?  !  >
+TfiI          1 G'AwT_C                           3  0  100 100   500   200    !  >N
+;ThaI         2 CG'CG                             0  0  100 100     0     0    !  AccII,Bsh1236I,BstFNI,BstUI,MvnI  >B
+TliI          3 CTCGAG                            0  0  100 100  5000   200    ?  !  XhoI,PaeR7I,Sfr274I  >N
+;Tru1I        1 T'TA_A                            2  0  100 100     0     0    !  MseI,Tru9I  >F
+;Tru9I        1 T'TA_A                            2  0  100 100     0     0    !  MseI,Tru1I  >DILMR
+;TscI         4 _ACGT'                           -4  0  100 100     0     0    !  MaeII,TaiI  >L
+TseI          1 G'CwG_C                           3  0  100 100   375   200    !  >N
+Tsp45I        0 'GTsAC_                           5  0  100 100   500   220    !  >N
+Tsp509I       0 'AATT_                            4  0  100 100  5000   200    !  TspEI,Sse9I,TasI  >N
+;Tsp4CI       3 AC_n'GT                          -1  0  100 100     0     0    !  Bst4CI,TaaI  >
+;TspEI        0 'AATT_                            4  0  100 100     0     0    !  Sse9I,TasI,Tsp509I  >LO
+TspRI         9 _nnCAsTGnn'                      -9  0  100 100  2500   220    !  >N
+Tth111I       4 GACn'n_nGTC                       1  0  100 100  2000   176    !  AspI,PflFI,PsyI  >ADIKNQR
+;Tth111II    17 CAArCAnnnnnnnnn_nn'              -2  0  100 100     0     0    !  >
+;TthHB8I      1 T'CG_A                            2  0  100 100     0     0    !  TaqI  >AK
+;UbaPI        3 CGAACG                            0  0  100 100     0     0    ?  !  >
+;           Top                              Bottom
+;Name    Offset Recognition Pattern          Offset Err dam dcm   units   $    !  Isoschiz           >Supplier Index
+;UnbI         0 'GGnCC_                           5  0  100 100     0     0    !  AspS9I,BsiZI,Cfr13I,Sau96I  >
+;Van91I       7 CCAn_nnn'nTGG                    -3  0  100 100     0     0    !  PflMI,AccB7I  >DFKM
+;Vha464I      1 C'TTAA_G                          4  0  100 100     0     0    !  AflII,BfrI,BspTI,Bst98I,MspCI  >I
+;VneI         1 G'TGCA_C                          4  0  100 100     0     0    !  ApaLI,Alw44I  >I
+;VpaK11AI     0 'GGwCC_                           5  0  100 100     0     0    !  AvaII,Bme18I,Eco47I,HgiEI,SinI  >
+;VspI         2 AT'TA_AT                          2  0  100 100     0     0    !  AseI,AsnI,PshBI  >BDEFIR
+;XagI         5 CCTnn'n_nnAGG                     1  0  100 100     0     0    !  EcoNI  >F
+;XapI         1 r'AATT_y                          4  0  100 100     0     0    !  ApoI,AcsI  >F
+XbaI          1 T'CTAG_A                          4  0    3 100 15000   220    !  >ABCDEFGHIJKLMNOQRST
+;XceI         5 r_CATG'y                         -4  0  100 100     0     0    !  NspI,BstNSI  >F
+XcmI          8 CCAnnnn_n'nnnnTGG                -1  0  100 100  2500   200    !  >AN
+XhoI          1 C'TCGA_G                          4  0  100 100 25000   220    !  PaeR7I,Sfr274I,TliI  >ABCDEFGHJKLMNOQRST
+;XhoII        1 r'GATC_y                          4  0  100 100     0     0    !  BstX2I,BstYI,MflI  >EMR
+XmaI          1 C'CCGG_G                          4  0  100 100  1250   200    !  SmaI,Cfr9I,PspAI,XmaCI  >ADINR
+;XmaIII       1 C'GGCC_G                          4  0  100 100     0     0    !  BseX3I,BstZI,EagI,EclXI,Eco52I  >BE
+;XmaCI        1 C'CCGG_G                          4  0  100 100     0     0    !  SmaI,Cfr9I,PspAI,XmaI  >M
+;XmiI         2 GT'mk_AC                          2  0  100 100     0     0    !  AccI,FblI  >F
+XmnI          5 GAAnn'nnTTC                       0  0  100 100  5000   176    !  Asp700I,MroXI  >DENR
+;Zsp2I        5 A_TGCA'T                         -4  0  100 100     0     0    !  EcoT22I,Mph1103I,NsiI,Ppu10I  >I
